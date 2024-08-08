@@ -80,6 +80,13 @@ const icons = {
 		mantine: "/icons/tools/mantine-logo.svg",
 		claude: "/icons/tools/icons8-claude.svg",
 	},
+
+	other: {
+		apple: "/icons/icons8-apple.svg",
+		claude: "/icons/icons8-claude.svg",
+		microsoft: "/icons/icons8-microsoft.svg",
+		email: "/icons/icons8-email.png",
+	},
 };
 
 export default icons;
