@@ -7,7 +7,7 @@ import LayoutBody from "@/layouts/Body";
 import contact from "@/data/contact";
 
 export interface typeParams {
-	params: { blogId: string };
+	blogId: string;
 }
 
 export const metadata: Metadata = {

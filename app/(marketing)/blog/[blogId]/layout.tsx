@@ -11,7 +11,7 @@ import posts from "@/data/blog";
 
 import { typeParams } from "../layout";
 
-export const generateMetadata = ({ params }: typeParams): Metadata => {
+export const generateMetadata = ({ params }: { params: typeParams }): Metadata => {
 	return { title: posts.find(p => link.linkify(p.titleLink) == params.blogId)?.title };
 };
 
