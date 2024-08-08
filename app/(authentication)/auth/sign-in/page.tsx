@@ -11,7 +11,7 @@ import LayoutPage from "@/layouts/Page";
 import LayoutSection from "@/layouts/Section";
 import FormAuthSignIn from "@/partials/forms/auth/SignIn";
 
-import brand from "@/assets/images/brand";
+import images from "@/assets/images";
 import contact from "@/data/contact";
 
 import { auth } from "@/auth";
@@ -33,10 +33,12 @@ export default async function SignIn() {
 								<Anchor component={Link} href={"/"}>
 									<Group>
 										<Image
-											src={brand.logo.light}
+											src={images.brand.logo.light}
 											alt={contact.name.app}
 											h={{ base: 48 }}
 											component={NextImage}
+											width={1920}
+											height={1080}
 											priority
 										/>
 									</Group>

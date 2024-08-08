@@ -8,7 +8,7 @@ import { Anchor, Center, Grid, GridCol, Group, Image, Stack } from "@mantine/cor
 import LayoutBody from "@/layouts/Body";
 import LayoutSection from "@/layouts/Section";
 
-import brand from "@/assets/images/brand";
+import images from "@/assets/images";
 import contact from "@/data/contact";
 
 export default function Notify({
@@ -32,10 +32,12 @@ export default function Notify({
 								<Anchor component={Link} href={"/"}>
 									<Group>
 										<Image
-											src={brand.logo.light}
+											src={images.brand.logo.light}
 											alt={contact.name.app}
 											h={{ base: 48 }}
 											component={NextImage}
+											width={1920}
+											height={1080}
 											priority
 										/>
 									</Group>

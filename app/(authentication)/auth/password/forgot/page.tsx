@@ -10,7 +10,7 @@ import LayoutPage from "@/layouts/Page";
 import LayoutSection from "@/layouts/Section";
 import FormAuthPasswordForgot from "@/partials/forms/auth/password/Forgot";
 
-import brand from "@/assets/images/brand";
+import images from "@/assets/images";
 import contact from "@/data/contact";
 
 export const metadata: Metadata = { title: "Forgot Password" };
@@ -26,10 +26,12 @@ export default async function Forgot() {
 								<Anchor component={Link} href={"/"}>
 									<Group>
 										<Image
-											src={brand.logo.light}
+											src={images.brand.logo.light}
 											alt={contact.name.app}
 											h={{ base: 48 }}
 											component={NextImage}
+											width={1920}
+											height={1080}
 											priority
 										/>
 									</Group>

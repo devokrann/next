@@ -6,12 +6,11 @@ import LayoutPage from "@/layouts/Page";
 import LayoutSection from "@/layouts/Section";
 import FormUserProfileDetails from "@/partials/forms/user/profile/Details";
 
-import { currentUser } from "@clerk/nextjs/server";
-
 import initialize from "@/handlers/parsers/string/initialize";
+import { auth } from "@/auth";
 
 export default async function Profile() {
-	const user = await currentUser();
+	const session = await auth();
 
 	return (
 		<LayoutPage stacked>
@@ -23,15 +22,15 @@ export default async function Profile() {
 					<Grid>
 						<GridCol span={{ base: 12, sm: 5, md: 12, lg: 12 }} order={{ base: 1, sm: 2, md: 1 }}>
 							<Flex direction={{ base: "column", md: "row" }} align={"center"} gap={"xl"}>
-								{user?.imageUrl ? (
+								{session?.user.image ? (
 									<Avatar
-										src={user.imageUrl}
-										alt={user.fullName ? user.fullName : "User"}
+										src={session?.user.image}
+										alt={session?.user.name ? session?.user.name : "User"}
 										size={160}
 									/>
-								) : user?.fullName ? (
-									<Avatar alt={user.fullName} size={160}>
-										{initialize(user.fullName)}
+								) : session?.user?.name ? (
+									<Avatar alt={session?.user.name} size={160}>
+										{initialize(session?.user.name)}
 									</Avatar>
 								) : (
 									<Avatar size={160} />
