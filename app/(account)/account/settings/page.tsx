@@ -29,7 +29,7 @@ export default async function Settings() {
 							<Title order={2} fz={"xl"}>
 								Account Details
 							</Title>
-							{session && session.user && <FormUserAccountDetails data={session} />}
+							<FormUserAccountDetails />
 						</Stack>
 					</GridCol>
 					<GridCol span={{ base: 12, md: 7, lg: 1 }}>
@@ -42,7 +42,7 @@ export default async function Settings() {
 							<Title order={2} fz={"xl"}>
 								Update Password
 							</Title>
-							{session && session.user && <FormUserAccountPassword data={session} />}
+							<FormUserAccountPassword />
 						</Stack>
 					</GridCol>
 				</Grid>
