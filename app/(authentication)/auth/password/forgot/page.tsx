@@ -22,7 +22,7 @@ export default async function Forgot() {
 				<GridCol span={6} visibleFrom="md">
 					<Center h={"100%"} bg={"var(--mantine-color-pri-light)"}>
 						<LayoutSection margined containerized={"sm"} px={"xl"} pos={"relative"}>
-							<Stack gap={64}>
+							<Stack gap={64} align="start">
 								<Anchor component={Link} href={"/"}>
 									<Group>
 										<Image

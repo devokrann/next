@@ -33,7 +33,7 @@ export default async function SignUp() {
 				<GridCol span={6} visibleFrom="md">
 					<Center h={"100%"} bg={"var(--mantine-color-pri-light)"}>
 						<LayoutSection margined containerized={"sm"} px={"xl"} pos={"relative"}>
-							<Stack gap={64}>
+							<Stack gap={64} align="start">
 								<Anchor component={Link} href={"/"}>
 									<Group>
 										<Image
@@ -42,7 +42,7 @@ export default async function SignUp() {
 											h={{ base: 48 }}
 											component={NextImage}
 											width={1920}
-								height={1080}
+											height={1080}
 											priority
 										/>
 									</Group>
