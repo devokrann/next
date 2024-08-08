@@ -11,7 +11,7 @@ import { IconBrandAppleFilled, IconBrandFacebookFilled, IconBrandGoogleFilled } 
 import { signIn } from "next-auth/react";
 import icons from "@/assets/icons";
 
-export default function Oauth() {
+export default function Providers() {
 	return (
 		<Group justify="center">
 			<ActionIcon
