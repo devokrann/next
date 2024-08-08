@@ -15,15 +15,11 @@ import AuthHeader from "@/partials/auth/Header";
 import images from "@/assets/images";
 import contact from "@/data/contact";
 
-import { typePasswordReset } from "@/types/apis";
-
-export interface typeParams {
-	params: typePasswordReset;
-}
+import { typeParams } from "../../../../layout";
 
 export const metadata: Metadata = { title: "Reset Password" };
 
-export default async function Reset({ params }: typeParams) {
+export default async function Reset({ params }: { params: typeParams }) {
 	return (
 		<LayoutPage>
 			<LayoutSection padded containerized={"xs"}>

@@ -11,6 +11,11 @@ import LayoutSection from "@/layouts/Section";
 import images from "@/assets/images";
 import contact from "@/data/contact";
 
+export interface typeParams {
+	userId: string;
+	token: string;
+}
+
 export default function LayoutDefault({
 	children, // will be a page or nested layout
 }: {
