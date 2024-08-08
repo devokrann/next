@@ -1,27 +1,31 @@
 import React from "react";
 
+import LayoutBody from "@/layouts/Body";
+import NavbarMain from "@/partials/navbars/Main";
+import FooterMain from "@/partials/footers/Main";
+import HeaderMain from "@/partials/headers/Main";
+import AsideUser from "@/partials/asides/User";
+import LayoutSection from "@/layouts/Section";
+import NavbarUser from "@/partials/navbars/User";
+
+import AffixTop from "@/components/affixi/Top";
+
+import contact from "@/data/contact";
 import { Metadata } from "next";
 
 import { Divider, Stack } from "@mantine/core";
 
-import LayoutBody from "@/layouts/Body";
-import LayoutSection from "@/layouts/Section";
-import NavbarMain from "@/partials/navbars/Main";
-import NavbarUser from "@/partials/navbars/User";
-import AsideUser from "@/partials/asides/User";
-import FooterMain from "@/partials/footers/Main";
+export const metadata: Metadata = { title: { default: "Account", template: `%s - Account - ${contact.name.app}` } };
 
-export const metadata: Metadata = { title: "Settings" };
-
-export default function Profile({
+export default function LayoutAccount({
 	children, // will be a page or nested layout
 }: {
 	children: React.ReactNode;
 }) {
 	return (
 		<LayoutBody
+			header={<HeaderMain />}
 			nav={<NavbarMain />}
-			footer={<FooterMain />}
 			aside={{
 				gap: 48,
 				left: {
@@ -30,6 +34,7 @@ export default function Profile({
 					withBorder: true,
 				},
 			}}
+			footer={<FooterMain />}
 		>
 			<LayoutSection component={"main"} padded>
 				<Stack gap={48}>
@@ -42,6 +47,8 @@ export default function Profile({
 					{children}
 				</Stack>
 			</LayoutSection>
+
+			<AffixTop />
 		</LayoutBody>
 	);
 }

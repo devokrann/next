@@ -11,13 +11,14 @@ import FormUserAccountPassword from "@/partials/forms/user/account/Password";
 import ModalDeleteAccount from "@/components/modal/delete/Account";
 
 import { auth } from "@/auth";
+import { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Settings" };
 
 export default async function Settings() {
 	const session = await auth();
 
 	!session?.user && redirect("/");
-
-	// console.log(session?.user)
 
 	return (
 		<LayoutPage stacked>
