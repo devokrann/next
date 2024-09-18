@@ -1,5 +1,5 @@
 const capitalize = {
-	word: (value: string) => value.trim().toLowerCase().charAt(0).toUpperCase() + value.trim().toLowerCase().slice(1),
+	word: (word: string) => word.trim().toLowerCase().charAt(0).toUpperCase() + word.trim().toLowerCase().slice(1),
 	words: (words: string) => words.toLowerCase().replace(/\b\w/g, char => char.toUpperCase()),
 };
 

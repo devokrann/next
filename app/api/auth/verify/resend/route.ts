@@ -1,4 +1,4 @@
-import otp from "@/handlers/generators/otp";
+import otp from "@/handlers/generators/code";
 import code from "@/handlers/resend/email/auth/code";
 import prisma from "@/services/prisma";
 import converter from "@/utilities/converter";

@@ -1,11 +1,11 @@
 import capitalize from "./capitalize";
 
-const crumbify = (path: string) => {
+const crumbify = (url: string) => {
 	const crumbs = [{ link: "/", label: "Home" }];
 
 	let currentLink = "";
 
-	path.split("/")
+	url.split("/")
 		.filter(crumb => crumb != "")
 		.map(item => {
 			currentLink += `/${item}`;

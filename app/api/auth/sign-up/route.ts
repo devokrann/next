@@ -1,4 +1,4 @@
-import otp from "@/handlers/generators/otp";
+import otp from "@/handlers/generators/code";
 import contact from "@/handlers/resend/contact";
 import code from "@/handlers/resend/email/auth/code";
 import password from "@/handlers/validators/form/special/password";
@@ -24,7 +24,7 @@ export async function POST(req: Request) {
 				});
 			} else {
 				// create password hash
-				const passwordHash = await hasher.create(password);
+				const passwordHash = await hasher.hash(password);
 
 				// create user record
 				passwordHash && (await createUser({ email, password: passwordHash }));
@@ -32,7 +32,7 @@ export async function POST(req: Request) {
 				// create otp
 				const otpValue = otp();
 				// create otp hash
-				const otpHash = await hasher.create(otpValue.toString());
+				const otpHash = await hasher.hash(otpValue.toString());
 				// create otp record
 				otpHash && (await createOtp({ email, otp: otpHash }));
 
