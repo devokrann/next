@@ -1,12 +1,14 @@
+import { auth } from "@/auth";
 import prisma from "@/services/prisma";
 import hasher from "@/utilities/hasher";
 
-export async function POST(req: Request, { params }: { params: { userId: string } }) {
+export async function POST(req: Request) {
 	try {
-		const userId = params.userId;
+		const session = await auth();
+
 		const { passwordCurrent, passwordNew } = await req.json();
 
-		const userRecord = await prisma.user.findUnique({ where: { id: userId } });
+		const userRecord = await prisma.user.findUnique({ where: { id: session?.user.id } });
 
 		if (!userRecord) {
 			return Response.json({ user: { exists: false } });
@@ -16,10 +18,10 @@ export async function POST(req: Request, { params }: { params: { userId: string 
 			if (!passwordMatch) {
 				return Response.json({ user: { exists: true, password: { match: false } } });
 			} else {
-				const passwordHash = await hasher.create(passwordNew);
+				const passwordHash = await hasher.hash(passwordNew);
 
 				await prisma.user.update({
-					where: { id: userId },
+					where: { id: session?.user.id },
 					data: { password: passwordHash },
 				});
 

@@ -1,4 +1,4 @@
-import code from "@/handlers/resend/email/auth/code";
+import { sendForgotPasswordEmail } from "@/handlers/email";
 import prisma from "@/services/prisma";
 import hasher from "@/utilities/hasher";
 import jwt from "jsonwebtoken";
@@ -130,7 +130,7 @@ const createOtlRecord = async (fields: { email: string; otl: string }) => {
 
 const sendMail = async (fields: { otl: string; email: string }) => {
 	// send otl email
-	const emailResponse = await code.forgotPassword({ otl: fields.otl, email: fields.email });
+	const emailResponse = await sendForgotPasswordEmail({ otl: fields.otl, email: fields.email });
 
 	return { email: emailResponse };
 };

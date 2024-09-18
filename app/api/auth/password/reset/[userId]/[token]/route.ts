@@ -3,7 +3,7 @@ import hasher from "@/utilities/hasher";
 import jwt from "jsonwebtoken";
 
 import { typePasswordReset } from "@/types/apis";
-import notification from "@/handlers/resend/email/auth/notification";
+import { sendPasswordChangedEmail } from "@/handlers/email";
 
 export async function POST(req: Request, { params }: { params: typePasswordReset }) {
 	try {
@@ -64,7 +64,7 @@ export async function POST(req: Request, { params }: { params: typePasswordReset
 
 const notify = async (fields: { email: string }) => {
 	// send confirmation email
-	const emailResponse = await notification.passwordChanged({ email: fields.email });
+	const emailResponse = await sendPasswordChangedEmail({ email: fields.email });
 
 	return { email: emailResponse };
 };

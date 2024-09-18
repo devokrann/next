@@ -1,7 +1,6 @@
-import otp from "@/handlers/generators/code";
-import contact from "@/handlers/resend/contact";
-import code from "@/handlers/resend/email/auth/code";
-import password from "@/handlers/validators/form/special/password";
+import { addEmailContact } from "@/handlers/contact";
+import { sendSignUpEmail } from "@/handlers/email";
+import { getFourDigitCode } from "@/libraries/generators/code";
 import prisma from "@/services/prisma";
 import hasher from "@/utilities/hasher";
 
@@ -30,7 +29,7 @@ export async function POST(req: Request) {
 				passwordHash && (await createUser({ email, password: passwordHash }));
 
 				// create otp
-				const otpValue = otp();
+				const otpValue = getFourDigitCode();
 				// create otp hash
 				const otpHash = await hasher.hash(otpValue.toString());
 				// create otp record
@@ -93,9 +92,9 @@ const createOtp = async (fields: { email: string; otp: string }) => {
 
 const verify = async (otpValue: number, email: string) => {
 	// send otp email
-	const emailResponse = await code.signUp({ otp: otpValue.toString(), email });
+	const emailResponse = await sendSignUpEmail({ otp: otpValue.toString(), email });
 	// add to audience
-	const contactResponse = await contact.create({ email });
+	const contactResponse = await addEmailContact({ email });
 
 	return { email: emailResponse, contact: contactResponse };
 };
