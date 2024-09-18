@@ -1,6 +1,9 @@
 import { TimeDifference, DateType } from "@/types/date";
 
-const getTimeDifference = (targetDate: Date, dateType: DateType): { valid: boolean; difference?: TimeDifference } => {
+export const getTimeDifference = (
+	targetDate: Date,
+	dateType: DateType
+): { valid: boolean; difference?: TimeDifference } => {
 	const currentDate = new Date();
 
 	let valid: boolean;
@@ -49,4 +52,17 @@ const getTimeDifference = (targetDate: Date, dateType: DateType): { valid: boole
 	}
 };
 
-export default getTimeDifference;
+export const parseDateYmd = (dateStr: Date) => {
+	const date = new Date(dateStr);
+
+	// Format date as 'yy/mm.dd'
+	const formattedDate = date.toLocaleDateString("en-GB", {
+		year: "2-digit",
+		month: "2-digit",
+		day: "2-digit",
+	});
+
+	const finalFormat = formattedDate.replace("/", "/").replace("/", ".");
+
+	return finalFormat; // "24/09.16"
+};
