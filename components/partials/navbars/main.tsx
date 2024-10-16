@@ -60,6 +60,12 @@ export default async function Main() {
 					) : (
 						<MenuAvatar />
 					)}
+					<Button size="xs" variant="outline">
+						Get in Touch
+					</Button>
+					<Button size="xs" variant="subtle">
+						Get in Touch
+					</Button>
 					<Button size="xs">Get in Touch</Button>
 				</Group>
 

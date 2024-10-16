@@ -32,7 +32,7 @@ export default function Main() {
 					{dataSocials.map(social => (
 						<Anchor key={social.link} title={social.label} href={social.link}>
 							<Group>
-								<ThemeIcon size={24} color="white" className={classes.icon}>
+								<ThemeIcon size={24} color="pri" className={classes.icon}>
 									<social.icon size={16} stroke={2} />
 								</ThemeIcon>
 							</Group>
