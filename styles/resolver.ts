@@ -6,21 +6,23 @@ const appResolver: CSSVariablesResolver = theme => ({
 	variables: {},
 
 	light: {
-		"--mantine-color-white": `${theme.white} !important`,
-		"--mantine-color-body": `${theme.white} !important`,
+		"--mantine-color-white": `${theme.white}`,
+		"--mantine-color-body": `${theme.white}`,
 
-		"--mantine-color-text": `${theme.black} !important`,
-		"--mantine-color-pri-outline": `${theme.black} !important`,
-		"--mantine-color-pri-light-color": `${theme.black} !important`,
+		"--mantine-color-anchor": `${theme.colors.pri[4]}`,
+		"--mantine-color-text": `${theme.black}`,
+		"--mantine-color-pri-outline": `${theme.black}`,
+		"--mantine-color-pri-light-color": `${theme.black}`,
 	},
 
 	dark: {
-		"--mantine-color-white": `${theme.black} !important`,
-		"--mantine-color-body": `${theme.black} !important`,
+		"--mantine-color-white": `${theme.black}`,
+		"--mantine-color-body": `${theme.black}`,
 
-		"--mantine-color-text": `${theme.white} !important`,
-		"--mantine-color-pri-outline": `${theme.white} !important`,
-		"--mantine-color-pri-light-color": `${theme.white} !important`,
+		"--mantine-color-anchor": `${theme.colors.pri[4]}`,
+		"--mantine-color-text": `${theme.white}`,
+		"--mantine-color-pri-outline": `${theme.white}`,
+		"--mantine-color-pri-light-color": `${theme.white}`,
 	},
 });
 

@@ -43,7 +43,7 @@ export default async function Main() {
 						</Link>
 					</Box>
 
-					<Divider orientation="vertical" visibleFrom="sm" color="pri.3" />
+					<Divider orientation="vertical" visibleFrom="sm" />
 
 					<Group component={"nav"} visibleFrom="sm">
 						<NavigationMain />
@@ -60,21 +60,10 @@ export default async function Main() {
 					) : (
 						<MenuAvatar />
 					)}
-					<Button size="xs" variant="outline">
-						Get in Touch
-					</Button>
-					<Button size="xs" variant="subtle">
-						Get in Touch
-					</Button>
 					<Button size="xs">Get in Touch</Button>
 				</Group>
 
-				<DrawerNavMain
-					data={sample.links.navbar}
-					hiddenFrom="sm"
-					aria-label="Toggle Navigation"
-					color="light-dark(var(--mantine-color-pri-7),var(--mantine-color-pri-0))"
-				/>
+				<DrawerNavMain data={sample.links.navbar} hiddenFrom="sm" aria-label="Toggle Navigation" color="pri" />
 			</Group>
 		</LayoutSection>
 	);

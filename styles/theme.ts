@@ -1,6 +1,6 @@
 "use client";
 
-import { Container, createTheme, Notification, rem, virtualColor } from "@mantine/core";
+import { Card, Container, createTheme, Notification, rem, virtualColor } from "@mantine/core";
 
 import cx from "clsx";
 
@@ -118,6 +118,13 @@ const appTheme = createTheme({
 	cursorType: "pointer",
 
 	components: {
+		Card: Card.extend({
+			defaultProps: {
+				bg: "var(--mantine-color-pri-light)",
+				c: "var(--mantine-color-text)",
+			},
+		}),
+
 		Container: Container.extend({
 			defaultProps: {
 				mx: "auto",
