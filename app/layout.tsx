@@ -21,7 +21,6 @@ import "@/styles/globals.scss";
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import { ModalsProvider } from "@mantine/modals";
-import AffixTheme from "@/components/affixi/theme";
 
 // import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -59,7 +58,6 @@ export default function RootLayout({
 					<ModalsProvider>{children}</ModalsProvider>
 
 					<Notifications limit={3} />
-					<AffixTheme />
 				</MantineProvider>
 
 				{/* <SpeedInsights /> */}

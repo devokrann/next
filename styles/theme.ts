@@ -1,11 +1,12 @@
 "use client";
 
-import { Card, Container, createTheme, Notification, rem, virtualColor } from "@mantine/core";
+import { Anchor, Card, Container, createTheme, Notification, rem, virtualColor } from "@mantine/core";
 
 import cx from "clsx";
 
 import classesNotification from "./mantine/notification.module.scss";
 import classesContainer from "./mantine/container.module.scss";
+import classesAnchor from "./mantine/anchor.module.scss";
 
 const appTheme = createTheme({
 	focusRing: "auto",
@@ -118,6 +119,8 @@ const appTheme = createTheme({
 	cursorType: "pointer",
 
 	components: {
+		Anchor: Anchor.extend({ defaultProps: { underline: "never" }, classNames: classesAnchor }),
+
 		Card: Card.extend({
 			defaultProps: {
 				bg: "var(--mantine-color-pri-light)",
