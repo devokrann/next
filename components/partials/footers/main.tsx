@@ -22,7 +22,7 @@ import {
 
 import LayoutSection from "@/components/layouts/section";
 
-import images from "@/assets/images";
+import images from "@/data/images";
 
 import classes from "./main.module.scss";
 import appData from "@/data/app";

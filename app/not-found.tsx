@@ -9,7 +9,7 @@ import { IconArrowLeft } from "@tabler/icons-react";
 
 import LayoutSection from "@/components/layouts/section";
 
-import images from "@/assets/images";
+import images from "@/data/images";
 import appData from "@/data/app";
 
 export default function NotFound() {

@@ -14,7 +14,7 @@ import ActionIconTheme from "@/components/action-icons/theme";
 import AuthSignIn from "@/components/auth/signIn";
 
 import sample from "@/data/sample";
-import images from "@/assets/images";
+import images from "@/data/images";
 
 import appData from "@/data/app";
 

@@ -8,7 +8,7 @@ import { Anchor, Center, Grid, GridCol, Group, Image, Stack } from "@mantine/cor
 import LayoutBody from "@/components/layouts/body";
 import LayoutSection from "@/components/layouts/section";
 
-import images from "@/assets/images";
+import images from "@/data/images";
 import appData from "@/data/app";
 
 export default function Notify({
