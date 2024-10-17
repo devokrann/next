@@ -13,7 +13,7 @@ export default function Main() {
 			<Group justify="space-between">
 				<Group gap={"lg"}>
 					{dataContact.map(item => (
-						<Group key={item.link} gap={6} c={"pri.0"}>
+						<Group key={item.link} gap={6}>
 							<item.icon size={20} stroke={1.5} style={{ marginTop: 2 }} />
 							<Anchor
 								href={item.link}

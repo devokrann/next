@@ -9,6 +9,7 @@ import LayoutSection from "@/components/layouts/section";
 import DrawerNavMain from "@/components/drawers/nav/main";
 import NavigationMain from "@/components/navigation/main";
 import MenuAvatar from "@/components/menus/avatar";
+import ActionIconTheme from "@/components/action-icons/theme";
 
 import AuthSignIn from "@/components/auth/signIn";
 
@@ -60,7 +61,10 @@ export default async function Main() {
 					) : (
 						<MenuAvatar />
 					)}
+
 					<Button size="xs">Get in Touch</Button>
+
+					<ActionIconTheme />
 				</Group>
 
 				<DrawerNavMain data={sample.links.navbar} hiddenFrom="sm" aria-label="Toggle Navigation" color="pri" />
