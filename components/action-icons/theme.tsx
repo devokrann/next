@@ -17,7 +17,7 @@ export default function Theme() {
 			size={30}
 			// color="var(--mantine-color-pri-0)"
 			// c={"var(--mantine-color-pri-9)"}
-			variant="transparent"
+			variant="light"
 		>
 			{colorScheme == "dark" && <IconSun size={16} stroke={1.5} />}
 			{colorScheme == "light" && <IconMoon size={16} stroke={1.5} />}
