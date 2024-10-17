@@ -21,9 +21,9 @@ import {
 
 import classes from "./new.module.scss";
 
-import { linkify } from "@/handlers/parsers/string";
+import { linkify } from "@/utilities/formatters/string";
 import { PostRelations } from "@/types/models/post";
-import { parseDateYmd } from "@/handlers/parsers/date";
+import { parseDateYmd } from "@/utilities/formatters/date";
 
 export default function New({ data }: { data: PostRelations }) {
 	return (

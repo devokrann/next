@@ -2,7 +2,7 @@ import { addEmailContact } from "@/handlers/contact";
 import { sendSignUpEmail } from "@/handlers/email";
 import { getFourDigitCode } from "@/libraries/generators/code";
 import prisma from "@/services/prisma";
-import { hashValue } from "@/utilities/hasher";
+import { hashValue } from "@/utilities/helpers/hasher";
 
 export async function POST(req: Request) {
 	try {

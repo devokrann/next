@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 
 import { typePasswordReset } from "@/types/apis";
 import { sendPasswordChangedEmail } from "@/handlers/email";
-import { compareHashes, hashValue } from "@/utilities/hasher";
+import { compareHashes, hashValue } from "@/utilities/helpers/hasher";
 
 export async function POST(req: Request, { params }: { params: typePasswordReset }) {
 	try {

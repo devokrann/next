@@ -1,6 +1,6 @@
 import { sendForgotPasswordEmail } from "@/handlers/email";
 import prisma from "@/services/prisma";
-import { hashValue } from "@/utilities/hasher";
+import { hashValue } from "@/utilities/helpers/hasher";
 import jwt from "jsonwebtoken";
 
 export async function POST(req: Request) {

@@ -8,7 +8,7 @@ import AsideBlog from "@/components/partials/asides/blog";
 import sample from "@/data/sample";
 
 import { typeParams } from "../layout";
-import { linkify } from "@/handlers/parsers/string";
+import { linkify } from "@/utilities/formatters/string";
 
 export const generateMetadata = ({ params }: { params: typeParams }): Metadata => {
 	return { title: sample.blogPosts.find(p => linkify(p.titleLink) == params.blogId)?.title };

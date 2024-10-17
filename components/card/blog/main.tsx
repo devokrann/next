@@ -24,8 +24,8 @@ import classes from "./main.module.scss";
 
 import { PostRelations } from "@/types/models/post";
 
-import { linkify } from "@/handlers/parsers/string";
-import { parseDateYmd } from "@/handlers/parsers/date";
+import { linkify } from "@/utilities/formatters/string";
+import { parseDateYmd } from "@/utilities/formatters/date";
 
 export default function Main({ data }: { data: PostRelations }) {
 	return (

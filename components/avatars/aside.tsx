@@ -1,4 +1,4 @@
-import { initialize } from "@/handlers/parsers/string";
+import { initialize } from "@/utilities/formatters/string";
 import { Avatar, Flex, Group, Stack, Text, Title } from "@mantine/core";
 import { useSession } from "next-auth/react";
 import React from "react";

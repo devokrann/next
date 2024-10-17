@@ -10,8 +10,8 @@ import { notifications } from "@mantine/notifications";
 
 import { IconX } from "@tabler/icons-react";
 
-import email from "@/libraries/validators/special/email";
-import { millToMinSec } from "@/handlers/parsers/number";
+import email from "@/utilities/validators/special/email";
+import { millToMinSec } from "@/utilities/formatters/number";
 
 interface typeForgot {
 	email: string;

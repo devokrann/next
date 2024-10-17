@@ -29,15 +29,15 @@ import LayoutSection from "@/components/layouts/section";
 import AuthProviders from "@/components/partials/auth/providers";
 import AuthHeader from "@/components/partials/auth/header";
 
-import email from "@/libraries/validators/special/email";
-import password from "@/libraries/validators/special/password";
+import email from "@/utilities/validators/special/email";
+import password from "@/utilities/validators/special/password";
 
-import compare from "@/libraries/validators/special/compare";
+import compare from "@/utilities/validators/special/compare";
 
 import { SignUp as typeSignUp } from "@/types/form";
 
 import { signIn as authSignIn } from "next-auth/react";
-import { millToMinSec } from "@/handlers/parsers/number";
+import { millToMinSec } from "@/utilities/formatters/number";
 
 export default function SignUp({ userEmail }: { userEmail?: string }) {
 	const router = useRouter();

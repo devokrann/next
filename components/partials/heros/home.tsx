@@ -9,7 +9,7 @@ import { Box, Container, Group, Title } from "@mantine/core";
 import BreadcrumbMain from "@/components/breadcrumbs/main";
 
 import classes from "./home.module.scss";
-import { crumbify } from "@/handlers/parsers/string";
+import { crumbify } from "@/utilities/formatters/string";
 
 export default function Home({ title }: { title?: string }) {
 	const pathname = usePathname();

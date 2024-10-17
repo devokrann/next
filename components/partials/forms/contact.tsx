@@ -8,11 +8,11 @@ import { notifications } from "@mantine/notifications";
 
 import { IconCheck, IconX } from "@tabler/icons-react";
 
-import text from "@/libraries/validators/special/text";
-import email from "@/libraries/validators/special/email";
-import phone from "@/libraries/validators/special/phone";
+import text from "@/utilities/validators/special/text";
+import email from "@/utilities/validators/special/email";
+import phone from "@/utilities/validators/special/phone";
 
-import { capitalizeWord, capitalizeWords } from "@/handlers/parsers/string";
+import { capitalizeWord, capitalizeWords } from "@/utilities/formatters/string";
 
 export default function Contact() {
 	const [submitted, setSubmitted] = useState(false);

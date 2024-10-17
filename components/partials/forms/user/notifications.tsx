@@ -11,8 +11,8 @@ import { notifications } from "@mantine/notifications";
 
 import { IconCheck, IconX } from "@tabler/icons-react";
 
-import password from "@/libraries/validators/special/password";
-import compare from "@/libraries/validators/special/compare";
+import password from "@/utilities/validators/special/password";
+import compare from "@/utilities/validators/special/compare";
 
 import { Session, User } from "next-auth";
 import { signOut, useSession } from "next-auth/react";

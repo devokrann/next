@@ -1,5 +1,5 @@
 import prisma from "@/services/prisma";
-import { compareHashes } from "@/utilities/hasher";
+import { compareHashes } from "@/utilities/helpers/hasher";
 
 export async function POST(req: Request) {
 	try {

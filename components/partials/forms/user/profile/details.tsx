@@ -9,10 +9,10 @@ import { notifications } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons-react";
 
 import { useSession } from "next-auth/react";
-import text from "@/libraries/validators/special/text";
-import email from "@/libraries/validators/special/email";
-import { capitalizeWords } from "@/handlers/parsers/string";
-import phone from "@/libraries/validators/special/phone";
+import text from "@/utilities/validators/special/text";
+import email from "@/utilities/validators/special/email";
+import { capitalizeWords } from "@/utilities/formatters/string";
+import phone from "@/utilities/validators/special/phone";
 
 interface typeProfileDetails {
 	name?: string | null;
