@@ -1,73 +1,71 @@
-import { baseUrl } from "@/data/constants";
+import { apiUrl } from "@/data/constants";
 import { enumRequest } from "@/types/enums";
 import { FormPostCreate } from "@/types/form";
 import { PostGet } from "@/types/models/post";
 
-const apiUrl = `${baseUrl}/api/posts`;
-const headers = {
-	"Content-Type": "application/json",
-	Accept: "application/json",
-};
-
 export const getPosts = async () => {
 	try {
-		const response = await fetch(apiUrl, {
-			method: enumRequest.GET,
-			headers,
+		const request = new Request(`${apiUrl}/posts`, {
+			method: enumRequest.GET
 		});
+
+		const response = await fetch(request);
 
 		const res = await response.json();
 
 		return res;
 	} catch (error) {
-		console.error("X-> Error getting posts:", error);
+		console.error("---> handler error - (get posts):", error);
 	}
 };
 
 export const removePosts = async (posts: PostGet[]) => {
 	try {
-		const response = await fetch(apiUrl, {
+		const request = new Request(`${apiUrl}/posts`, {
 			method: enumRequest.DELETE,
-			body: JSON.stringify(posts),
-			headers,
+			body: JSON.stringify(posts)
 		});
+
+		const response = await fetch(request);
 
 		const res = await response.json();
 
 		return res;
 	} catch (error) {
-		console.error("X-> Error removing posts:", error);
+		console.error("---> handler error - (remove posts):", error);
 	}
 };
 
 export const addPost = async (post: FormPostCreate) => {
 	try {
-		const response = await fetch(`${apiUrl}/new-post`, {
+		const request = new Request(`${apiUrl}/posts/new-post`, {
 			method: enumRequest.POST,
-			body: JSON.stringify(post),
-			headers,
+			body: JSON.stringify(post)
 		});
+
+		const response = await fetch(request);
 
 		const res = await response.json();
 
 		return res;
 	} catch (error) {
-		console.error("X-> Error adding post:", error);
+		console.error("---> handler error - (add post):", error);
 	}
 };
 
 export const removePost = async (post: PostGet) => {
 	try {
-		const response = await fetch(`${apiUrl}/${post.id}`, {
+		const request = new Request(`${apiUrl}/posts/${post.id}`, {
 			method: enumRequest.DELETE,
-			body: JSON.stringify(post),
-			headers,
+			body: JSON.stringify(post)
 		});
+
+		const response = await fetch(request);
 
 		const res = await response.json();
 
 		return res;
 	} catch (error) {
-		console.error("X-> Error removing post:", error);
+		console.error("---> handler error - (remove post):", error);
 	}
 };

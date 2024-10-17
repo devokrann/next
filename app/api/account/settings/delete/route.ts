@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import prisma from "@/services/prisma";
+import prisma from "@/libraries/prisma";
 import { compareHashes } from "@/utilities/helpers/hasher";
 
 export async function POST(req: Request) {
@@ -8,7 +8,9 @@ export async function POST(req: Request) {
 
 		const { password } = await req.json();
 
-		const userRecord = await prisma.user.findUnique({ where: { id: session?.user.id } });
+		const userRecord = await prisma.user.findUnique({
+			where: { id: session?.user.id }
+		});
 
 		if (!userRecord) {
 			return Response.json({ user: { exists: false } });
@@ -17,19 +19,30 @@ export async function POST(req: Request) {
 				if (!password) {
 					await handleDelete(session?.user.id!);
 
-					return Response.json({ user: { exists: true, password: { match: true } } });
+					return Response.json({
+						user: { exists: true, password: { match: true } }
+					});
 				} else {
-					return Response.json({ user: { exists: true, password: { match: false } } });
+					return Response.json({
+						user: { exists: true, password: { match: false } }
+					});
 				}
 			} else {
-				const passwordMatch = await compareHashes(password, userRecord.password);
+				const passwordMatch = await compareHashes(
+					password,
+					userRecord.password
+				);
 
 				if (!passwordMatch) {
-					return Response.json({ user: { exists: true, password: { match: false } } });
+					return Response.json({
+						user: { exists: true, password: { match: false } }
+					});
 				} else {
 					await handleDelete(session?.user.id!);
 
-					return Response.json({ user: { exists: true, password: { match: true } } });
+					return Response.json({
+						user: { exists: true, password: { match: true } }
+					});
 				}
 			}
 		}
@@ -50,7 +63,7 @@ const handleDelete = async (id: string) => {
 			Authenticator: true,
 			otps: true,
 			otls: true,
-			posts: true,
-		},
+			posts: true
+		}
 	});
 };

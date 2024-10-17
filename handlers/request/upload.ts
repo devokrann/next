@@ -9,14 +9,14 @@ export const uploadFile = async (file: File) => {
 
 		const response = await fetch(apiUrl, {
 			method: enumRequest.POST,
-			body: formData,
+			body: formData
 		});
 
 		const res = await response.json();
 
 		return res;
 	} catch (error) {
-		console.error("X-> Post request error:", error);
+		console.error("---> handler error - (upload file):", error);
 		throw error;
 	}
 };

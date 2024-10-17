@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import prisma from "@/services/prisma";
+import prisma from "@/libraries/prisma";
 
 export async function POST(req: Request) {
 	try {
@@ -7,14 +7,16 @@ export async function POST(req: Request) {
 
 		const { name, email, phone } = await req.json();
 
-		const userRecord = await prisma.user.findUnique({ where: { id: session?.user.id } });
+		const userRecord = await prisma.user.findUnique({
+			where: { id: session?.user.id }
+		});
 
 		if (!userRecord) {
 			return Response.json({ user: { exists: false } });
 		} else {
 			await prisma.user.update({
 				where: { id: session?.user.id },
-				data: { name },
+				data: { name }
 			});
 
 			// update session on server
@@ -25,7 +27,10 @@ export async function POST(req: Request) {
 			return Response.json({ user: { exists: true } });
 		}
 	} catch (error) {
-		console.error("x-> Error updating profile details:", (error as Error).message);
+		console.error(
+			"x-> Error updating profile details:",
+			(error as Error).message
+		);
 		return Response.error();
 	}
 }
