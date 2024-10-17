@@ -16,7 +16,6 @@ import AuthSignIn from "@/components/auth/signIn";
 import sample from "@/data/sample";
 import images from "@/assets/images";
 
-import classes from "./main.module.scss";
 import appData from "@/data/app";
 
 import { auth } from "@/auth";
@@ -25,7 +24,7 @@ export default async function Main() {
 	const session = await auth();
 
 	return (
-		<LayoutSection containerized="responsive" shadowed padded="lg" className={classes.navbar}>
+		<LayoutSection id={"partial-navbar-main"} containerized="responsive" shadowed padded="lg">
 			<Group justify="space-between">
 				<Group align="end" gap={"lg"}>
 					<Box>
@@ -51,7 +50,7 @@ export default async function Main() {
 					</Group>
 				</Group>
 
-				<Group visibleFrom="sm">
+				<Group visibleFrom="sm" gap={"xs"}>
 					{!session?.user ? (
 						<AuthSignIn>
 							<Button size="xs" variant="light">

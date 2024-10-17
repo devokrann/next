@@ -16,7 +16,10 @@ const appResolver: CSSVariablesResolver = theme => ({
 		"--mantine-color-anchor": `${theme.colors.pri[4]}`,
 		"--mantine-color-default-border": `${theme.colors.pri[4]}`,
 
-		"--divider-color": `${theme.colors.pri[4]} !important`,
+		"--mantine-shadow-xs": `0 0.0625rem 0.1875rem ${alpha(theme.colors.pri[9], 0.05)}, 0 0.0625rem 0.125rem ${alpha(
+			theme.colors.pri[9],
+			0.1
+		)}`,
 	},
 
 	dark: {
@@ -30,7 +33,10 @@ const appResolver: CSSVariablesResolver = theme => ({
 		"--mantine-color-anchor": `${theme.colors.pri[4]}`,
 		"--mantine-color-default-border": `${theme.colors.pri[4]}`,
 
-		"--divider-color": `${theme.colors.pri[4]} !important`,
+		"--mantine-shadow-xs": `0 0.0625rem 0.1875rem ${alpha(theme.colors.pri[9], 0.05)}, 0 0.0625rem 0.125rem ${alpha(
+			theme.colors.pri[9],
+			0.1
+		)}`,
 	},
 });
 
