@@ -1,8 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
-
-import { useRouter } from "next/navigation";
+import React from "react";
 
 import {
 	Box,
@@ -12,171 +10,15 @@ import {
 	GridCol,
 	PasswordInput
 } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { notifications } from "@mantine/notifications";
-
-import { IconCheck, IconX } from "@tabler/icons-react";
-
-import password from "@/utilities/validators/special/password";
-import compare from "@/utilities/validators/special/compare";
-
-import {
-	signOut as authSignOut,
-	signIn as authSignIn,
-	useSession
-} from "next-auth/react";
 
 import { typeParams } from "@/app/(authentication)/auth/(default)/layout";
-import { iconStrokeWidth } from "@/data/constants";
-
-interface typeReset {
-	password: string;
-}
+import { useAuthPasswordReset } from "@/hooks/form/auth/password";
 
 export default function Reset({ data }: { data: typeParams }) {
-	const [sending, setSending] = useState(false);
-	const router = useRouter();
-
-	const form = useForm({
-		initialValues: {
-			password: "",
-			passwordConfirm: ""
-		},
-
-		validate: {
-			password: (value, values) => password(value, 8, 24),
-			passwordConfirm: (value, values) =>
-				compare.string(value, values.password, "Password")
-		}
-	});
-
-	const parse = (rawData: typeReset) => {
-		return { password: rawData.password };
-	};
-
-	const handleSubmit = async (formValues: typeReset) => {
-		try {
-			if (form.isValid()) {
-				setSending(true);
-
-				// // test request body
-				// console.log({ id: data.userId, token: data.token, ...parse(formValues) });
-
-				const response = await fetch(
-					process.env.NEXT_PUBLIC_API_URL +
-						`/api/auth/password/reset/${data.userId}/${data.token}`,
-					{
-						method: "POST",
-						body: JSON.stringify(parse(formValues)),
-						headers: {
-							"Content-Type": "application/json",
-							Accept: "application/json"
-						}
-					}
-				);
-
-				const res = await response.json();
-
-				if (!res) {
-					notifications.show({
-						id: "password-reset-failed-no-response",
-						icon: <IconX size={16} stroke={iconStrokeWidth} />,
-						title: "Server Unavailable",
-						message: `There was no response from the server.`,
-						variant: "failed"
-					});
-				} else {
-					if (!res.user.exists) {
-						notifications.show({
-							id: "password-reset-failed-not-found",
-							icon: <IconX size={16} stroke={iconStrokeWidth} />,
-							title: `Not Found`,
-							message: `You are not allowed to perform this function.`,
-							variant: "failed"
-						});
-
-						form.reset();
-
-						// redirect to sign up page
-						router.replace("/auth/sign-up");
-					} else {
-						if (!res.token.valid) {
-							notifications.show({
-								id: "password-reset-failed-invalid",
-								icon: (
-									<IconX size={16} stroke={iconStrokeWidth} />
-								),
-								title: `Invalid Link`,
-								message: `The link is broken, expired or already used.`,
-								variant: "failed"
-							});
-
-							form.reset();
-
-							// redirect to forgot password page
-							router.replace("/auth/password/forgot");
-						} else {
-							if (!res.user.password.matches) {
-								notifications.show({
-									id: "password-reset-success",
-									withCloseButton: false,
-									icon: (
-										<IconCheck
-											size={16}
-											stroke={iconStrokeWidth}
-										/>
-									),
-									title: "Password Changed",
-									message: `You have successfully changed your password.`,
-									variant: "success"
-								});
-
-								form.reset();
-
-								// sign out and redirect to sign in page
-								await authSignOut({
-									redirect: false,
-									callbackUrl: "/"
-								}).then(async () => await authSignIn());
-							} else {
-								notifications.show({
-									id: "password-reset-failed-unauthorized",
-									icon: (
-										<IconX
-											size={16}
-											stroke={iconStrokeWidth}
-										/>
-									),
-									title: `Parity Not Allowed`,
-									message: `New and previous password can't be the same.`,
-									variant: "failed"
-								});
-
-								form.reset();
-							}
-						}
-					}
-				}
-			}
-		} catch (error) {
-			notifications.show({
-				id: "password-reset-failed",
-				icon: <IconX size={16} stroke={iconStrokeWidth} />,
-				title: `Send Failed`,
-				message: (error as Error).message,
-				variant: "failed"
-			});
-		} finally {
-			setSending(false);
-		}
-	};
+	const { form, handleSubmit, sending } = useAuthPasswordReset(data);
 
 	return (
-		<Box
-			component="form"
-			onSubmit={form.onSubmit((values) => handleSubmit(values))}
-			noValidate
-		>
+		<Box component="form" onSubmit={form.onSubmit(handleSubmit)} noValidate>
 			<Grid>
 				<GridCol span={{ base: 12, sm: 6, md: 12 }}>
 					<PasswordInput

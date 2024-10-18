@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 import {
 	Anchor,
@@ -20,103 +19,16 @@ import {
 	Text,
 	TextInput
 } from "@mantine/core";
-import { useForm } from "@mantine/form";
-
-import { notifications } from "@mantine/notifications";
-import { IconX } from "@tabler/icons-react";
 
 import AuthProviders from "@/components/common/buttons/auth-providers";
 
-import email from "@/utilities/validators/special/email";
-
-import { signIn as authSignIn } from "next-auth/react";
-
-import { SignIn as typeSignIn } from "@/types/form";
-import { iconStrokeWidth } from "@/data/constants";
+import { useFormAuthSignIn } from "@/hooks/form/auth/sign-in";
 
 export default function SignIn() {
-	const [submitted, setSubmitted] = useState(false);
-	const router = useRouter();
-
-	const form = useForm({
-		initialValues: {
-			email: "",
-			password: "",
-			remember: false
-		},
-
-		validate: {
-			email: (value) => email(value.trim()),
-			password: (value) =>
-				value.trim().length > 0 ? null : "Please fill out this field"
-		}
-	});
-
-	const parse = (rawData: typeSignIn) => {
-		return {
-			email: rawData.email.trim().toLowerCase(),
-			password: rawData.password.trim(),
-			rememberMe: rawData.remember
-		};
-	};
-
-	const handleSubmit = async (formValues: typeSignIn) => {
-		if (form.isValid()) {
-			try {
-				setSubmitted(true);
-
-				// // test request body
-				// console.log(parse(formValues));
-
-				const res = await authSignIn("credentials", {
-					...parse(formValues),
-					redirect: false,
-					callbackUrl: getCallbackUrlFromQuery()
-				});
-
-				if (!res?.ok) {
-					notifications.show({
-						id: "sign-in-failed-bad-response",
-						icon: <IconX size={16} stroke={iconStrokeWidth} />,
-						title: "Bad Response",
-						message: "There was a problem with the request",
-						variant: "failed"
-					});
-				} else {
-					if (!res.error) {
-						// apply callbackurl
-						res.url && window.location.replace(res.url);
-					} else {
-						notifications.show({
-							id: `sign-in-failed-${res.error}`,
-							icon: <IconX size={16} stroke={iconStrokeWidth} />,
-							title: "Authentication Error",
-							message: "Incorrect username/password",
-							variant: "failed"
-						});
-					}
-				}
-			} catch (error) {
-				notifications.show({
-					id: "sign-in-failed-unexpected",
-					icon: <IconX size={16} stroke={iconStrokeWidth} />,
-					title: "Unexpected Error",
-					message: (error as Error).message,
-					variant: "failed"
-				});
-			} finally {
-				form.reset();
-				setSubmitted(false);
-			}
-		}
-	};
+	const { form, submitted, handleSubmit } = useFormAuthSignIn();
 
 	return (
-		<Box
-			component="form"
-			onSubmit={form.onSubmit((values) => handleSubmit(values))}
-			noValidate
-		>
+		<Box component="form" onSubmit={form.onSubmit(handleSubmit)} noValidate>
 			<Stack gap={40}>
 				<Grid>
 					<GridCol span={{ base: 12, sm: 12 }}>
@@ -192,15 +104,4 @@ export default function SignIn() {
 			</Stack>
 		</Box>
 	);
-}
-
-function getCallbackUrlFromQuery() {
-	const inClient = typeof window !== "undefined";
-
-	if (inClient) {
-		const urlParams = new URLSearchParams(window.location.search);
-		return urlParams.get("callbackUrl") || "/";
-	}
-
-	return "/";
 }
