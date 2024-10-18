@@ -1,23 +1,18 @@
 import React from "react";
 
 import Link from "next/link";
-import NextImage from "next/image";
 
 import {
 	Anchor,
 	Badge,
-	Box,
 	Card,
 	CardSection,
 	Divider,
-	Grid,
-	GridCol,
 	Group,
-	Image,
 	Skeleton,
 	Stack,
 	Text,
-	Title,
+	Title
 } from "@mantine/core";
 
 import classes from "./main.module.scss";
@@ -27,41 +22,53 @@ import { PostRelations } from "@/types/models/post";
 import { linkify } from "@/utilities/formatters/string";
 import { parseDateYmd } from "@/utilities/formatters/date";
 
-export default function Main({ data }: { data: PostRelations }) {
+export default function Main({ props }: { props: PostRelations }) {
+	const slug = linkify(props.title);
+	const path = `/blog/${slug}`;
+
 	return (
 		<Card className={classes.card} withBorder padding={"lg"}>
 			<Stack gap={"lg"}>
 				<CardSection>
-					<Anchor component={Link} underline="hover" inherit href={`/blog/${linkify(data.title)}`}>
+					<Anchor
+						component={Link}
+						underline="hover"
+						inherit
+						href={path}
+					>
 						<Skeleton height={240} radius={0} />
 					</Anchor>
 				</CardSection>
 
 				<Stack gap={"lg"}>
 					<Stack>
-						<Title order={3} fz={{ base: "xl" }} className={classes.title}>
+						<Title
+							order={3}
+							fz={{ base: "xl" }}
+							className={classes.title}
+						>
 							<Anchor
 								component={Link}
 								underline="hover"
 								inherit
-								href={`/blog/${linkify(data.title)}`}
+								href={path}
 								c={"inherit"}
 							>
-								{data.title}
+								{props.title}
 							</Anchor>
 						</Title>
-						<Text className={classes.desc}>{data.desc}</Text>
+						<Text className={classes.desc}>{props.desc}</Text>
 					</Stack>
 
 					<Divider />
 
 					<Group justify="space-between">
 						<Badge variant="light" radius={"sm"} tt={"capitalize"}>
-							{data.category}
+							{props.category}
 						</Badge>
 
 						<Text fz={"xs"} inherit>
-							{data.date}
+							{props.date}
 						</Text>
 					</Group>
 				</Stack>

@@ -1,4 +1,9 @@
-export const millToMinSec = (milliseconds: number): { minutes: string; seconds: string } | undefined => {
+export interface MinSec {
+	minutes: string;
+	seconds: string;
+}
+
+export const millToMinSec = (milliseconds: number): MinSec | undefined => {
 	try {
 		var minutes = Math.floor(milliseconds / 60000).toString();
 		var seconds = ((milliseconds % 60000) / 1000).toFixed(0).toString();

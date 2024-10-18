@@ -2,10 +2,17 @@
 
 import React from "react";
 
-import NextImage from "next/image";
 import { usePathname } from "next/navigation";
 
-import { Burger, Button, Drawer, Group, NavLink, Stack } from "@mantine/core";
+import {
+	Burger,
+	BurgerProps,
+	Button,
+	Drawer,
+	Group,
+	NavLink,
+	Stack
+} from "@mantine/core";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import ActionIconTheme from "@/components/common/buttons/theme";
 
@@ -14,14 +21,16 @@ import classes from "./main.module.scss";
 import { typeMenuNavbar } from "@/types/components/menu";
 
 export default function Main({
-	data,
-	...restProps
-}: { data: typeMenuNavbar[] } & React.ComponentProps<typeof Burger>) {
+	props,
+	hiddenFrom = "sm"
+}: {
+	props: typeMenuNavbar[];
+	hiddenFrom?: BurgerProps["hiddenFrom"];
+}) {
 	const [opened, { toggle, close }] = useDisclosure(false);
 	const pathname = usePathname();
-	const mobile = useMediaQuery("(max-width: 36em)");
 
-	const navMobile = data.map((link) => {
+	const navMobile = props.map((link) => {
 		const subLinks =
 			link.subLinks &&
 			link.subLinks.map((subLink) => (
@@ -30,7 +39,7 @@ export default function Main({
 					href={subLink.link}
 					label={subLink.label}
 					active={pathname == subLink.link}
-					onClick={() => close()}
+					onClick={close}
 				/>
 			));
 
@@ -40,7 +49,8 @@ export default function Main({
 				href={link.link}
 				label={link.label}
 				active={pathname == link.link}
-				onClick={() => close()}
+				onClick={close}
+				fw={pathname == link.link ? 500 : undefined}
 				leftSection={
 					link.leftSection ? (
 						<link.leftSection size={14} />
@@ -51,7 +61,6 @@ export default function Main({
 						<link.rightSection size={14} />
 					) : undefined
 				}
-				fw={pathname == link.link ? 500 : undefined}
 			/>
 		) : (
 			<NavLink
@@ -59,9 +68,12 @@ export default function Main({
 				href={link.link}
 				label={link.label}
 				active={pathname == link.link}
+				fw={pathname == link.link ? 500 : undefined}
+				onClick={close}
 				opened={
+					pathname == link.link ||
 					link.subLinks?.find((sl) => sl.link == pathname)?.link ==
-					pathname
+						pathname
 						? true
 						: undefined
 				}
@@ -75,7 +87,6 @@ export default function Main({
 						<link.rightSection size={14} />
 					) : undefined
 				}
-				fw={pathname == link.link ? 500 : undefined}
 			>
 				{subLinks}
 			</NavLink>
@@ -91,27 +102,8 @@ export default function Main({
 				size={"200"}
 				classNames={{
 					body: classes.body,
-					close: classes.close,
-					content: classes.content,
-					header: classes.header,
-					inner: classes.inner,
-					overlay: classes.overlay,
-					root: classes.root,
-					title: classes.title
+					header: classes.header
 				}}
-				// title={
-				// 	<Group>
-				// 		<Image
-				// 			src={brand.logo.light}
-				// alt={contact.name.app}
-				// 			h={{ base: 24 }}
-				// 			component={NextImage}
-				// width={1920}
-				// 				height={1080}
-				// 			loading="lazy"
-				// 		/>
-				// 	</Group>
-				// }
 			>
 				<Stack>
 					<Stack gap={0}>{navMobile}</Stack>
@@ -135,8 +127,10 @@ export default function Main({
 			<Burger
 				opened={opened}
 				onClick={toggle}
-				size={mobile ? "sm" : "sm"}
-				{...restProps}
+				size={"sm"}
+				aria-label="Toggle Navigation"
+				color="pri"
+				hiddenFrom={hiddenFrom}
 			/>
 		</>
 	);

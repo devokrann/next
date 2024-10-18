@@ -12,7 +12,6 @@ export default function Main() {
 	return (
 		<LayoutSection
 			id="partial-header-main"
-			containerized="responsive"
 			padded="sm"
 			className={classes.header}
 			visibleFrom="xs"

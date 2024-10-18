@@ -28,8 +28,6 @@ export default function Theme() {
 			}
 			aria-label="Toggle color scheme"
 			size={30}
-			// color="var(--mantine-color-pri-0)"
-			// c={"var(--mantine-color-pri-9)"}
 			variant="light"
 		>
 			{colorScheme == "dark" && (

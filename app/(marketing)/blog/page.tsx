@@ -12,7 +12,7 @@ import sample from "@/data/sample";
 export default function Blog() {
 	return (
 		<LayoutPage>
-			<LayoutSection id={"page-blog"} padded containerized={"responsive"}>
+			<LayoutSection id={"page-blog"} padded>
 				<Stack gap={"xl"}>
 					<Stack align="center">
 						<Title order={2} ta={"center"}>
@@ -31,14 +31,13 @@ export default function Blog() {
 				</Stack>
 			</LayoutSection>
 
-			<LayoutSection id={"page-division"} containerized={"responsive"}>
+			<LayoutSection id={"page-division"}>
 				<Divider />
 			</LayoutSection>
 
 			<LayoutSection
 				id={"page-posts"}
 				padded
-				containerized={"responsive"}
 			>
 				<Grid gutter={"xl"}>
 					{sample.blogPosts.map(

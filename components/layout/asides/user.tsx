@@ -5,31 +5,28 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import AvatarAside from "@/components/common/avatars/aside";
-
-import { Divider, NavLink, Stack, Title } from "@mantine/core";
+import { Divider, Flex, NavLink, Stack, Text, Title } from "@mantine/core";
 import {
 	IconBellRinging,
 	IconChevronRight,
-	IconCoins,
 	IconHeart,
 	IconHelpCircle,
 	IconInfoCircle,
 	IconLogout,
-	IconMapPin,
 	IconPackage,
-	IconSettings,
 	IconStar,
 	IconUser
 } from "@tabler/icons-react";
 
 import LayoutSection from "@/components/layout/section";
+import AvatarAside from "@/components/common/avatars/aside";
 
-import { signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { iconStrokeWidth } from "@/data/constants";
 
 export default function User() {
 	const pathname = usePathname();
+	const { data: session } = useSession();
 
 	const navLinkItems = {
 		activity: [
@@ -96,31 +93,65 @@ export default function User() {
 	return (
 		<LayoutSection id={"partial-aside-user"} padded pos={"sticky"} top={0}>
 			<Stack gap={48} align="center">
-				<AvatarAside />
+				<Flex
+					direction={{ base: "column", lg: "row" }}
+					align={"center"}
+					gap={"md"}
+					w={"100%"}
+				>
+					<AvatarAside />
+
+					<Stack gap={0}>
+						<Title
+							order={3}
+							fz={"md"}
+							ta={{ base: "center", lg: "start" }}
+						>
+							{session?.user.name}
+						</Title>
+
+						<Text
+							fz={"xs"}
+							c={"dimmed"}
+							ta={{ base: "center", lg: "start" }}
+						>
+							{session?.user.email}
+						</Text>
+					</Stack>
+				</Flex>
 
 				<Stack w={"100%"}>
-					{/* <Stack gap={"xs"}>
+					<Stack gap={"xs"}>
 						<Title order={3} fz={"md"} ml={{ md: "sm" }}>
 							Activity
 						</Title>
 
 						<Stack gap={4}>
-							{navLinkItems.activity.map(item => (
+							{navLinkItems.activity.map((item) => (
 								<NavLink
 									key={item.label}
 									component={Link}
 									href={item.link}
 									label={item.label}
-									leftSection={<item.icon size={16} stroke={iconStrokeWidth} />}
-									rightSection={<IconChevronRight size={16} />}
+									leftSection={
+										<item.icon
+											size={16}
+											stroke={iconStrokeWidth}
+										/>
+									}
+									rightSection={
+										<IconChevronRight size={16} />
+									}
 									active={item.link == pathname}
-									style={{ borderRadius: "var(--mantine-radius-md)" }}
+									style={{
+										borderRadius: "var(--mantine-radius-md)"
+									}}
 								/>
 							))}
 						</Stack>
 					</Stack>
 
-					<Divider /> */}
+					<Divider />
 
 					<Stack gap={"xs"}>
 						<Title order={3} fz={"md"} ml={{ md: "sm" }}>
@@ -152,7 +183,7 @@ export default function User() {
 						</Stack>
 					</Stack>
 
-					{/* <Divider />
+					<Divider />
 
 					<Stack gap={"xs"}>
 						<Title order={3} fz={"md"} ml={{ md: "sm" }}>
@@ -160,20 +191,29 @@ export default function User() {
 						</Title>
 
 						<Stack gap={4}>
-							{navLinkItems.help.map(item => (
+							{navLinkItems.help.map((item) => (
 								<NavLink
 									key={item.label}
 									component={Link}
 									href={item.link}
 									label={item.label}
-									leftSection={<item.icon size={16} stroke={iconStrokeWidth} />}
-									rightSection={<IconChevronRight size={16} />}
+									leftSection={
+										<item.icon
+											size={16}
+											stroke={iconStrokeWidth}
+										/>
+									}
+									rightSection={
+										<IconChevronRight size={16} />
+									}
 									active={item.link == pathname}
-									style={{ borderRadius: "var(--mantine-radius-md)" }}
+									style={{
+										borderRadius: "var(--mantine-radius-md)"
+									}}
 								/>
 							))}
 						</Stack>
-					</Stack> */}
+					</Stack>
 
 					<Divider />
 

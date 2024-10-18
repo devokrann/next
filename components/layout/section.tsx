@@ -7,7 +7,7 @@ import { Section as typeSection } from "@/types/layout";
 import classes from "./section.module.scss";
 
 export default function Section({
-	containerized,
+	containerized='responsive',
 	padded,
 	margined,
 	className,

@@ -46,7 +46,6 @@ export default async function Contact() {
 			<LayoutSection
 				id={"page-contact"}
 				padded
-				containerized={"responsive"}
 			>
 				<Stack gap={64}>
 					<Stack>

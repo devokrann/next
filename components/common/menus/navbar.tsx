@@ -11,19 +11,29 @@ import { typeMenuNavbar } from "@/types/components/menu";
 
 import classes from "./navbar.module.scss";
 
-export default function Navbar({ children, subLinks }: { children: React.ReactNode; subLinks?: typeMenuNavbar[] }) {
+export default function Navbar({
+	children,
+	subLinks
+}: {
+	children: React.ReactNode;
+	subLinks?: typeMenuNavbar[];
+}) {
 	const pathname = usePathname();
 
 	const menuItems =
 		subLinks &&
-		subLinks.map(item => (
+		subLinks.map((item) => (
 			<MenuItem
 				key={item.link}
 				component={Link}
 				href={item.link}
 				leftSection={item.leftSection && <item.leftSection size={14} />}
-				rightSection={item.rightSection && <item.rightSection size={14} />}
-				className={`${classes.item} ${pathname == item.link ? classes.itemActive : ""}`}
+				rightSection={
+					item.rightSection && <item.rightSection size={14} />
+				}
+				className={`${classes.item} ${
+					pathname == item.link ? classes.itemActive : ""
+				}`}
 			>
 				{item.label}
 			</MenuItem>
@@ -34,7 +44,6 @@ export default function Navbar({ children, subLinks }: { children: React.ReactNo
 			shadow="xs"
 			width={"auto"}
 			trigger="hover"
-			// position="bottom-end"
 			openDelay={50}
 			closeDelay={50}
 			classNames={{
@@ -44,10 +53,11 @@ export default function Navbar({ children, subLinks }: { children: React.ReactNo
 				label: classes.label,
 				item: classes.item,
 				itemLabel: classes.itemLabel,
-				itemSection: classes.itemSection,
+				itemSection: classes.itemSection
 			}}
 		>
 			<MenuTarget>{children}</MenuTarget>
+
 			{menuItems && <MenuDropdown>{menuItems}</MenuDropdown>}
 		</Menu>
 	);

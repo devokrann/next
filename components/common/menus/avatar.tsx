@@ -11,157 +11,65 @@ import {
 	MenuItem,
 	MenuLabel,
 	MenuTarget,
-	Avatar as MantineAvatar,
 	Text,
 	Stack,
-	Skeleton,
+	Skeleton
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 
 import {
-	IconSettings,
 	IconUser,
 	IconLogout,
 	IconPackage,
-	IconCoins,
-	IconMapPin,
 	IconBellRinging,
-	IconDashboard,
 	IconHeart,
 	IconStar,
 	IconHelpCircle,
-	IconInfoCircle,
+	IconInfoCircle
 } from "@tabler/icons-react";
-
-import classes from "./avatar.module.scss";
-
-import { initialize } from "@/utilities/formatters/string";
 
 import { useSession } from "next-auth/react";
 
+import AvatarAside from "../avatars/aside";
+
 export default function Avatar() {
-	const session = useSession();
+	const { data: session, status } = useSession();
+	const userName = session?.user.name;
 
 	const mobile = useMediaQuery("(max-width: 48em)");
-
 	const sizeAvatar = mobile ? 28 : 36;
 
-	const menuItems = {
-		activity: [
-			{
-				icon: IconHeart,
-				link: `/account/wishlist`,
-				label: "My Wishlist",
-			},
-			{
-				icon: IconPackage,
-				link: `/account/orders`,
-				label: "My Orders",
-			},
-			{
-				icon: IconStar,
-				link: `/account/reviews`,
-				label: "My Reviews",
-			},
-		],
-		user: [
-			{
-				icon: IconUser,
-				link: `/account/profile`,
-				label: "Profile Settings",
-			},
-			// {
-			// 	icon: IconCoins,
-			// 	link: `/account/payment`,
-			// 	label: "Payment Details",
-			// },
-			// {
-			// 	icon: IconMapPin,
-			// 	link: `/account/addresses`,
-			// 	label: "Addresses",
-			// },
-			{
-				icon: IconBellRinging,
-				link: `/account/notifications`,
-				label: "Notifications",
-			},
-		],
-		help: [
-			{
-				icon: IconHelpCircle,
-				link: `/help`,
-				label: "Help Center",
-			},
-			{
-				icon: IconInfoCircle,
-				link: `/legal/terms-and-conditions`,
-				label: "Terms and Conditions",
-			},
-		],
-		danger: [
-			{
-				icon: IconLogout,
-				link: process.env.NEXT_PUBLIC_SIGN_OUT_URL!,
-				label: "Sign Out",
-				color: "red",
-			},
-		],
-	};
-
 	return (
-		<Menu
-			position={"bottom"}
-			withArrow
-			classNames={{ dropdown: classes.dropdown, item: classes.item, divider: classes.divider }}
-			width={mobile ? 200 : 240}
-		>
+		<Menu position={"bottom"} withArrow width={mobile ? 200 : 240}>
 			<MenuTarget>
-				{!session.data?.user.image ? (
-					<MantineAvatar
-						size={sizeAvatar}
-						title={session.data?.user.name ? session.data?.user.name : "User"}
-						className={classes.avatar}
-					>
-						{session.data?.user.name
-							? initialize(session.data?.user.name)
-							: session.data?.user.email?.charAt(0).toUpperCase()}
-					</MantineAvatar>
-				) : (
-					<MantineAvatar
-						src={session.data?.user.image}
-						alt={session.data?.user.name ? session.data?.user.name : "User"}
-						size={sizeAvatar}
-						title={session.data?.user.name ? session.data?.user.name : "User"}
-						className={classes.avatar}
-					/>
-				)}
+				<AvatarAside size={sizeAvatar} />
 			</MenuTarget>
 
 			<MenuDropdown>
 				<Stack gap={"xs"} align="center" p={"sm"}>
-					{session.status == "loading" ? (
+					{status == "loading" ? (
 						<Skeleton height={8} radius="xl" />
 					) : (
-						session.data && (
+						session && (
 							<Stack gap={"xs"}>
-								{session.data?.user.name && (
+								{userName && (
 									<Text fz={"sm"} lh={1} ta={"center"}>
-										{session.data?.user.name}
+										{userName}
 									</Text>
 								)}
 								<Text fz={"xs"} lh={1} ta={"center"}>
-									({session.data?.user.email})
+									({session.user.email})
 								</Text>
 
 								{/* <Text fz={"xs"} lh={1} ta={"center"}>
-									({session.data?.expires})
+									({session.expires})
 								</Text> */}
 							</Stack>
 						)
 					)}
 				</Stack>
 
-				{session.data && <MenuDivider />}
+				{session && <MenuDivider />}
 
 				{/* <MenuLabel>Activity</MenuLabel>
 				{menuItems.activity.map(item => (
@@ -173,8 +81,13 @@ export default function Avatar() {
 				<MenuDivider /> */}
 
 				<MenuLabel>Account</MenuLabel>
-				{menuItems.user.map(item => (
-					<MenuItem key={item.label} leftSection={<item.icon size={16} />} component={Link} href={item.link}>
+				{menuItems.user.map((item) => (
+					<MenuItem
+						key={item.label}
+						leftSection={<item.icon size={16} />}
+						component={Link}
+						href={item.link}
+					>
 						{item.label}
 					</MenuItem>
 				))}
@@ -190,7 +103,7 @@ export default function Avatar() {
 
 				<MenuDivider />
 
-				{menuItems.danger.map(item => (
+				{menuItems.danger.map((item) => (
 					<MenuItem
 						key={item.label}
 						leftSection={<item.icon size={16} />}
@@ -205,3 +118,65 @@ export default function Avatar() {
 		</Menu>
 	);
 }
+
+const menuItems = {
+	activity: [
+		{
+			icon: IconHeart,
+			link: `/account/wishlist`,
+			label: "My Wishlist"
+		},
+		{
+			icon: IconPackage,
+			link: `/account/orders`,
+			label: "My Orders"
+		},
+		{
+			icon: IconStar,
+			link: `/account/reviews`,
+			label: "My Reviews"
+		}
+	],
+	user: [
+		{
+			icon: IconUser,
+			link: `/account/profile`,
+			label: "Profile Settings"
+		},
+		// {
+		// 	icon: IconCoins,
+		// 	link: `/account/payment`,
+		// 	label: "Payment Details",
+		// },
+		// {
+		// 	icon: IconMapPin,
+		// 	link: `/account/addresses`,
+		// 	label: "Addresses",
+		// },
+		{
+			icon: IconBellRinging,
+			link: `/account/notifications`,
+			label: "Notifications"
+		}
+	],
+	help: [
+		{
+			icon: IconHelpCircle,
+			link: `/help`,
+			label: "Help Center"
+		},
+		{
+			icon: IconInfoCircle,
+			link: `/legal/terms-and-conditions`,
+			label: "Terms and Conditions"
+		}
+	],
+	danger: [
+		{
+			icon: IconLogout,
+			link: process.env.NEXT_PUBLIC_SIGN_OUT_URL!,
+			label: "Sign Out",
+			color: "red"
+		}
+	]
+};

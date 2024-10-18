@@ -6,49 +6,47 @@ import NextImage from "next/image";
 
 import { ActionIcon, Group, Image } from "@mantine/core";
 
-import { signIn } from "next-auth/react";
+import { signInWithProvider } from "@/handlers/event/sign-in";
 import images from "@/data/images";
 
 export default function Providers() {
 	return (
 		<Group justify="center">
-			<ActionIcon
-				size={40}
-				radius={"xl"}
-				variant="light"
-				onClick={async () =>
-					await signIn("google", {
-						redirect: false,
-						callbackUrl: "/"
-					})
-				}
-			>
-				<Group>
-					<Image
-						src={images.icons.google}
-						alt={"google"}
-						h={{ base: 24 }}
-						component={NextImage}
-						width={1920}
-						height={1080}
-						priority
-					/>
-				</Group>
-			</ActionIcon>
-
-			<ActionIcon size={40} radius={"xl"} variant="light">
-				<Group>
-					<Image
-						src={images.icons.social.facebook}
-						alt={"facebook"}
-						h={{ base: 24 }}
-						component={NextImage}
-						width={1920}
-						height={1080}
-						priority
-					/>
-				</Group>
-			</ActionIcon>
+			{providers.map((button) =>
+				getButton(button.image, button.provider)
+			)}
 		</Group>
 	);
 }
+
+const providers = [
+	{
+		image: images.icons.google,
+		provider: "google"
+	},
+	{
+		image: images.icons.social.facebook,
+		provider: "facebook"
+	}
+];
+
+const getButton = (image: string, provider: string) => (
+	<ActionIcon
+		size={40}
+		radius={"xl"}
+		variant="light"
+		onClick={() => signInWithProvider(provider)}
+	>
+		<Group>
+			<Image
+				src={image}
+				alt={provider}
+				h={{ base: 24 }}
+				component={NextImage}
+				width={1920}
+				height={1080}
+				priority
+			/>
+		</Group>
+	</ActionIcon>
+);

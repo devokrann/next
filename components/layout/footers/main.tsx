@@ -157,7 +157,6 @@ export default function Main() {
 														component={Link}
 														href={link.link}
 														title={link.label}
-														underline="never"
 														className={classes.link}
 													>
 														{link.label}
@@ -192,21 +191,11 @@ export default function Main() {
 						All Rights Reserved
 					</Text>{" "}
 					|{" "}
-					<Anchor
-						inherit
-						href="#tc"
-						underline="never"
-						className={classes.link}
-					>
+					<Anchor inherit href="#tc" className={classes.link}>
 						Terms and Conditions
 					</Anchor>{" "}
 					|{" "}
-					<Anchor
-						inherit
-						href="#pp"
-						underline="never"
-						className={classes.link}
-					>
+					<Anchor inherit href="#pp" className={classes.link}>
 						Privacy Policy
 					</Anchor>
 				</Text>

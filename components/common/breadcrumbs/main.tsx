@@ -11,15 +11,15 @@ import classes from "./main.module.scss";
 import { Link as typeLink } from "@/types/link";
 import { iconStrokeWidth } from "@/data/constants";
 
-export default function Main({ data }: { data: typeLink[] }) {
+export default function Main({ props }: { props: typeLink[] }) {
 	const active = (breadcrumb: typeLink) =>
-		data.indexOf(breadcrumb) == data.length - 1;
+		props.indexOf(breadcrumb) == props.length - 1;
 
 	return (
 		<Breadcrumbs
 			separator={<IconChevronRight size={12} stroke={iconStrokeWidth} />}
 		>
-			{data.map((item) => (
+			{props.map((item) => (
 				<Anchor
 					key={item.link}
 					component={Link}

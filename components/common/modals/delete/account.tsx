@@ -4,7 +4,6 @@ import { Modal, Button, Stack, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
 import FormUserAccountDelete from "@/components/form/user/settings/delete";
-import { useSession } from "next-auth/react";
 
 export default function Account() {
 	const [opened, { open, close }] = useDisclosure(false);

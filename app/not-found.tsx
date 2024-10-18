@@ -26,7 +26,7 @@ import appData from "@/data/app";
 
 export default function NotFound() {
 	return (
-		<LayoutSection id={"page-not-found"} containerized="responsive">
+		<LayoutSection id={"page-not-found"}>
 			<Center mih={"100vh"} py={96}>
 				<Grid
 					w={"100%"}

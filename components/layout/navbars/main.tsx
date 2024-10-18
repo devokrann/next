@@ -8,7 +8,7 @@ import NextImage from "next/image";
 import { Group, Box, Image, Button, Divider, Anchor } from "@mantine/core";
 
 import LayoutSection from "@/components/layout/section";
-import DrawerNavMain from "@/components/common/drawers/nav/main";
+import DrawerNavbarMain from "@/components/common/drawers/navbar/main";
 import MenuAvatar from "@/components/common/menus/avatar";
 import ActionIconTheme from "@/components/common/buttons/theme";
 import MenuNavbar from "@/components/common/menus/navbar";
@@ -36,7 +36,6 @@ export default function Main() {
 			{!link.subLinks ? (
 				<Anchor
 					component={Link}
-					underline="never"
 					href={link.link}
 					className={`${classes.link} ${
 						pathname == link.link ? classes.linkActive : ""
@@ -47,7 +46,6 @@ export default function Main() {
 			) : (
 				<Anchor
 					component={Link}
-					underline="never"
 					href={link.link}
 					className={`${classes.link} ${
 						pathname == link.link ||
@@ -71,12 +69,7 @@ export default function Main() {
 	));
 
 	return (
-		<LayoutSection
-			id={"partial-navbar-main"}
-			containerized="responsive"
-			shadowed
-			padded="lg"
-		>
+		<LayoutSection id={"partial-navbar-main"} shadowed padded="lg">
 			<Group justify="space-between">
 				<Group align="end" gap={"lg"}>
 					<Box>
@@ -116,12 +109,7 @@ export default function Main() {
 					<ActionIconTheme />
 				</Group>
 
-				<DrawerNavMain
-					data={sample.links.navbar}
-					hiddenFrom="sm"
-					aria-label="Toggle Navigation"
-					color="pri"
-				/>
+				<DrawerNavbarMain props={sample.links.navbar} />
 			</Group>
 		</LayoutSection>
 	);
