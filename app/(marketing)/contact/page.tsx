@@ -32,6 +32,7 @@ import AccordionFaq from "@/components/common/accordions/faq";
 import TemplateEmailContact from "@/app/email/contact";
 
 import appData from "@/data/app";
+import { iconStrokeWidth } from "@/data/constants";
 
 export const metadata: Metadata = { title: "Contact" };
 
@@ -121,7 +122,7 @@ export default async function Contact() {
 											>
 												<item.icon
 													size={24}
-													stroke={1.5}
+													stroke={iconStrokeWidth}
 													style={{ marginTop: 2 }}
 												/>
 											</ThemeIcon>
@@ -173,7 +174,7 @@ export default async function Contact() {
 													<ThemeIcon size={24}>
 														<social.icon
 															size={16}
-															stroke={2}
+															stroke={iconStrokeWidth}
 														/>
 													</ThemeIcon>
 												</Group>

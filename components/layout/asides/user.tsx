@@ -26,6 +26,7 @@ import {
 import LayoutSection from "@/components/layout/section";
 
 import { signOut } from "next-auth/react";
+import { iconStrokeWidth } from "@/data/constants";
 
 export default function User() {
 	const pathname = usePathname();
@@ -110,7 +111,7 @@ export default function User() {
 									component={Link}
 									href={item.link}
 									label={item.label}
-									leftSection={<item.icon size={16} stroke={1.5} />}
+									leftSection={<item.icon size={16} stroke={iconStrokeWidth} />}
 									rightSection={<IconChevronRight size={16} />}
 									active={item.link == pathname}
 									style={{ borderRadius: "var(--mantine-radius-md)" }}
@@ -134,7 +135,10 @@ export default function User() {
 									href={item.link}
 									label={item.label}
 									leftSection={
-										<item.icon size={16} stroke={1.5} />
+										<item.icon
+											size={16}
+											stroke={iconStrokeWidth}
+										/>
 									}
 									rightSection={
 										<IconChevronRight size={16} />
@@ -162,7 +166,7 @@ export default function User() {
 									component={Link}
 									href={item.link}
 									label={item.label}
-									leftSection={<item.icon size={16} stroke={1.5} />}
+									leftSection={<item.icon size={16} stroke={iconStrokeWidth} />}
 									rightSection={<IconChevronRight size={16} />}
 									active={item.link == pathname}
 									style={{ borderRadius: "var(--mantine-radius-md)" }}
@@ -182,7 +186,10 @@ export default function User() {
 								label={item.label}
 								color={item.color}
 								leftSection={
-									<item.icon size={16} stroke={1.5} />
+									<item.icon
+										size={16}
+										stroke={iconStrokeWidth}
+									/>
 								}
 								rightSection={<IconChevronRight size={16} />}
 								style={{

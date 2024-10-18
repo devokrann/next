@@ -12,6 +12,7 @@ import { IconX } from "@tabler/icons-react";
 
 import email from "@/utilities/validators/special/email";
 import { millToMinSec } from "@/utilities/formatters/number";
+import { iconStrokeWidth } from "@/data/constants";
 
 interface typeForgot {
 	email: string;
@@ -63,7 +64,7 @@ export default function Forgot() {
 				if (!res) {
 					notifications.show({
 						id: "password-forgot-failed-no-response",
-						icon: <IconX size={16} stroke={1.5} />,
+						icon: <IconX size={16} stroke={iconStrokeWidth} />,
 						title: "Server Unavailable",
 						message: `There was no response from the server.`,
 						variant: "failed",
@@ -72,7 +73,7 @@ export default function Forgot() {
 					if (!res.user.exists) {
 						notifications.show({
 							id: "password-forgot-failed-not-found",
-							icon: <IconX size={16} stroke={1.5} />,
+							icon: <IconX size={16} stroke={iconStrokeWidth} />,
 							title: `Not Found`,
 							message: `No account with the provided email exists.`,
 							variant: "failed",
@@ -114,7 +115,7 @@ export default function Forgot() {
 		} catch (error) {
 			notifications.show({
 				id: "password-forgot-failed",
-				icon: <IconX size={16} stroke={1.5} />,
+				icon: <IconX size={16} stroke={iconStrokeWidth} />,
 				title: `Send Failed`,
 				message: (error as Error).message,
 				variant: "failed",

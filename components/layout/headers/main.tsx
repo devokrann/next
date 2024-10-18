@@ -6,6 +6,7 @@ import LayoutSection from "@/components/layout/section";
 
 import classes from "./main.module.scss";
 import { dataContact, dataSocials } from "@/app/(marketing)/contact/page";
+import { iconStrokeWidth } from "@/data/constants";
 
 export default function Main() {
 	return (
@@ -22,7 +23,7 @@ export default function Main() {
 						<Group key={item.link} gap={6}>
 							<item.icon
 								size={20}
-								stroke={1.5}
+								stroke={iconStrokeWidth}
 								style={{ marginTop: 2 }}
 							/>
 							<Anchor

@@ -27,6 +27,7 @@ import images from "@/data/images";
 import classes from "./main.module.scss";
 import appData from "@/data/app";
 import { dataSocials } from "@/app/(marketing)/contact/page";
+import { iconStrokeWidth } from "@/data/constants";
 
 export default function Main() {
 	const linkSets = [
@@ -119,7 +120,7 @@ export default function Main() {
 											>
 												<social.icon
 													size={16}
-													stroke={2}
+													stroke={iconStrokeWidth}
 												/>
 											</ThemeIcon>
 										</Group>

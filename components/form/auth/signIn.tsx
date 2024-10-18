@@ -32,6 +32,7 @@ import email from "@/utilities/validators/special/email";
 import { signIn as authSignIn } from "next-auth/react";
 
 import { SignIn as typeSignIn } from "@/types/form";
+import { iconStrokeWidth } from "@/data/constants";
 
 export default function SignIn() {
 	const [submitted, setSubmitted] = useState(false);
@@ -76,7 +77,7 @@ export default function SignIn() {
 				if (!res?.ok) {
 					notifications.show({
 						id: "sign-in-failed-bad-response",
-						icon: <IconX size={16} stroke={1.5} />,
+						icon: <IconX size={16} stroke={iconStrokeWidth} />,
 						title: "Bad Response",
 						message: "There was a problem with the request",
 						variant: "failed"
@@ -88,7 +89,7 @@ export default function SignIn() {
 					} else {
 						notifications.show({
 							id: `sign-in-failed-${res.error}`,
-							icon: <IconX size={16} stroke={1.5} />,
+							icon: <IconX size={16} stroke={iconStrokeWidth} />,
 							title: "Authentication Error",
 							message: "Incorrect username/password",
 							variant: "failed"
@@ -98,7 +99,7 @@ export default function SignIn() {
 			} catch (error) {
 				notifications.show({
 					id: "sign-in-failed-unexpected",
-					icon: <IconX size={16} stroke={1.5} />,
+					icon: <IconX size={16} stroke={iconStrokeWidth} />,
 					title: "Unexpected Error",
 					message: (error as Error).message,
 					variant: "failed"

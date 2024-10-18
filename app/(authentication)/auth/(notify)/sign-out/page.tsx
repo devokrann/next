@@ -13,6 +13,7 @@ import LayoutSection from "@/components/layout/section";
 
 import { auth } from "@/auth";
 import { signOut } from "@/handlers/event/sign-out";
+import { iconStrokeWidth } from "@/data/constants";
 
 export const metadata: Metadata = { title: "Sign Out" };
 
@@ -56,7 +57,10 @@ export default async function SignOut() {
 							href={"/"}
 							variant="light"
 							rightSection={
-								<IconArrowRight size={16} stroke={2} />
+								<IconArrowRight
+									size={16}
+									stroke={iconStrokeWidth}
+								/>
 							}
 						>
 							Go Home

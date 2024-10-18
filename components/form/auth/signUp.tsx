@@ -38,6 +38,7 @@ import { SignUp as typeSignUp } from "@/types/form";
 
 import { signIn as authSignIn } from "next-auth/react";
 import { millToMinSec } from "@/utilities/formatters/number";
+import { iconStrokeWidth } from "@/data/constants";
 
 export default function SignUp({ userEmail }: { userEmail?: string }) {
 	const router = useRouter();
@@ -53,21 +54,21 @@ export default function SignUp({ userEmail }: { userEmail?: string }) {
 	const notification = {
 		noResponse: {
 			id: "otp-verify-failed-no-response",
-			icon: <IconX size={16} stroke={1.5} />,
+			icon: <IconX size={16} stroke={iconStrokeWidth} />,
 			title: "Server Unreachable",
 			message: `Check your network connection.`,
 			variant: "failed"
 		},
 		unauthorized: {
 			id: "otp-request-failed-not-found",
-			icon: <IconX size={16} stroke={1.5} />,
+			icon: <IconX size={16} stroke={iconStrokeWidth} />,
 			title: "Unauthorized",
 			message: `You are not allowed to perform this action.`,
 			variant: "failed"
 		},
 		verified: {
 			id: "otp-request-info-already-verified",
-			icon: <IconCheck size={16} stroke={1.5} />,
+			icon: <IconCheck size={16} stroke={iconStrokeWidth} />,
 			title: "Verified",
 			message: `The email has already been verified`,
 			variant: "success"
@@ -133,7 +134,9 @@ export default function SignUp({ userEmail }: { userEmail?: string }) {
 						} else {
 							notifications.show({
 								id: "sign-up-failed-exists",
-								icon: <IconX size={16} stroke={1.5} />,
+								icon: (
+									<IconX size={16} stroke={iconStrokeWidth} />
+								),
 								title: "Account Exists",
 								message:
 									"An account with that email already exists",
@@ -151,7 +154,7 @@ export default function SignUp({ userEmail }: { userEmail?: string }) {
 
 				notifications.show({
 					id: "sign-up-failed",
-					icon: <IconX size={16} stroke={1.5} />,
+					icon: <IconX size={16} stroke={iconStrokeWidth} />,
 					title: "Sign Up Failed",
 					message: (error as Error).message,
 					variant: "failed"
@@ -233,7 +236,12 @@ export default function SignUp({ userEmail }: { userEmail?: string }) {
 							if (!res.otp.exists) {
 								notifications.show({
 									id: "otp-verify-failed-expired",
-									icon: <IconX size={16} stroke={1.5} />,
+									icon: (
+										<IconX
+											size={16}
+											stroke={iconStrokeWidth}
+										/>
+									),
 									title: "No OTP Found",
 									message: `Request another OTP in the link provided on this page`,
 									variant: "failed"
@@ -244,7 +252,12 @@ export default function SignUp({ userEmail }: { userEmail?: string }) {
 								if (!res.otp.matches) {
 									notifications.show({
 										id: "otp-verify-failed-mismatch",
-										icon: <IconX size={16} stroke={1.5} />,
+										icon: (
+											<IconX
+												size={16}
+												stroke={iconStrokeWidth}
+											/>
+										),
 										title: "Wrong OTP",
 										message: `You have entered the wrong OTP for this email.`,
 										variant: "failed"
@@ -258,7 +271,7 @@ export default function SignUp({ userEmail }: { userEmail?: string }) {
 											icon: (
 												<IconCheck
 													size={16}
-													stroke={1.5}
+													stroke={iconStrokeWidth}
 												/>
 											),
 											title: "Account Created",
@@ -274,7 +287,10 @@ export default function SignUp({ userEmail }: { userEmail?: string }) {
 										notifications.show({
 											id: "otp-verify-failed-expired",
 											icon: (
-												<IconX size={16} stroke={1.5} />
+												<IconX
+													size={16}
+													stroke={iconStrokeWidth}
+												/>
 											),
 											title: "OTP Expired",
 											message: `Request another in the link provided on this page`,
@@ -301,7 +317,7 @@ export default function SignUp({ userEmail }: { userEmail?: string }) {
 
 			notifications.show({
 				id: "otp-verify-failed",
-				icon: <IconX size={16} stroke={1.5} />,
+				icon: <IconX size={16} stroke={iconStrokeWidth} />,
 				title: `Verification Failed`,
 				message: (error as Error).message,
 				variant: "failed"
@@ -349,7 +365,12 @@ export default function SignUp({ userEmail }: { userEmail?: string }) {
 
 							notifications.show({
 								id: "otp-request-success-new-otp-created",
-								icon: <IconCheck size={16} stroke={1.5} />,
+								icon: (
+									<IconCheck
+										size={16}
+										stroke={iconStrokeWidth}
+									/>
+								),
 								title: "New OTP Sent",
 								message: `A new code has been sent to the provided email.`,
 								variant: "success"
@@ -366,7 +387,12 @@ export default function SignUp({ userEmail }: { userEmail?: string }) {
 								!time &&
 									notifications.show({
 										id: "otp-request-failed-not-expired",
-										icon: <IconX size={16} stroke={1.5} />,
+										icon: (
+											<IconX
+												size={16}
+												stroke={iconStrokeWidth}
+											/>
+										),
 										title: "OTP Already Sent",
 										message: `Remember to check your spam/junk folder(s).`,
 										variant: "failed"
@@ -377,7 +403,12 @@ export default function SignUp({ userEmail }: { userEmail?: string }) {
 
 								notifications.show({
 									id: "otp-request-success",
-									icon: <IconCheck size={16} stroke={1.5} />,
+									icon: (
+										<IconCheck
+											size={16}
+											stroke={iconStrokeWidth}
+										/>
+									),
 									title: "New OTP Sent",
 									message: `A new code has been sent to the provided email.`,
 									variant: "success"
@@ -401,7 +432,7 @@ export default function SignUp({ userEmail }: { userEmail?: string }) {
 
 			notifications.show({
 				id: "otp-request-failed",
-				icon: <IconX size={16} stroke={1.5} />,
+				icon: <IconX size={16} stroke={iconStrokeWidth} />,
 				title: "Request Failed",
 				message: (error as Error).message,
 				variant: "failed"

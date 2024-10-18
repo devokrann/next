@@ -13,6 +13,7 @@ import text from "@/utilities/validators/special/text";
 import email from "@/utilities/validators/special/email";
 import { capitalizeWords } from "@/utilities/formatters/string";
 import phone from "@/utilities/validators/special/phone";
+import { iconStrokeWidth } from "@/data/constants";
 
 interface typeProfileDetails {
 	name?: string | null;
@@ -29,21 +30,28 @@ export default function Details() {
 		initialValues: {
 			name: session?.user?.name ? session?.user?.name : "",
 			email: session?.user?.email,
-			phone: "",
+			phone: ""
 		},
 
 		validate: {
-			name: value => (value && value?.trim().length > 0 ? text(value, 2, 255) : "Please fill out this field."),
-			email: value => value && email(value),
-			phone: value => value.trim().length > 0 && phone(value),
-		},
+			name: (value) =>
+				value && value?.trim().length > 0
+					? text(value, 2, 255)
+					: "Please fill out this field.",
+			email: (value) => value && email(value),
+			phone: (value) => value.trim().length > 0 && phone(value)
+		}
 	});
 
 	const parse = (rawData: typeProfileDetails) => {
 		return {
 			name: rawData.name && capitalizeWords(rawData.name),
 			email: rawData.email && rawData.email.trim().toLowerCase(),
-			phone: rawData.phone?.trim() ? (rawData.phone.trim().length > 0 ? rawData.phone : null) : null,
+			phone: rawData.phone?.trim()
+				? rawData.phone.trim().length > 0
+					? rawData.phone
+					: null
+				: null
 		};
 	};
 
@@ -53,34 +61,38 @@ export default function Details() {
 				if (!form.isDirty()) {
 					notifications.show({
 						id: "form-contact-failed-no-update",
-						icon: <IconX size={16} stroke={1.5} />,
+						icon: <IconX size={16} stroke={iconStrokeWidth} />,
 						autoClose: 5000,
 						title: "Failed",
 						message: "No form fields have been updated",
-						variant: "failed",
+						variant: "failed"
 					});
 				} else {
 					setSubmitted(true);
 
-					const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/account/profile", {
-						method: "POST",
-						body: JSON.stringify(parse(formValues)),
-						headers: {
-							"Content-Type": "application/json",
-							Accept: "application/json",
-						},
-					});
+					const response = await fetch(
+						process.env.NEXT_PUBLIC_API_URL +
+							"/api/account/profile",
+						{
+							method: "POST",
+							body: JSON.stringify(parse(formValues)),
+							headers: {
+								"Content-Type": "application/json",
+								Accept: "application/json"
+							}
+						}
+					);
 
 					const result = await response.json();
 
 					if (!result) {
 						notifications.show({
 							id: "profile-update-failed-no-response",
-							icon: <IconX size={16} stroke={1.5} />,
+							icon: <IconX size={16} stroke={iconStrokeWidth} />,
 							autoClose: 5000,
 							title: "Server Unavailable",
 							message: `There was no response from the server.`,
-							variant: "failed",
+							variant: "failed"
 						});
 
 						form.reset();
@@ -88,11 +100,13 @@ export default function Details() {
 						if (!result.user.exists) {
 							notifications.show({
 								id: "profile-update-failed-no-user",
-								icon: <IconX size={16} stroke={1.5} />,
+								icon: (
+									<IconX size={16} stroke={iconStrokeWidth} />
+								),
 								autoClose: 5000,
 								title: "Unauthorized",
 								message: `You're not allowed to perform this action.`,
-								variant: "failed",
+								variant: "failed"
 							});
 
 							form.reset();
@@ -102,17 +116,22 @@ export default function Details() {
 								...session,
 								user: {
 									...session?.user,
-									name: parse(formValues).name,
-								},
+									name: parse(formValues).name
+								}
 							});
 
 							notifications.show({
 								id: "profile-update-success",
-								icon: <IconCheck size={16} stroke={1.5} />,
+								icon: (
+									<IconCheck
+										size={16}
+										stroke={iconStrokeWidth}
+									/>
+								),
 								autoClose: 5000,
 								title: "Profile Updated",
 								message: "Your profile details are up to date.",
-								variant: "success",
+								variant: "success"
 							});
 						}
 					}
@@ -120,11 +139,11 @@ export default function Details() {
 			} catch (error) {
 				notifications.show({
 					id: "profile-update-failed",
-					icon: <IconX size={16} stroke={1.5} />,
+					icon: <IconX size={16} stroke={iconStrokeWidth} />,
 					autoClose: 5000,
 					title: "Submisstion Failed",
 					message: (error as Error).message,
-					variant: "failed",
+					variant: "failed"
 				});
 
 				form.reset();
@@ -135,7 +154,11 @@ export default function Details() {
 	};
 
 	return (
-		<Box component="form" onSubmit={form.onSubmit(values => handleSubmit(values))} noValidate>
+		<Box
+			component="form"
+			onSubmit={form.onSubmit((values) => handleSubmit(values))}
+			noValidate
+		>
 			<Grid>
 				<GridCol span={{ base: 12 }}>
 					<TextInput
@@ -157,7 +180,11 @@ export default function Details() {
 					/>
 				</GridCol>
 				<GridCol span={{ base: 12 }}>
-					<TextInput label={"Phone"} placeholder="Your Phone" {...form.getInputProps("phone")} />
+					<TextInput
+						label={"Phone"}
+						placeholder="Your Phone"
+						{...form.getInputProps("phone")}
+					/>
 				</GridCol>
 				<GridCol span={{ base: 6 }}>
 					<Button type="submit" loading={submitted} mt={"md"}>

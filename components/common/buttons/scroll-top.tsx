@@ -1,3 +1,4 @@
+import { iconStrokeWidth } from "@/data/constants";
 import { ActionIcon } from "@mantine/core";
 import { IconArrowUp } from "@tabler/icons-react";
 import React, { MouseEventHandler } from "react";
@@ -9,7 +10,7 @@ export default function ScrollTop({
 }) {
 	return (
 		<ActionIcon size={28} onClick={onClick}>
-			<IconArrowUp size={20} stroke={1.5} />
+			<IconArrowUp size={20} stroke={iconStrokeWidth} />
 		</ActionIcon>
 	);
 }

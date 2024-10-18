@@ -4,7 +4,14 @@ import React, { useState } from "react";
 
 import { useRouter } from "next/navigation";
 
-import { Box, Button, Center, Grid, GridCol, PasswordInput } from "@mantine/core";
+import {
+	Box,
+	Button,
+	Center,
+	Grid,
+	GridCol,
+	PasswordInput
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 
@@ -13,9 +20,14 @@ import { IconCheck, IconX } from "@tabler/icons-react";
 import password from "@/utilities/validators/special/password";
 import compare from "@/utilities/validators/special/compare";
 
-import { signOut as authSignOut, signIn as authSignIn, useSession } from "next-auth/react";
+import {
+	signOut as authSignOut,
+	signIn as authSignIn,
+	useSession
+} from "next-auth/react";
 
 import { typeParams } from "@/app/(authentication)/auth/(default)/layout";
+import { iconStrokeWidth } from "@/data/constants";
 
 interface typeReset {
 	password: string;
@@ -28,13 +40,14 @@ export default function Reset({ data }: { data: typeParams }) {
 	const form = useForm({
 		initialValues: {
 			password: "",
-			passwordConfirm: "",
+			passwordConfirm: ""
 		},
 
 		validate: {
 			password: (value, values) => password(value, 8, 24),
-			passwordConfirm: (value, values) => compare.string(value, values.password, "Password"),
-		},
+			passwordConfirm: (value, values) =>
+				compare.string(value, values.password, "Password")
+		}
 	});
 
 	const parse = (rawData: typeReset) => {
@@ -50,14 +63,15 @@ export default function Reset({ data }: { data: typeParams }) {
 				// console.log({ id: data.userId, token: data.token, ...parse(formValues) });
 
 				const response = await fetch(
-					process.env.NEXT_PUBLIC_API_URL + `/api/auth/password/reset/${data.userId}/${data.token}`,
+					process.env.NEXT_PUBLIC_API_URL +
+						`/api/auth/password/reset/${data.userId}/${data.token}`,
 					{
 						method: "POST",
 						body: JSON.stringify(parse(formValues)),
 						headers: {
 							"Content-Type": "application/json",
-							Accept: "application/json",
-						},
+							Accept: "application/json"
+						}
 					}
 				);
 
@@ -66,19 +80,19 @@ export default function Reset({ data }: { data: typeParams }) {
 				if (!res) {
 					notifications.show({
 						id: "password-reset-failed-no-response",
-						icon: <IconX size={16} stroke={1.5} />,
+						icon: <IconX size={16} stroke={iconStrokeWidth} />,
 						title: "Server Unavailable",
 						message: `There was no response from the server.`,
-						variant: "failed",
+						variant: "failed"
 					});
 				} else {
 					if (!res.user.exists) {
 						notifications.show({
 							id: "password-reset-failed-not-found",
-							icon: <IconX size={16} stroke={1.5} />,
+							icon: <IconX size={16} stroke={iconStrokeWidth} />,
 							title: `Not Found`,
 							message: `You are not allowed to perform this function.`,
-							variant: "failed",
+							variant: "failed"
 						});
 
 						form.reset();
@@ -89,10 +103,12 @@ export default function Reset({ data }: { data: typeParams }) {
 						if (!res.token.valid) {
 							notifications.show({
 								id: "password-reset-failed-invalid",
-								icon: <IconX size={16} stroke={1.5} />,
+								icon: (
+									<IconX size={16} stroke={iconStrokeWidth} />
+								),
 								title: `Invalid Link`,
 								message: `The link is broken, expired or already used.`,
-								variant: "failed",
+								variant: "failed"
 							});
 
 							form.reset();
@@ -104,25 +120,36 @@ export default function Reset({ data }: { data: typeParams }) {
 								notifications.show({
 									id: "password-reset-success",
 									withCloseButton: false,
-									icon: <IconCheck size={16} stroke={1.5} />,
+									icon: (
+										<IconCheck
+											size={16}
+											stroke={iconStrokeWidth}
+										/>
+									),
 									title: "Password Changed",
 									message: `You have successfully changed your password.`,
-									variant: "success",
+									variant: "success"
 								});
 
 								form.reset();
 
 								// sign out and redirect to sign in page
-								await authSignOut({ redirect: false, callbackUrl: "/" }).then(
-									async () => await authSignIn()
-								);
+								await authSignOut({
+									redirect: false,
+									callbackUrl: "/"
+								}).then(async () => await authSignIn());
 							} else {
 								notifications.show({
 									id: "password-reset-failed-unauthorized",
-									icon: <IconX size={16} stroke={1.5} />,
+									icon: (
+										<IconX
+											size={16}
+											stroke={iconStrokeWidth}
+										/>
+									),
 									title: `Parity Not Allowed`,
 									message: `New and previous password can't be the same.`,
-									variant: "failed",
+									variant: "failed"
 								});
 
 								form.reset();
@@ -134,10 +161,10 @@ export default function Reset({ data }: { data: typeParams }) {
 		} catch (error) {
 			notifications.show({
 				id: "password-reset-failed",
-				icon: <IconX size={16} stroke={1.5} />,
+				icon: <IconX size={16} stroke={iconStrokeWidth} />,
 				title: `Send Failed`,
 				message: (error as Error).message,
-				variant: "failed",
+				variant: "failed"
 			});
 		} finally {
 			setSending(false);
@@ -145,7 +172,11 @@ export default function Reset({ data }: { data: typeParams }) {
 	};
 
 	return (
-		<Box component="form" onSubmit={form.onSubmit(values => handleSubmit(values))} noValidate>
+		<Box
+			component="form"
+			onSubmit={form.onSubmit((values) => handleSubmit(values))}
+			noValidate
+		>
 			<Grid>
 				<GridCol span={{ base: 12, sm: 6, md: 12 }}>
 					<PasswordInput

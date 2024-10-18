@@ -5,7 +5,19 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { Anchor, Box, Button, Divider, Grid, GridCol, PasswordInput, Stack, Switch, Text, Title } from "@mantine/core";
+import {
+	Anchor,
+	Box,
+	Button,
+	Divider,
+	Grid,
+	GridCol,
+	PasswordInput,
+	Stack,
+	Switch,
+	Text,
+	Title
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 
@@ -18,6 +30,7 @@ import { Session, User } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
 
 import classes from "./notifications.module.scss";
+import { iconStrokeWidth } from "@/data/constants";
 
 export default function Notifications() {
 	const session = useSession();
@@ -29,25 +42,26 @@ export default function Notifications() {
 		initialValues: {
 			passwordCurrent: "",
 			password: "",
-			passwordConfirm: "",
+			passwordConfirm: ""
 		},
 
 		validate: {
-			passwordCurrent: value => password(value, 8, 24),
+			passwordCurrent: (value) => password(value, 8, 24),
 			password: (value, values) =>
 				value.length > 0
 					? value == values.passwordCurrent
 						? "Current and new passwords cannot be the same"
 						: password(value, 8, 24)
 					: "Please fill out this field",
-			passwordConfirm: (value, values) => compare.string(value, values.password, "Password"),
-		},
+			passwordConfirm: (value, values) =>
+				compare.string(value, values.password, "Password")
+		}
 	});
 
 	const parse = (rawData: any) => {
 		return {
 			passwordCurrent: rawData.passwordCurrent,
-			passwordNew: rawData.password,
+			passwordNew: rawData.password
 		};
 	};
 
@@ -57,17 +71,18 @@ export default function Notifications() {
 				setSending(true);
 
 				const response = await fetch(
-					process.env.NEXT_PUBLIC_API_URL + `/api/${session.data?.userId}/settings/account/password`,
+					process.env.NEXT_PUBLIC_API_URL +
+						`/api/${session.data?.userId}/settings/account/password`,
 					{
 						method: "POST",
 						body: JSON.stringify({
 							passwordCurrent: parse(formValues).passwordCurrent,
-							passwordNew: parse(formValues).passwordNew,
+							passwordNew: parse(formValues).passwordNew
 						}),
 						headers: {
 							"Content-Type": "application/json",
-							Accept: "application/json",
-						},
+							Accept: "application/json"
+						}
 					}
 				);
 
@@ -76,46 +91,54 @@ export default function Notifications() {
 				if (!result) {
 					notifications.show({
 						id: "password-reset-failed-no-response",
-						icon: <IconX size={16} stroke={1.5} />,
+						icon: <IconX size={16} stroke={iconStrokeWidth} />,
 						autoClose: 5000,
 						title: "Server Unavailable",
 						message: `There was no response from the server.`,
-						variant: "failed",
+						variant: "failed"
 					});
 				} else {
 					if (!result.user.exists) {
 						notifications.show({
 							id: "password-reset-failed-not-found",
-							icon: <IconX size={16} stroke={1.5} />,
+							icon: <IconX size={16} stroke={iconStrokeWidth} />,
 							autoClose: 5000,
 							title: `Not Found`,
 							message: `The account is not valid.`,
-							variant: "failed",
+							variant: "failed"
 						});
 
 						// sign out and redirect to sign in page
-						await signOut({ redirect: false, callbackUrl: "/" }).then(() =>
-							router.replace("/auth/sign-up")
-						);
+						await signOut({
+							redirect: false,
+							callbackUrl: "/"
+						}).then(() => router.replace("/auth/sign-up"));
 					} else {
 						if (!result.user.password.match) {
 							notifications.show({
 								id: "password-reset-failed-unauthorized",
-								icon: <IconX size={16} stroke={1.5} />,
+								icon: (
+									<IconX size={16} stroke={iconStrokeWidth} />
+								),
 								autoClose: 5000,
 								title: `Unauthorized`,
 								message: `You've entered the wrong password.`,
-								variant: "failed",
+								variant: "failed"
 							});
 						} else {
 							notifications.show({
 								id: "password-reset-success",
 								withCloseButton: false,
-								icon: <IconCheck size={16} stroke={1.5} />,
+								icon: (
+									<IconCheck
+										size={16}
+										stroke={iconStrokeWidth}
+									/>
+								),
 								autoClose: 5000,
 								title: "Password Changed",
 								message: `You have successfully cahnged your password.`,
-								variant: "success",
+								variant: "success"
 							});
 						}
 
@@ -126,11 +149,11 @@ export default function Notifications() {
 		} catch (error) {
 			notifications.show({
 				id: "password-reset-failed",
-				icon: <IconX size={16} stroke={1.5} />,
+				icon: <IconX size={16} stroke={iconStrokeWidth} />,
 				autoClose: 5000,
 				title: `Send Failed`,
 				message: (error as Error).message,
-				variant: "failed",
+				variant: "failed"
 			});
 		} finally {
 			setSending(false);
@@ -147,7 +170,11 @@ export default function Notifications() {
 	);
 
 	return (
-		<Box component="form" onSubmit={form.onSubmit(values => handleSubmit(values))} noValidate>
+		<Box
+			component="form"
+			onSubmit={form.onSubmit((values) => handleSubmit(values))}
+			noValidate
+		>
 			<Grid gutter={40}>
 				<GridCol span={12}>
 					<Grid>
@@ -163,21 +190,27 @@ export default function Notifications() {
 
 						<GridCol span={{ base: 12 }}>
 							<Switch
-								classNames={{ body: classes.body, labelWrapper: classes.labelWrapper }}
+								classNames={{
+									body: classes.body,
+									labelWrapper: classes.labelWrapper
+								}}
 								labelPosition="left"
 								label={getLabel({
 									title: "Weekly Notification",
-									desc: "Various versions have evolved over the years, sometimes by accident, sometimes on purpose.",
+									desc: "Various versions have evolved over the years, sometimes by accident, sometimes on purpose."
 								})}
 							/>
 						</GridCol>
 						<GridCol span={{ base: 12 }}>
 							<Switch
-								classNames={{ body: classes.body, labelWrapper: classes.labelWrapper }}
+								classNames={{
+									body: classes.body,
+									labelWrapper: classes.labelWrapper
+								}}
 								labelPosition="left"
 								label={getLabel({
 									title: "Account Summary",
-									desc: "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis eguris eu sollicitudin massa.",
+									desc: "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis eguris eu sollicitudin massa."
 								})}
 							/>
 						</GridCol>
@@ -198,20 +231,26 @@ export default function Notifications() {
 
 						<GridCol span={{ base: 12 }}>
 							<Switch
-								classNames={{ body: classes.body, labelWrapper: classes.labelWrapper }}
+								classNames={{
+									body: classes.body,
+									labelWrapper: classes.labelWrapper
+								}}
 								labelPosition="left"
 								label={getLabel({
-									title: "Text messages",
+									title: "Text messages"
 								})}
 							/>
 						</GridCol>
 						<GridCol span={{ base: 12 }}>
 							<Switch
-								classNames={{ body: classes.body, labelWrapper: classes.labelWrapper }}
+								classNames={{
+									body: classes.body,
+									labelWrapper: classes.labelWrapper
+								}}
 								labelPosition="left"
 								label={getLabel({
 									title: "Call before checkout",
-									desc: "We'll only call if there are pending changes.",
+									desc: "We'll only call if there are pending changes."
 								})}
 							/>
 						</GridCol>
@@ -219,7 +258,12 @@ export default function Notifications() {
 				</GridCol>
 
 				<GridCol span={{ base: 6 }}>
-					<Button type="submit" color="pri" loading={sending} mt={"md"}>
+					<Button
+						type="submit"
+						color="pri"
+						loading={sending}
+						mt={"md"}
+					>
 						{sending ? "Updating" : "Update"}
 					</Button>
 				</GridCol>

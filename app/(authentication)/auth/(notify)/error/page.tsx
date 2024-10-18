@@ -10,6 +10,7 @@ import LayoutSection from "@/components/layout/section";
 
 import { IconArrowRight } from "@tabler/icons-react";
 import { signIn } from "@/handlers/event/sign-in";
+import { iconStrokeWidth } from "@/data/constants";
 
 export const metadata: Metadata = { title: "Authentication Error" };
 
@@ -49,7 +50,10 @@ export default async function SignOut() {
 							href={"/"}
 							variant="light"
 							rightSection={
-								<IconArrowRight size={16} stroke={2} />
+								<IconArrowRight
+									size={16}
+									stroke={iconStrokeWidth}
+								/>
 							}
 						>
 							Back Home

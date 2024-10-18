@@ -24,6 +24,7 @@ import links from "@/data/links";
 import classes from "./main.module.scss";
 import { usePathname } from "next/navigation";
 import { IconChevronDown } from "@tabler/icons-react";
+import { iconStrokeWidth } from "@/data/constants";
 
 export default function Main() {
 	const { data: session } = useSession();
@@ -60,7 +61,7 @@ export default function Main() {
 						<span>{link.label}</span>
 						<IconChevronDown
 							size={16}
-							stroke={1.5}
+							stroke={iconStrokeWidth}
 							style={{ marginTop: 2 }}
 						/>
 					</Group>
