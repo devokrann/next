@@ -1,14 +1,14 @@
 export const capitalizeWord = (value: string) =>
-	value.trim().toLowerCase().charAt(0).toUpperCase() + value.trim().toLowerCase().slice(1);
+	value.trim().toLowerCase().charAt(0).toUpperCase() +
+	value.trim().toLowerCase().slice(1);
 
-export const capitalizeWords = (words: string) => words.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
-
-export const joinIds = (productId: string, variantId: string) => `${productId}-${variantId}`;
+export const capitalizeWords = (words: string) =>
+	words.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
 
 export const initialize = (words: string) =>
 	words
 		.split(" ")
-		.map(word => word.charAt(0).toUpperCase())
+		.map((word) => word.charAt(0).toUpperCase())
 		.join("");
 
 export const crumbify = (url: string) => {
@@ -17,13 +17,13 @@ export const crumbify = (url: string) => {
 	let currentLink = "";
 
 	url.split("/")
-		.filter(crumb => crumb != "")
-		.map(item => {
+		.filter((crumb) => crumb != "")
+		.map((item) => {
 			currentLink += `/${item}`;
 			item.length < 24 &&
 				crumbs.push({
 					link: currentLink,
-					label: `${capitalizeWords(item.replaceAll("-", " "))}`,
+					label: `${capitalizeWords(item.replaceAll("-", " "))}`
 				});
 		});
 
@@ -37,7 +37,8 @@ export const linkify = (string: string) =>
 		.replace(/[^a-zA-Z0-9-]/g, "")
 		.replace(/-+/g, "-");
 
-export const unlinkify = (string: string) => capitalizeWords(string.toLowerCase().replaceAll("-", " "));
+export const unlinkify = (string: string) =>
+	capitalizeWords(string.toLowerCase().replaceAll("-", " "));
 
 export const hasDatePassed = (dateString: string) => {
 	// Split the input string into month and year

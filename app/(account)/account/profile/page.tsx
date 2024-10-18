@@ -1,12 +1,20 @@
 import React from "react";
 
-import { Anchor, Divider, Grid, GridCol, Stack, Text, Title } from "@mantine/core";
+import {
+	Anchor,
+	Divider,
+	Grid,
+	GridCol,
+	Stack,
+	Text,
+	Title
+} from "@mantine/core";
 
-import LayoutPage from "@/components/layouts/page";
-import LayoutSection from "@/components/layouts/section";
-import FormUserProfileDetails from "@/components/partials/forms/user/profile/details";
-import FormUserAccountPassword from "@/components/partials/forms/user/settings/password";
-import ModalDeleteAccount from "@/components/modal/delete/account";
+import LayoutPage from "@/components/layout/page";
+import LayoutSection from "@/components/layout/section";
+import FormUserProfileDetails from "@/components/form/user/profile/details";
+import FormUserAccountPassword from "@/components/form/user/settings/password";
+import ModalDeleteAccount from "@/components/common/modals/delete/account";
 
 import { redirect } from "next/navigation";
 import { Metadata } from "next";
@@ -60,11 +68,17 @@ export default async function Profile() {
 					<Stack gap={"xs"}>
 						<Text>
 							Our deletion process complies with the{" "}
-							<Anchor inherit href="https://gdpr.eu/" target="_blank">
+							<Anchor
+								inherit
+								href="https://gdpr.eu/"
+								target="_blank"
+							>
 								GDPR regulations
 							</Anchor>
-							, which requires us to permanently delete user data upon request. As such, deleting your
-							account will permanently remove all data associated with it and therefore be irreversible.
+							, which requires us to permanently delete user data
+							upon request. As such, deleting your account will
+							permanently remove all data associated with it and
+							therefore be irreversible.
 						</Text>
 					</Stack>
 

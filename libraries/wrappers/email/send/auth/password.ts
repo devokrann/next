@@ -1,8 +1,8 @@
 import appData from "@/data/app";
 import resend from "@/libraries/resend";
 
-import TemplateEmailCodeForgot from "@/components/templates/email/code/forgot";
-import TemplateEmailNofificationChanged from "@/components/templates/email/notification/changed";
+import TemplateEmailCodeForgot from "@/app/email/code/forgot";
+import TemplateEmailNofificationChanged from "@/app/email/notification/changed";
 
 export const emailSendPasswordForgot = async (params: {
 	otl: string;

@@ -1,14 +1,14 @@
 import React from "react";
 
-import LayoutBody from "@/components/layouts/body";
-import NavbarMain from "@/components/partials/navbars/main";
-import FooterMain from "@/components/partials/footers/main";
-import HeaderMain from "@/components/partials/headers/main";
-import AsideUser from "@/components/partials/asides/user";
-import LayoutSection from "@/components/layouts/section";
-import NavbarUser from "@/components/partials/navbars/user";
+import LayoutBody from "@/components/layout/body";
+import NavbarMain from "@/components/layout/navbars/main";
+import FooterMain from "@/components/layout/footers/main";
+import HeaderMain from "@/components/layout/headers/main";
+import AsideUser from "@/components/layout/asides/user";
+import LayoutSection from "@/components/layout/section";
+import NavbarUser from "@/components/layout/navbars/user";
 
-import AffixTop from "@/components/affixi/top";
+import AffixTop from "@/components/common/affixi/top";
 
 import appData from "@/data/app";
 
@@ -16,10 +16,15 @@ import { Metadata } from "next";
 
 import { Box, Divider, Stack } from "@mantine/core";
 
-export const metadata: Metadata = { title: { default: "Account", template: `%s - Account - ${appData.name.app}` } };
+export const metadata: Metadata = {
+	title: {
+		default: "Account",
+		template: `%s - Account - ${appData.name.app}`
+	}
+};
 
 export default function LayoutAccount({
-	children, // will be a page or nested layout
+	children // will be a page or nested layout
 }: {
 	children: React.ReactNode;
 }) {
@@ -32,8 +37,8 @@ export default function LayoutAccount({
 				left: {
 					component: <AsideUser />,
 					width: { md: 30, lg: 22.5 },
-					withBorder: true,
-				},
+					withBorder: true
+				}
 			}}
 			footer={<FooterMain />}
 		>

@@ -1,12 +1,12 @@
 import React from "react";
 
-import LayoutPage from "@/components/layouts/page";
-import LayoutSection from "@/components/layouts/section";
+import LayoutPage from "@/components/layout/page";
+import LayoutSection from "@/components/layout/section";
 import { Metadata } from "next";
 
 import { Grid, GridCol, Stack, Title } from "@mantine/core";
 
-import FormUserNotifications from "@/components/partials/forms/user/notifications";
+import FormUserNotifications from "@/components/form/user/notifications";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 

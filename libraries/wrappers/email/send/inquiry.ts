@@ -1,6 +1,6 @@
 import resend from "@/libraries/resend";
 import { Contact } from "@/types/form";
-import TemplateEmailContact from "@/components/templates/email/contact";
+import TemplateEmailContact from "@/app/email/contact";
 
 export const emailSendInquiry = async (params: Contact) => {
 	// switch to 'resend.general' when your domain is configured
