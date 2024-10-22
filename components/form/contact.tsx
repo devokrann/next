@@ -1,124 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 
-import {
-	Box,
-	Button,
-	Center,
-	Grid,
-	GridCol,
-	TextInput,
-	Textarea
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { notifications } from "@mantine/notifications";
-
-import { IconCheck, IconX } from "@tabler/icons-react";
-
-import text from "@/utilities/validators/special/text";
-import email from "@/utilities/validators/special/email";
-import phone from "@/utilities/validators/special/phone";
-
-import { capitalizeWord, capitalizeWords } from "@/utilities/formatters/string";
-import { iconStrokeWidth } from "@/data/constants";
+import { Box, Button, Center, Grid, GridCol, TextInput, Textarea } from "@mantine/core";
+import { useFormContact } from "@/hooks/form/contact";
 
 export default function Contact() {
-	const [submitted, setSubmitted] = useState(false);
-
-	const form = useForm({
-		initialValues: {
-			fname: "",
-			lname: "",
-			email: "",
-			phone: "",
-			subject: "",
-			message: ""
-		},
-
-		validate: {
-			fname: (value) => text(value, 2, 24),
-			lname: (value) => text(value, 2, 24),
-			email: (value) => email(value),
-			phone: (value) => value.trim().length > 0 && phone(value),
-			subject: (value) => text(value, 3, 255, true),
-			message: (value) => text(value, 3, 2048, true)
-		}
-	});
-
-	const parse = () => {
-		return {
-			fname: capitalizeWord(form.values.fname.trim()),
-			lname: capitalizeWord(form.values.lname.trim()),
-			email: form.values.email.trim().toLowerCase(),
-			phone: form.values.phone?.trim()
-				? form.values.phone.trim().length > 0
-					? form.values.phone
-					: null
-				: null,
-			subject: capitalizeWords(form.values.subject.trim()),
-			message: form.values.message.trim()
-		};
-	};
-
-	const handleSubmit = async () => {
-		if (form.isValid()) {
-			try {
-				setSubmitted(true);
-
-				await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/contact", {
-					method: "POST",
-					body: JSON.stringify(parse()),
-					headers: {
-						"Content-Type": "application/json",
-						Accept: "application/json"
-					}
-				}).then((res) => {
-					if (!res) {
-						notifications.show({
-							id: "form-contact-failed-no-response",
-							icon: <IconX size={16} stroke={iconStrokeWidth} />,
-							autoClose: 5000,
-							title: "Server Unavailable",
-							message: `There was no response from the server.`,
-							variant: "failed"
-						});
-					} else {
-						notifications.show({
-							id: "form-contact-success",
-							icon: (
-								<IconCheck size={16} stroke={iconStrokeWidth} />
-							),
-							autoClose: 5000,
-							title: "Form Submitted",
-							message:
-								"Someone will get back to you within 24 hours",
-							variant: "success"
-						});
-					}
-				});
-			} catch (error) {
-				notifications.show({
-					id: "form-contact-failed",
-					icon: <IconX size={16} stroke={iconStrokeWidth} />,
-					autoClose: 5000,
-					title: "Submisstion Failed",
-					message: (error as Error).message,
-					variant: "failed"
-				});
-			} finally {
-				form.reset();
-				setSubmitted(false);
-			}
-		}
-	};
+	const { form, submitted, handleSubmit } = useFormContact();
 
 	return (
-		<Box
-			component="form"
-			onSubmit={form.onSubmit((values) => handleSubmit())}
-			noValidate
-		>
+		<Box component="form" onSubmit={form.onSubmit(handleSubmit)} noValidate>
 			<Grid pb={"md"}>
 				<GridCol span={{ base: 12, xs: 6, sm: 12, md: 6 }}>
 					<TextInput
@@ -137,19 +28,10 @@ export default function Contact() {
 					/>
 				</GridCol>
 				<GridCol span={{ base: 12, xs: 6, sm: 12, md: 6 }}>
-					<TextInput
-						required
-						label={"Email"}
-						placeholder="Your Email"
-						{...form.getInputProps("email")}
-					/>
+					<TextInput required label={"Email"} placeholder="Your Email" {...form.getInputProps("email")} />
 				</GridCol>
 				<GridCol span={{ base: 12, xs: 6, sm: 12, md: 6 }}>
-					<TextInput
-						label={"Phone"}
-						placeholder="Your Phone"
-						{...form.getInputProps("phone")}
-					/>
+					<TextInput label={"Phone"} placeholder="Your Phone" {...form.getInputProps("phone")} />
 				</GridCol>
 				<GridCol span={12}>
 					<TextInput
@@ -187,11 +69,7 @@ export default function Contact() {
 						</GridCol>
 						<GridCol span={{ base: 6 }}>
 							<Center>
-								<Button
-									fullWidth
-									type="submit"
-									loading={submitted}
-								>
+								<Button fullWidth type="submit" loading={submitted}>
 									{submitted ? "Sending" : "Send"}
 								</Button>
 							</Center>

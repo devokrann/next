@@ -22,11 +22,26 @@ export interface SignIn {
 	remember: false;
 }
 
+export interface Profile {
+	name: string;
+	email: string;
+	phone: string;
+}
+
+export interface AccountDelete {
+	password: string;
+}
+
+export interface AccountPassword {
+	passwordCurrent: string;
+	passwordNew: string;
+}
+
 export interface Contact {
 	fname: string;
 	lname: string;
 	email: string;
-	phone: string | null;
+	phone: string;
 	subject: string;
 	message: string;
 }

@@ -2,36 +2,20 @@
 
 import React from "react";
 
-import {
-	Box,
-	Button,
-	Center,
-	Grid,
-	GridCol,
-	Stack,
-	Text,
-	TextInput,
-	Transition
-} from "@mantine/core";
+import { Box, Button, Center, Grid, GridCol, Stack, Text, TextInput, Transition } from "@mantine/core";
 import { useAuthPasswordForgot } from "@/hooks/form/auth/password";
 
 import WrapperTransition from "@/components/wrapper/transition";
 
 export default function Forgot() {
-	const { form, handleSubmit, sending, requested, time } =
-		useAuthPasswordForgot();
+	const { form, handleSubmit, sending, requested, time } = useAuthPasswordForgot();
 
 	return (
 		<form noValidate onSubmit={form.onSubmit(handleSubmit)}>
 			<Stack gap={"xl"}>
 				<Grid>
 					<GridCol span={{ base: 12, sm: 12 }}>
-						<TextInput
-							required
-							label={"Email"}
-							placeholder="Your Email"
-							{...form.getInputProps("email")}
-						/>
+						<TextInput required label={"Email"} placeholder="Your Email" {...form.getInputProps("email")} />
 					</GridCol>
 					<GridCol span={{ base: 12 }}>
 						<Center>
@@ -42,34 +26,22 @@ export default function Forgot() {
 								loading={sending}
 								mt={"md"}
 							>
-								{sending ? "Sending" : "Send"}
+								{sending ? "Sending Reset Link" : "Send Reset Link"}
 							</Button>
 						</Center>
 					</GridCol>
 				</Grid>
 
-				<WrapperTransition
-					mounted={time != undefined}
-					transition="fade"
-				>
-					<Box
-						style={{ transition: "0.25s all ease" }}
-						opacity={requested ? "0" : "1"}
-					>
+				<WrapperTransition mounted={time != undefined} transition="fade">
+					<Box style={{ transition: "0.25s all ease" }} opacity={requested ? "0" : "1"}>
 						<Stack ta={"center"} fz={{ base: "xs", xs: "sm" }}>
 							<Text c={"dimmed"} inherit>
-								To prevent our system from abuse, we limit the
-								number of times a user can request a password
-								reset link.
+								To prevent our system from abuse, we limit the number of times a user can request a
+								password reset link.
 							</Text>
 							<Text c={"dimmed"} inherit>
 								You can request a new link in{" "}
-								<Text
-									component="span"
-									inherit
-									c={"pri"}
-									fw={500}
-								>
+								<Text component="span" inherit c={"pri"} fw={500}>
 									{time?.minutes} minutes
 								</Text>
 								.

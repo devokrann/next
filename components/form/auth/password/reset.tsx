@@ -2,14 +2,7 @@
 
 import React from "react";
 
-import {
-	Box,
-	Button,
-	Center,
-	Grid,
-	GridCol,
-	PasswordInput
-} from "@mantine/core";
+import { Box, Button, Center, Grid, GridCol, PasswordInput } from "@mantine/core";
 
 import { typeParams } from "@/app/(authentication)/auth/(default)/layout";
 import { useAuthPasswordReset } from "@/hooks/form/auth/password";
@@ -45,7 +38,7 @@ export default function Reset({ data }: { data: typeParams }) {
 							loading={sending}
 							mt={"md"}
 						>
-							{sending ? "Updating" : "Update"}
+							{sending ? "Resetting" : "Reset"}
 						</Button>
 					</Center>
 				</GridCol>

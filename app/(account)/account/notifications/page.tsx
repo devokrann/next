@@ -6,7 +6,7 @@ import { Metadata } from "next";
 
 import { Grid, GridCol, Stack, Title } from "@mantine/core";
 
-import FormUserNotifications from "@/components/form/user/notifications";
+import FormUserNotifications from "@/components/form/user/account/notifications";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
