@@ -1,4 +1,4 @@
-import { Timer } from "@/types/date";
+import { Timer } from "@/types/time";
 
 export const getTimeRemaining = (targetDate: Date): Timer | null => {
 	const now = new Date();

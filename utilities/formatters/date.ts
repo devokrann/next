@@ -1,14 +1,39 @@
-export const parseDateYmd = (dateStr: Date) => {
-	const date = new Date(dateStr);
+import { FormatOptions } from "@/types/date";
 
-	// Format date as 'yy/mm.dd'
-	const formattedDate = date.toLocaleDateString("en-GB", {
-		year: "2-digit",
-		month: "2-digit",
-		day: "2-digit"
-	});
+export const getRegionalDate = (date: Date, options: FormatOptions = {}) => {
+	// Handle both string and Date inputs
+	const dateObj = typeof date === "string" ? new Date(date) : date;
 
-	const finalFormat = formattedDate.replace("/", "/").replace("/", ".");
+	// Check if the date is valid
+	if (isNaN(dateObj.getTime())) {
+		throw new Error("---> utility error - (invalid date)");
+	}
 
-	return finalFormat; // "24/09.16"
+	const {
+		locale = Intl.DateTimeFormat().resolvedOptions().locale,
+		timezone = Intl.DateTimeFormat().resolvedOptions().timeZone,
+		dateStyle,
+		timeStyle,
+		monthFormat = "numeric",
+		yearFormat = "numeric"
+	} = options;
+
+	return new Intl.DateTimeFormat(locale, {
+		timeZone: timezone,
+		dateStyle,
+		timeStyle,
+		month: monthFormat,
+		year: yearFormat,
+		day: "numeric"
+	}).format(dateObj);
+
+	// Output: 10/22/2024 | 22/10/2024 | 22.10.2024 | ... (depending on locale)
+};
+
+export const isFutureDate = (date: Date): boolean => {
+	return date.getTime() > new Date().getTime();
+};
+
+export const isPastDate = (date: Date): boolean => {
+	return date.getTime() < new Date().getTime();
 };

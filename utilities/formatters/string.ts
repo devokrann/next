@@ -1,9 +1,7 @@
 export const capitalizeWord = (value: string) =>
-	value.trim().toLowerCase().charAt(0).toUpperCase() +
-	value.trim().toLowerCase().slice(1);
+	value.trim().toLowerCase().charAt(0).toUpperCase() + value.trim().toLowerCase().slice(1);
 
-export const capitalizeWords = (words: string) =>
-	words.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
+export const capitalizeWords = (words: string) => words.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
 
 export const initialize = (words: string) =>
 	words
@@ -32,33 +30,11 @@ export const crumbify = (url: string) => {
 
 export const linkify = (string: string) =>
 	string
-		.toLowerCase()
-		.replace(/\s+/g, "-")
-		.replace(/[^a-zA-Z0-9-]/g, "")
-		.replace(/-+/g, "-");
+		.trim() // Trim whitespace
+		.toLowerCase() // Convert to lowercase
+		.replace(/[^a-z0-9\s-]/g, "") // Remove special characters
+		.replace(/\s+/g, "-") // Replace spaces and consecutive spaces with a single dash
+		.replace(/-+/g, "-") // Replace multiple dashes with a single dash
+		.replace(/^-|-$/g, ""); // Remove leading and trailing dashes
 
-export const unlinkify = (string: string) =>
-	capitalizeWords(string.toLowerCase().replaceAll("-", " "));
-
-export const hasDatePassed = (dateString: string) => {
-	// Split the input string into month and year
-	const [month, year] = dateString.split("/").map(Number);
-
-	// Get the current date
-	const currentDate = new Date();
-	const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-indexed
-	const currentYear = currentDate.getFullYear() % 100; // Get last two digits of the year
-
-	// Check if the provided year is in the past
-	if (year < currentYear) {
-		return true;
-	}
-
-	// If the year is the same, check if the month has passed
-	if (year === currentYear && month < currentMonth) {
-		return true;
-	}
-
-	// Otherwise, the date has not passed
-	return false;
-};
+export const unlinkify = (string: string) => capitalizeWords(string.replaceAll("-", " "));
