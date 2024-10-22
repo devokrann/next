@@ -18,12 +18,12 @@ import { Box, Divider, Stack } from "@mantine/core";
 
 export const metadata: Metadata = {
 	title: {
-		default: "Account",
-		template: `%s - Account - ${appData.name.app}`
+		default: "User",
+		template: `%s - User - ${appData.name.app}`
 	}
 };
 
-export default function LayoutAccount({
+export default function LayoutUser({
 	children // will be a page or nested layout
 }: {
 	children: React.ReactNode;
@@ -42,7 +42,7 @@ export default function LayoutAccount({
 			}}
 			footer={<FooterMain />}
 		>
-			<LayoutSection id={"layout-account"} component={"main"} padded>
+			<LayoutSection id={"layout-user"} component={"main"} padded>
 				<Stack gap={48}>
 					<Box hiddenFrom="md">
 						<NavbarUser />

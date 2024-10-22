@@ -4,7 +4,7 @@ import { Anchor, Divider, Grid, GridCol, Stack, Text, Title } from "@mantine/cor
 
 import LayoutPage from "@/components/layout/page";
 import LayoutSection from "@/components/layout/section";
-import FormUserProfileDetails from "@/components/form/user/profile/details";
+import FormUserProfile from "@/components/form/user/profile";
 import FormUserAccountPassword from "@/components/form/user/account/password";
 import ModalDeleteAccount from "@/components/common/modals/delete/account";
 
@@ -30,7 +30,7 @@ export default async function Profile() {
 					</GridCol>
 
 					<GridCol span={{ base: 12, md: 8, lg: 5.5 }}>
-						<FormUserProfileDetails />
+						<FormUserProfile />
 					</GridCol>
 				</Grid>
 			</LayoutSection>

@@ -6,7 +6,7 @@ import { Metadata } from "next";
 
 import { Grid, GridCol, Stack, Title } from "@mantine/core";
 
-import FormUserNotifications from "@/components/form/user/account/notifications";
+import FormUserAccountNotifications from "@/components/form/user/account/notifications";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
@@ -26,7 +26,7 @@ export default async function Notifications() {
 							<Title order={2} fw={"bold"}>
 								Notification Settings
 							</Title>
-							<FormUserNotifications />
+							<FormUserAccountNotifications />
 						</Stack>
 					</GridCol>
 				</Grid>
