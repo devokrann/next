@@ -5,10 +5,10 @@ import React from "react";
 import { Box, Button, Divider, Grid, GridCol, Stack, Switch, Text, Title } from "@mantine/core";
 
 import classes from "./notifications.module.scss";
-import { useUserAccountNotifications } from "@/hooks/form/user/account/notifications";
+import { useFormUserAccountNotifications } from "@/hooks/form/user/account/notifications";
 
 export default function Notifications() {
-	const { form, sending, handleSubmit } = useUserAccountNotifications();
+	const { form, sending, handleSubmit } = useFormUserAccountNotifications();
 
 	const getLabel = ({ title, desc }: { title: string; desc?: string }) => (
 		<Stack gap={0}>

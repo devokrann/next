@@ -3,10 +3,10 @@
 import React from "react";
 
 import { Box, Button, Group, PasswordInput, Stack } from "@mantine/core";
-import { useUserAccountDelete } from "@/hooks/form/user/account/delete";
+import { useFormUserAccountDelete } from "@/hooks/form/user/account/delete";
 
 export default function Delete() {
-	const { form, submitted, handleSubmit } = useUserAccountDelete();
+	const { form, submitted, handleSubmit } = useFormUserAccountDelete();
 
 	return (
 		<Box component="form" onSubmit={form.onSubmit(handleSubmit)} noValidate>

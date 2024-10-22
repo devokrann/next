@@ -3,12 +3,12 @@
 import React from "react";
 
 import { Box, Button, Center, Grid, GridCol, Stack, Text, TextInput, Transition } from "@mantine/core";
-import { useAuthPasswordForgot } from "@/hooks/form/auth/password";
+import { useFormAuthPasswordForgot } from "@/hooks/form/auth/password";
 
 import WrapperTransition from "@/components/wrapper/transition";
 
 export default function Forgot() {
-	const { form, handleSubmit, sending, requested, time } = useAuthPasswordForgot();
+	const { form, handleSubmit, sending, requested, time } = useFormAuthPasswordForgot();
 
 	return (
 		<form noValidate onSubmit={form.onSubmit(handleSubmit)}>

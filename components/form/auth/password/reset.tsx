@@ -5,10 +5,10 @@ import React from "react";
 import { Box, Button, Center, Grid, GridCol, PasswordInput } from "@mantine/core";
 
 import { typeParams } from "@/app/(authentication)/auth/(default)/layout";
-import { useAuthPasswordReset } from "@/hooks/form/auth/password";
+import { useFormAuthPasswordReset } from "@/hooks/form/auth/password";
 
 export default function Reset({ data }: { data: typeParams }) {
-	const { form, handleSubmit, sending } = useAuthPasswordReset(data);
+	const { form, handleSubmit, sending } = useFormAuthPasswordReset(data);
 
 	return (
 		<Box component="form" onSubmit={form.onSubmit(handleSubmit)} noValidate>

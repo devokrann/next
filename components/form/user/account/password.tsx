@@ -5,10 +5,10 @@ import React from "react";
 import Link from "next/link";
 
 import { Anchor, Box, Button, Grid, GridCol, PasswordInput } from "@mantine/core";
-import { useUserAccountPassword } from "@/hooks/form/user/account/password";
+import { useFormUserAccountPassword } from "@/hooks/form/user/account/password";
 
 export default function Password() {
-	const { form, sending, handleSubmit } = useUserAccountPassword();
+	const { form, sending, handleSubmit } = useFormUserAccountPassword();
 
 	return (
 		<Box component="form" onSubmit={form.onSubmit(handleSubmit)} noValidate>

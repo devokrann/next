@@ -3,10 +3,10 @@
 import React from "react";
 
 import { Box, Button, Grid, GridCol, TextInput } from "@mantine/core";
-import { useUserProfile } from "@/hooks/form/user/profile";
+import { useFormUserProfile } from "@/hooks/form/user/profile";
 
-export default function Details() {
-	const { form, submitted, handleSubmit, session } = useUserProfile();
+export default function Profile() {
+	const { form, submitted, handleSubmit, session } = useFormUserProfile();
 
 	return (
 		<Box component="form" onSubmit={form.onSubmit(handleSubmit)} noValidate>
