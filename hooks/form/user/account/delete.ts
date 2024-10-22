@@ -7,7 +7,7 @@ import { deleteAccount } from "@/handlers/request/user/account";
 import { signOut as handleSignOut } from "@/handlers/event/sign-out";
 import { AccountDelete } from "@/types/form";
 
-export const useUserAccountDelete = () => {
+export const useFormUserAccountDelete = () => {
 	const [submitted, setSubmitted] = useState(false);
 
 	const form: UseFormReturnType<AccountDelete> = useForm({

@@ -14,7 +14,7 @@ import compare from "@/utilities/validators/special/compare";
 import { signOut as handleSignOut } from "@/handlers/event/sign-out";
 import { PasswordForgot as FormAuthPasswordForgot, PasswordReset as FormAuthPasswordReset } from "@/types/form";
 
-export const useAuthPasswordForgot = () => {
+export const useFormAuthPasswordForgot = () => {
 	const [sending, setSending] = useState(false);
 	const [requested, setRequested] = useState(false);
 	const [time, setTime] = useState<MinSec | null>(null);
@@ -108,7 +108,7 @@ export const useAuthPasswordForgot = () => {
 	return { form, handleSubmit, sending, requested, time };
 };
 
-export const useAuthPasswordReset = (params: { userId: string; token: string }) => {
+export const useFormAuthPasswordReset = (params: { userId: string; token: string }) => {
 	const [sending, setSending] = useState(false);
 
 	const form: UseFormReturnType<FormAuthPasswordReset> = useForm({

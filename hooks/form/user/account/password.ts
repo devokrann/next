@@ -10,7 +10,7 @@ import { AccountPassword, PasswordReset } from "@/types/form";
 import { updateAccountPassword } from "@/handlers/request/user/account";
 import { authUrls } from "@/data/constants";
 
-export const useUserAccountPassword = () => {
+export const useFormUserAccountPassword = () => {
 	const [sending, setSending] = useState(false);
 
 	const form: UseFormReturnType<PasswordReset & { passwordCurrent: string }> = useForm({

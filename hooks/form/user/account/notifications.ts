@@ -5,7 +5,7 @@ import { useForm, UseFormReturnType } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import { useState } from "react";
 
-export const useUserAccountNotifications = () => {
+export const useFormUserAccountNotifications = () => {
 	const [sending, setSending] = useState(false);
 
 	const form: UseFormReturnType<any> = useForm({

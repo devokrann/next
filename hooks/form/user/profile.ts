@@ -11,7 +11,7 @@ import IconNotificationSuccess from "@/components/common/icons/notification/succ
 import { notifications } from "@mantine/notifications";
 import { updateProfile } from "@/handlers/request/user/profile";
 
-export const useUserProfile = () => {
+export const useFormUserProfile = () => {
 	const { data: session, update } = useSession();
 
 	const [submitted, setSubmitted] = useState(false);
