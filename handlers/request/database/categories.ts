@@ -1,11 +1,11 @@
 import { CategoryCreate, CategoryGet } from "@/types/models/category";
-import { enumRequest } from "@/types/enums";
+import { Request as EnumRequest } from "@/types/enums";
 import { apiUrl } from "@/data/constants";
 
 export const getCategories = async () => {
 	try {
 		const request = new Request(`${apiUrl}/categories`, {
-			method: enumRequest.GET
+			method: EnumRequest.GET
 		});
 
 		const response = await fetch(request);
@@ -21,7 +21,7 @@ export const getCategories = async () => {
 export const addCategory = async (category: CategoryCreate) => {
 	try {
 		const request = new Request(`${apiUrl}/categories/new-category`, {
-			method: enumRequest.POST,
+			method: EnumRequest.POST,
 			body: JSON.stringify(category)
 		});
 
@@ -38,7 +38,7 @@ export const addCategory = async (category: CategoryCreate) => {
 export const removeCategory = async (category: CategoryGet) => {
 	try {
 		const request = new Request(`${apiUrl}/categories/${category.id}`, {
-			method: enumRequest.DELETE,
+			method: EnumRequest.DELETE,
 			body: JSON.stringify(category)
 		});
 

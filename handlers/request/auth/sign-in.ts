@@ -1,11 +1,11 @@
 import { apiUrl } from "@/data/constants";
 import { Credentials } from "@/types/auth";
-import { enumRequest } from "@/types/enums";
+import { Request as EnumRequest } from "@/types/enums";
 
 export const signIn = async (params: Credentials) => {
 	try {
 		const request = new Request(`${apiUrl}/auth/sign-in`, {
-			method: enumRequest.POST,
+			method: EnumRequest.POST,
 			body: JSON.stringify(params)
 		});
 

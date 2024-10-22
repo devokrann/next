@@ -1,11 +1,11 @@
 import { apiUrl } from "@/data/constants";
-import { enumRequest } from "@/types/enums";
+import { Request as EnumRequest } from "@/types/enums";
 import { Contact } from "@/types/form";
 
 export const sendInquiry = async (params: Contact) => {
 	try {
 		const request = new Request(`${apiUrl}/contact`, {
-			method: enumRequest.POST,
+			method: EnumRequest.POST,
 			body: JSON.stringify(params)
 		});
 

@@ -1,12 +1,12 @@
 import { apiUrl } from "@/data/constants";
-import { enumRequest } from "@/types/enums";
+import { Request as EnumRequest } from "@/types/enums";
 import { FormPostCreate } from "@/types/form";
 import { PostGet } from "@/types/models/post";
 
 export const getPosts = async () => {
 	try {
 		const request = new Request(`${apiUrl}/posts`, {
-			method: enumRequest.GET
+			method: EnumRequest.GET
 		});
 
 		const response = await fetch(request);
@@ -22,7 +22,7 @@ export const getPosts = async () => {
 export const removePosts = async (posts: PostGet[]) => {
 	try {
 		const request = new Request(`${apiUrl}/posts`, {
-			method: enumRequest.DELETE,
+			method: EnumRequest.DELETE,
 			body: JSON.stringify(posts)
 		});
 
@@ -39,7 +39,7 @@ export const removePosts = async (posts: PostGet[]) => {
 export const addPost = async (post: FormPostCreate) => {
 	try {
 		const request = new Request(`${apiUrl}/posts/new-post`, {
-			method: enumRequest.POST,
+			method: EnumRequest.POST,
 			body: JSON.stringify(post)
 		});
 
@@ -56,7 +56,7 @@ export const addPost = async (post: FormPostCreate) => {
 export const removePost = async (post: PostGet) => {
 	try {
 		const request = new Request(`${apiUrl}/posts/${post.id}`, {
-			method: enumRequest.DELETE,
+			method: EnumRequest.DELETE,
 			body: JSON.stringify(post)
 		});
 

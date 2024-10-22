@@ -1,5 +1,5 @@
 import { apiUrl } from "@/data/constants";
-import { enumRequest } from "@/types/enums";
+import { Request as EnumRequest } from "@/types/enums";
 import { FormUserCreate } from "@/types/form";
 import { UserGet } from "@/types/models/user";
 import { StatusUser } from "@prisma/client";
@@ -7,7 +7,7 @@ import { StatusUser } from "@prisma/client";
 export const getUsers = async () => {
 	try {
 		const request = new Request(`${apiUrl}/users`, {
-			method: enumRequest.GET
+			method: EnumRequest.GET
 		});
 
 		const response = await fetch(request);
@@ -23,7 +23,7 @@ export const getUsers = async () => {
 export const updateUsers = async (users: UserGet[], mode: StatusUser) => {
 	try {
 		const request = new Request(`${apiUrl}/users`, {
-			method: enumRequest.PUT,
+			method: EnumRequest.PUT,
 			body: JSON.stringify({ users, mode })
 		});
 
@@ -40,7 +40,7 @@ export const updateUsers = async (users: UserGet[], mode: StatusUser) => {
 export const updateUser = async (user: UserGet, mode: StatusUser) => {
 	try {
 		const request = new Request(`${apiUrl}/users/${user.id}`, {
-			method: enumRequest.PUT,
+			method: EnumRequest.PUT,
 			body: JSON.stringify({ user, mode })
 		});
 
@@ -57,7 +57,7 @@ export const updateUser = async (user: UserGet, mode: StatusUser) => {
 export const addUser = async (user: FormUserCreate) => {
 	try {
 		const request = new Request(`${apiUrl}/users/new-user`, {
-			method: enumRequest.POST,
+			method: EnumRequest.POST,
 			body: JSON.stringify(user)
 		});
 
@@ -74,7 +74,7 @@ export const addUser = async (user: FormUserCreate) => {
 export const removeUser = async (user: UserGet) => {
 	try {
 		const request = new Request(`${apiUrl}/${user.id}`, {
-			method: enumRequest.DELETE,
+			method: EnumRequest.DELETE,
 			body: JSON.stringify(user)
 		});
 

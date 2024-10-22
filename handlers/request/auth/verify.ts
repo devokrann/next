@@ -1,12 +1,12 @@
 import { apiUrl } from "@/data/constants";
-import { enumRequest } from "@/types/enums";
+import { Request as EnumRequest } from "@/types/enums";
 import { Verify } from "@/types/form";
 
 export const verify = async (params: Verify) => {
 	try {
 		const request = new Request(`${apiUrl}/auth/verify`, {
-			method: enumRequest.POST,
-			body: JSON.stringify(params),
+			method: EnumRequest.POST,
+			body: JSON.stringify(params)
 		});
 
 		const response = await fetch(request);
@@ -22,8 +22,8 @@ export const verify = async (params: Verify) => {
 export const verifyResend = async (params: { email: string }) => {
 	try {
 		const request = new Request(`${apiUrl}/auth/verify/resend`, {
-			method: enumRequest.POST,
-			body: JSON.stringify(params),
+			method: EnumRequest.POST,
+			body: JSON.stringify(params)
 		});
 
 		const response = await fetch(request);

@@ -1,11 +1,11 @@
-import { enumRequest } from "@/types/enums";
+import { Request as EnumRequest } from "@/types/enums";
 import { apiUrl } from "@/data/constants";
 import { Profile as FormProfile } from "@/types/form";
 
 export const updateProfile = async (params: FormProfile) => {
 	try {
 		const request = new Request(`${apiUrl}/user/profile`, {
-			method: enumRequest.PUT,
+			method: EnumRequest.PUT,
 			body: JSON.stringify(params)
 		});
 

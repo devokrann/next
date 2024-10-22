@@ -1,11 +1,11 @@
 import { apiUrl } from "@/data/constants";
-import { enumRequest } from "@/types/enums";
+import { Request as EnumRequest } from "@/types/enums";
 import { TagCreate, TagGet } from "@/types/models/tag";
 
 export const getTags = async () => {
 	try {
 		const request = new Request(`${apiUrl}/tags`, {
-			method: enumRequest.GET
+			method: EnumRequest.GET
 		});
 
 		const response = await fetch(request);
@@ -21,7 +21,7 @@ export const getTags = async () => {
 export const removeTags = async (tags: TagGet) => {
 	try {
 		const request = new Request(`${apiUrl}/tags`, {
-			method: enumRequest.DELETE,
+			method: EnumRequest.DELETE,
 			body: JSON.stringify(tags)
 		});
 
@@ -38,7 +38,7 @@ export const removeTags = async (tags: TagGet) => {
 export const addTag = async (tag: TagCreate) => {
 	try {
 		const request = new Request(`${apiUrl}/tags/new-tag`, {
-			method: enumRequest.POST,
+			method: EnumRequest.POST,
 			body: JSON.stringify(tag)
 		});
 
@@ -55,7 +55,7 @@ export const addTag = async (tag: TagCreate) => {
 export const removeTag = async (tag: TagGet) => {
 	try {
 		const request = new Request(`${apiUrl}/tags/${tag.id}`, {
-			method: enumRequest.DELETE,
+			method: EnumRequest.DELETE,
 			body: JSON.stringify(tag)
 		});
 
