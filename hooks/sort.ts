@@ -1,6 +1,11 @@
 import { SortOrder } from "@/types/enums";
 import { useState } from "react";
 
+/**
+ * dynamic button implementation
+ * orderMap.property === 'asc' ? '↑' : orderMap.property === 'desc' ? '↓' : ''
+ */
+
 export const useSort = <T>(setList: React.Dispatch<React.SetStateAction<T[]>>) => {
 	const [orderMap, setOrderMap] = useState<Record<string, SortOrder>>({});
 

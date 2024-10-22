@@ -1,11 +1,7 @@
 import resend from "@/libraries/resend";
 
-export const emailContactCreate = async (params: {
-	fname?: string;
-	lname?: string;
-	email: string;
-}) => {
-	const { data, error } = await resend.onboarding.contacts.create({
+export const emailContactCreate = async (params: { fname?: string; lname?: string; email: string }) => {
+	const { data, error } = await resend.general.contacts.create({
 		email: params.email,
 		firstName: params.fname,
 		lastName: params.lname,
