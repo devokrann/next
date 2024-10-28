@@ -6,37 +6,48 @@ import { emailSendSignUp } from "@/libraries/wrappers/email/send/auth/sign-up";
 import { generateId } from "@/utilities/generators/id";
 import { OtpType } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { HashingAlgorithm } from "@/types/enums";
 
 export async function POST(request: NextRequest) {
 	try {
-		const { email, password } = await request.json();
+		const { name, email, password } = await request.json();
 
 		// query database for user
 		const userRecord = await prisma.user.findUnique({ where: { email } });
 
 		if (userRecord) {
-			return NextResponse.json({ error: "User already exists", verified: userRecord.verified }, { status: 409 });
+			return NextResponse.json(
+				{ error: "User already exists", user: { id: userRecord.id, verified: userRecord.verified } },
+				{ status: 409 }
+			);
 		}
-
-		// create user record
-		await prisma.user.create({ data: { id: generateId(), email, password: (await hashValue(password)) || null } });
 
 		// create otp
 		const otpValue = generateOtpCode();
 
-		// create otp hash
-		const otpHash = await hashValue(String(otpValue));
+		console.log(otpValue);
 
-		// create otp record
-		await prisma.user.update({
-			where: { email },
+		// create otp hash
+		const otpHash = await hashValue(otpValue);
+
+		// create user record
+		await prisma.user.create({
 			data: {
+				id: generateId(),
+				name: `${name.first} ${name.last}`,
+				email,
+				password: (await hashValue(password)) || null,
+				verified: false,
+
+				// create user profile record
+				profile: { create: { id: generateId(), firstName: name.first, lastName: name.last } },
+
+				// create user otp record
 				otps: {
 					create: [
 						{
 							id: generateId(),
 							type: OtpType.EMAIL_CONFIRMATION,
-							email: email,
 							otp: otpHash!,
 							expiresAt: new Date(Date.now() + 60 * 60 * 1000) // 1 hour
 						}
@@ -44,8 +55,6 @@ export async function POST(request: NextRequest) {
 				}
 			}
 		});
-
-		console.log(otpValue);
 
 		return NextResponse.json(
 			// {

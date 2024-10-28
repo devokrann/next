@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
 		const otpValue = generateOtpCode();
 
 		// create otp hash
-		const otpHash = await hashValue(String(otpValue));
+		const otpHash = await hashValue(otpValue);
 
 		const now = new Date();
 		const expired = otpRecord && otpRecord.expiresAt < now;
