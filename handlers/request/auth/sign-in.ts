@@ -11,10 +11,9 @@ export const signIn = async (params: Credentials) => {
 
 		const response = await fetch(request);
 
-		const res = await response.json();
-
-		return { response, ...res };
+		return response;
 	} catch (error) {
 		console.error("---> handler error - (sign in):", error);
+		throw error;
 	}
 };
