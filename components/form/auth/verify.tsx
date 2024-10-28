@@ -2,11 +2,11 @@
 
 import React from "react";
 
-import { Anchor, Box, Button, Grid, GridCol, PinInput, Stack, Text, TextInput, Transition } from "@mantine/core";
+import { Box, Button, Grid, GridCol, PinInput, Stack, Text, Transition } from "@mantine/core";
 import { useFormAuthVerify } from "@/hooks/form/auth/verify";
 
 export default function Verify({ props }: { props: { userId: string } }) {
-	const { form, handleSubmit, handleRequest, submitted, requested, time, router } = useFormAuthVerify({
+	const { form, handleSubmit, handleRequest, submitted, requested, time } = useFormAuthVerify({
 		userId: props.userId
 	});
 
@@ -17,24 +17,13 @@ export default function Verify({ props }: { props: { userId: string } }) {
 					<GridCol span={{ base: 12 }}>
 						<Stack gap={"xs"} align="center">
 							<PinInput {...form.getInputProps("otp")} mask type={"number"} length={6} />
-
-							{/* <Anchor
-								underline="hover"
-								inherit
-								fz={"xs"}
-								ta={"center"}
-								w={"fit-content"}
-								onClick={() => router.push("/auth/sign-up")}
-							>
-								Change email
-							</Anchor> */}
 						</Stack>
 					</GridCol>
 
 					<GridCol span={{ base: 12 }}>
 						<Grid mt={"md"}>
 							<GridCol span={{ base: 12, xs: 6 }}>
-								<Button fullWidth loading={requested} variant="light" onClick={() => handleRequest()}>
+								<Button fullWidth loading={requested} variant="light" onClick={handleRequest}>
 									{requested ? "Requesting" : "Request New Code"}
 								</Button>
 							</GridCol>
