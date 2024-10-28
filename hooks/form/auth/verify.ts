@@ -1,6 +1,6 @@
 import IconNotificationError from "@/components/common/icons/notification/error";
 import IconNotificationSuccess from "@/components/common/icons/notification/success";
-import { signIn as handleSignIn } from "@/handlers/event/sign-in";
+import { signIn as authSignIn } from "@/handlers/event/sign-in";
 import { Verify as FormAuthVerify } from "@/types/form";
 import { millToMinSec, MinSec } from "@/utilities/formatters/number";
 import { useForm, UseFormReturnType } from "@mantine/form";
@@ -8,12 +8,12 @@ import { notifications } from "@mantine/notifications";
 import { useState } from "react";
 import { verify as handleVerify, verifyResend as handleVerifyResend } from "@/handlers/request/auth/verify";
 import { useRouter } from "next/navigation";
+import { timeout } from "@/data/constants";
 
 export const useFormAuthVerify = (params: { userId: string }) => {
 	const [submitted, setSubmitted] = useState(false);
 
 	const [requested, setRequested] = useState(false);
-	const [time, setTime] = useState<MinSec | null>(null);
 
 	const router = useRouter();
 
@@ -21,7 +21,7 @@ export const useFormAuthVerify = (params: { userId: string }) => {
 		initialValues: { otp: "" },
 
 		validate: {
-			otp: (value) => (value.length < 1 ? "A code is required" : value.length == 6 ? null : "Invalid code")
+			otp: (value) => value.length != 6 && true
 		}
 	});
 
@@ -34,74 +34,42 @@ export const useFormAuthVerify = (params: { userId: string }) => {
 			if (form.isValid()) {
 				setSubmitted(true);
 
-				const result = await handleVerify(parseValues());
+				const response = await handleVerify(parseValues());
 
-				if (!result) {
-					notifications.show(notification.noResponse);
-				} else {
-					if (!result.user.exists) {
-						notifications.show(notification.unauthorized);
-
-						// redirect to sign up page
-						router.push("/auth/sign-up");
-					} else {
-						if (!result.user.verified) {
-							if (!result.otp.exists) {
-								notifications.show({
-									id: "otp-verify-failed-expired",
-									icon: IconNotificationError(),
-									title: "No OTP Found",
-									message: `Request another OTP in the link provided on this page`,
-									variant: "failed"
-								});
-
-								form.reset();
-							} else {
-								if (!result.otp.matches) {
-									notifications.show({
-										id: "otp-verify-failed-mismatch",
-										icon: IconNotificationError(),
-										title: "Wrong OTP",
-										message: `You have entered the wrong OTP for this email.`,
-										variant: "failed"
-									});
-
-									form.reset();
-								} else {
-									if (!result.otp.expired) {
-										notifications.show({
-											id: "otp-verify-success",
-											icon: IconNotificationSuccess(),
-											title: "Account Created",
-											message: `You can now log in to your account.`,
-											variant: "success"
-										});
-
-										// redirect to sign in
-										form.reset();
-										await handleSignIn();
-									} else {
-										notifications.show({
-											id: "otp-verify-failed-expired",
-											icon: IconNotificationError(),
-											title: "OTP Expired",
-											message: `Request another in the link provided on this page`,
-											variant: "failed"
-										});
-
-										form.reset();
-									}
-								}
-							}
-						} else {
-							notifications.show(notification.verified);
-
-							// redirect to sign in
-							form.reset();
-							await handleSignIn();
-						}
-					}
+				if (!response) {
+					throw new Error("No response from server");
 				}
+
+				const result = await response.json();
+
+				if (!response.ok) {
+					form.reset();
+
+					if (response.status === 404) {
+						// redirect to sign up page
+						setTimeout(() => router.push("/auth/sign-up"), timeout.redirect);
+					}
+
+					if (response.statusText === "Verified") {
+						// redirect to sign in page
+						setTimeout(async () => await authSignIn(), timeout.redirect);
+					}
+
+					throw new Error(result.error || response.statusText);
+				}
+
+				notifications.show({
+					id: "otp-verify-success",
+					icon: IconNotificationSuccess(),
+					title: response.statusText,
+					message: result.message,
+					variant: "success"
+				});
+
+				form.reset();
+
+				// redirect to sign in page
+				await authSignIn();
 			}
 		} catch (error) {
 			notifications.show({
@@ -116,70 +84,54 @@ export const useFormAuthVerify = (params: { userId: string }) => {
 		}
 	};
 
+	const [time, setTime] = useState<MinSec | null>(null);
+
 	const handleRequest = async () => {
 		try {
 			setRequested(true);
 
-			const result = await handleVerifyResend({ userId: params.userId });
+			const response = await handleVerifyResend({ userId: params.userId });
 
-			if (!result) {
-				notifications.show(notification.noResponse);
-			} else {
-				if (!result.user.exists) {
-					notifications.show(notification.unauthorized);
-
-					// redirect to sign up page
-					router.push("/auth/sign-up");
-				} else {
-					if (!result.user.verified) {
-						if (!result.otp.exists) {
-							notifications.show({
-								id: "otp-request-success-new-otp-created",
-								icon: IconNotificationSuccess(),
-								title: "New OTP Sent",
-								message: `A new code has been sent to the provided email.`,
-								variant: "success"
-							});
-
-							form.reset();
-						} else {
-							if (!result.otp.expired) {
-								setTime(millToMinSec(result.otp.expiry)!);
-
-								!time &&
-									notifications.show({
-										id: "otp-request-failed-not-expired",
-										icon: IconNotificationError(),
-										title: "OTP Already Sent",
-										message: `Remember to check your spam/junk folder(s).`,
-										variant: "failed"
-									});
-							} else {
-								notifications.show({
-									id: "otp-request-success",
-									icon: IconNotificationSuccess(),
-									title: "New OTP Sent",
-									message: `A new code has been sent to the provided email.`,
-									variant: "success"
-								});
-
-								form.reset();
-							}
-						}
-					} else {
-						notifications.show(notification.verified);
-
-						// redirect to sign in
-						form.reset();
-						await handleSignIn();
-					}
-				}
+			if (!response) {
+				throw new Error("No response from server");
 			}
+
+			const result = await response.json();
+
+			if (!response.ok) {
+				form.reset();
+
+				if (response.status === 404) {
+					// redirect to sign up page
+					setTimeout(() => router.push("/auth/sign-up"), timeout.redirect);
+				}
+
+				if (response.statusText === "Verified") {
+					// redirect to sign in page
+					setTimeout(async () => await authSignIn(), timeout.redirect);
+				}
+
+				if (response.statusText === "Sent") {
+					setTime(millToMinSec(result.otp.expiry)!);
+				}
+
+				throw new Error(result.error || response.statusText);
+			}
+
+			notifications.show({
+				id: "otp-request-success",
+				icon: IconNotificationSuccess(),
+				title: response.statusText,
+				message: result.message,
+				variant: "success"
+			});
+
+			form.reset();
 		} catch (error) {
 			notifications.show({
 				id: "otp-request-failed",
 				icon: IconNotificationError(),
-				title: "Request Failed",
+				title: "New OTP Request Failed",
 				message: (error as Error).message,
 				variant: "failed"
 			});
@@ -194,32 +146,6 @@ export const useFormAuthVerify = (params: { userId: string }) => {
 		handleRequest,
 		submitted,
 		requested,
-		time,
-		router
+		time
 	};
-};
-
-// notifications
-const notification = {
-	noResponse: {
-		id: "otp-verify-failed-no-response",
-		icon: IconNotificationError(),
-		title: "Server Unreachable",
-		message: `Check your network connection.`,
-		variant: "failed"
-	},
-	unauthorized: {
-		id: "otp-request-failed-not-found",
-		icon: IconNotificationError(),
-		title: "Unauthorized",
-		message: `You are not allowed to perform this action.`,
-		variant: "failed"
-	},
-	verified: {
-		id: "otp-request-info-already-verified",
-		icon: IconNotificationSuccess(),
-		title: "Verified",
-		message: `The email has already been verified`,
-		variant: "success"
-	}
 };

@@ -19,8 +19,7 @@ export const useFormAuthSignIn = () => {
 
 		validate: {
 			email: (value) => email(value.trim()),
-			password: (value) =>
-				value.trim().length > 0 ? null : "Please fill out this field"
+			password: (value) => (value.trim().length > 0 ? null : "Please fill out this field")
 		}
 	});
 
@@ -43,38 +42,31 @@ export const useFormAuthSignIn = () => {
 					callbackUrl: getCallbackUrlParameter()
 				});
 
-				if (!result?.ok) {
-					notifications.show({
-						id: "sign-in-failed-bad-response",
-						icon: IconNotificationError(),
-						title: "Bad Response",
-						message: "There was a problem with the request",
-						variant: "failed"
-					});
+				if (!result) {
+					throw new Error("There was a problem with the request");
+				}
+
+				if (!result.error) {
+					// apply callbackurl
+					result.url && window.location.replace(result.url);
 				} else {
-					if (!result.error) {
-						// apply callbackurl
-						result.url && window.location.replace(result.url);
-					} else {
-						notifications.show({
-							id: `sign-in-failed-${result.error}`,
-							icon: IconNotificationError(),
-							title: "Authentication Error",
-							message: "Incorrect username/password",
-							variant: "failed"
-						});
+					form.reset();
+
+					if (result.error == "AccessDenied") {
+						throw new Error("Invalid username/password");
 					}
+
+					throw new Error(result.error);
 				}
 			} catch (error) {
 				notifications.show({
-					id: "sign-in-failed-unexpected",
+					id: "sign-in-failed",
 					icon: IconNotificationError(),
-					title: "Unexpected Error",
+					title: "Authentication Error",
 					message: (error as Error).message,
 					variant: "failed"
 				});
 			} finally {
-				form.reset();
 				setSubmitted(false);
 			}
 		}

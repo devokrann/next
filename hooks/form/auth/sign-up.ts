@@ -1,7 +1,7 @@
 import IconNotificationError from "@/components/common/icons/notification/error";
 import IconNotificationSuccess from "@/components/common/icons/notification/success";
-import { signIn as handleSignIn } from "@/handlers/event/sign-in";
 import { signUp as handleSignUp } from "@/handlers/request/auth/sign-up";
+import { signIn as authSignIn } from "next-auth/react";
 import { SignUp as FormAuthSignUp } from "@/types/form";
 import { capitalizeWords } from "@/utilities/formatters/string";
 import compare from "@/utilities/validators/special/compare";
@@ -10,9 +10,13 @@ import password from "@/utilities/validators/special/password";
 import text from "@/utilities/validators/special/text";
 import { useForm, UseFormReturnType } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { timeout } from "@/data/constants";
 
 export const useFormAuthSignUp = () => {
+	const router = useRouter();
+
 	const [submitted, setSubmitted] = useState(false);
 
 	const form: UseFormReturnType<FormAuthSignUp> = useForm({
@@ -43,8 +47,8 @@ export const useFormAuthSignUp = () => {
 			},
 			email: form.values.email.trim().toLowerCase(),
 			password: {
-				initial: form.values.password.initial.trim(),
-				confirm: form.values.password.confirm.trim()
+				initial: form.values.password.initial,
+				confirm: form.values.password.confirm
 			},
 			verified: false
 		};
@@ -61,42 +65,44 @@ export const useFormAuthSignUp = () => {
 					throw new Error("No response from server");
 				}
 
-				console.log(response);
-
 				const result = await response.json();
 
 				if (!response.ok) {
-					notifications.show({
-						id: "sign-up-failed",
-						icon: IconNotificationError(),
-						title: `${response.statusText} (${response.status})`,
-						message: result.error,
-						variant: "failed"
-					});
-				} else {
-					// if (result.user.exists == false) {
-					// 	setSubmitted(false);
-					// 	switchContext();
-					// } else {
-					// 	if (result.user.verified == false) {
-					// 		switchContext();
-					// 	} else {
-					// 		// redirect to sign in
-					// 		form.reset();
-					// 		await handleSignIn();
-					// 	}
-					// }
+					form.reset();
+
+					if (response.statusText === "User Exists") {
+						if (result.user.verified) {
+							// redirect to sign in
+							setTimeout(async () => await authSignIn(), timeout.redirect);
+						} else {
+							// redirect to verification page
+							setTimeout(() => router.push(`/auth/verify/${result.user.id}`), timeout.redirect);
+						}
+					}
+
+					throw new Error(result.error || response.statusText);
 				}
+
+				notifications.show({
+					id: "sign-up-success",
+					icon: IconNotificationSuccess(),
+					title: response.statusText,
+					message: result.message,
+					variant: "failed"
+				});
+
+				form.reset();
+
+				// redirect to verification page
+				setTimeout(() => router.push(`/auth/verify/${result.user.id}`), timeout.redirect);
 			} catch (error) {
 				notifications.show({
-					id: "sign-up-failed",
+					id: "sign-up-error",
 					icon: IconNotificationError(),
 					title: "Sign Up Failed",
 					message: (error as Error).message,
 					variant: "failed"
 				});
-
-				// form.reset();
 			} finally {
 				setSubmitted(false);
 			}
