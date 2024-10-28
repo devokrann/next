@@ -31,10 +31,10 @@ export const compareHashes = async (
 	rawValue: string | number,
 	hashedValue: string | null,
 	algorithm: HashingAlgorithm = HashingAlgorithm.BCRYPT
-): Promise<boolean | null> => {
+): Promise<boolean> => {
 	try {
 		if (!hashedValue) {
-			return null;
+			return false;
 		}
 
 		// handle different hashing algorithms
@@ -50,6 +50,6 @@ export const compareHashes = async (
 		}
 	} catch (error) {
 		console.error("---> utility error (compare values):", error);
-		return null;
+		throw error;
 	}
 };
