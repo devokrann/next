@@ -40,7 +40,7 @@ export async function POST(request: NextRequest, { params }: { params: typePassw
 		await prisma.user.update({ where: { id: params.userId }, data: { password: passwordHash } });
 
 		// delete used otl record
-		await prisma.otl.delete({ where: { email_type: { email: userRecord.email, type: OtlType.PASSWORD_RESET } } });
+		await prisma.otl.delete({ where: { userId_type: { userId: userRecord.id, type: OtlType.PASSWORD_RESET } } });
 
 		return NextResponse.json(
 			{
@@ -52,6 +52,6 @@ export async function POST(request: NextRequest, { params }: { params: typePassw
 		);
 	} catch (error) {
 		console.error("---> route handler error (password reset):", error);
-		return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+		return NextResponse.json({ error: "Something went wrong on our end." }, { status: 500 });
 	}
 }

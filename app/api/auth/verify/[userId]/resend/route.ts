@@ -6,24 +6,22 @@ import { OtpType } from "@prisma/client";
 import { generateId } from "@/utilities/generators/id";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: NextRequest) {
+export async function GET(request: NextRequest, { params }: { params: { userId: string } }) {
 	try {
-		const { email } = await request.json();
-
 		// query database for user
-		const userRecord = await prisma.user.findUnique({ where: { email } });
+		const userRecord = await prisma.user.findUnique({ where: { id: params.userId } });
 
 		if (!userRecord) {
-			return NextResponse.json({ error: "User not found" }, { status: 404 });
+			return NextResponse.json({ error: "User not found." }, { status: 404, statusText: "Not Found" });
 		}
 
 		if (userRecord.verified) {
-			return NextResponse.json({ error: "User already verified" }, { status: 409 });
+			return NextResponse.json({ error: "User already verified." }, { status: 409, statusText: "Verified" });
 		}
 
 		// query database for otp
 		const otpRecord = await prisma.otp.findUnique({
-			where: { email_type: { email, type: OtpType.EMAIL_CONFIRMATION } }
+			where: { userId_type: { userId: params.userId, type: OtpType.EMAIL_CONFIRMATION } }
 		});
 
 		// create otp
@@ -38,18 +36,19 @@ export async function POST(request: NextRequest) {
 		if (!otpRecord || expired) {
 			// delete otp record if expired
 			expired &&
-				(await prisma.otp.delete({ where: { email_type: { email, type: OtpType.EMAIL_CONFIRMATION } } }));
+				(await prisma.otp.delete({
+					where: { userId_type: { userId: params.userId, type: OtpType.EMAIL_CONFIRMATION } }
+				}));
 
 			// create new otp record
 			await prisma.user.update({
-				where: { email },
+				where: { id: params.userId },
 				data: {
 					otps: {
 						create: [
 							{
 								id: generateId(),
 								type: OtpType.EMAIL_CONFIRMATION,
-								email: email,
 								otp: otpHash!,
 								expiresAt: new Date(Date.now() + 60 * 60 * 1000) // 1 hour
 							}
@@ -61,17 +60,17 @@ export async function POST(request: NextRequest) {
 			return NextResponse.json(
 				{
 					// send otp email
-					resend: await emailSendSignUp({ otp: otpValue.toString(), email }),
-					message: "Otp sent"
+					resend: await emailSendSignUp({ otp: otpValue.toString(), email: userRecord.email }),
+					message: "A new OTP has been sent."
 				},
-				{ status: 200 }
+				{ status: 200, statusText: "Sent" }
 			);
 		}
 
 		const expiry = otpRecord && otpRecord.expiresAt.getTime() - now.getTime();
-		return NextResponse.json({ error: "Otp already sent", expiry }, { status: 409 });
+		return NextResponse.json({ error: "OTP already sent.", otp: { expiry } }, { status: 409, statusText: "Sent" });
 	} catch (error) {
 		console.error("---> route handler error (verify resend):", error);
-		return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+		return NextResponse.json({ error: "Something went wrong on our end." }, { status: 500 });
 	}
 }

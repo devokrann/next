@@ -10,19 +10,22 @@ export async function POST(request: NextRequest) {
 		const userRecord = await prisma.user.findUnique({ where: { email: credentials.email as string } });
 
 		if (!userRecord) {
-			return NextResponse.json({ error: "User not found" }, { status: 404 });
+			return NextResponse.json({ error: "Invalid username/password" }, { status: 404, statusText: "Not Found" });
 		}
 
 		// check if provided password is correct
-		const passwordMatch = await compareHashes(credentials.password as string, userRecord.password);
+		const passwordMatch = await compareHashes(credentials.password, userRecord.password!);
 
 		if (!passwordMatch) {
-			return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+			return NextResponse.json(
+				{ error: "Invalid username/password" },
+				{ status: 401, statusText: "Unauthorized" }
+			);
 		} else {
-			return NextResponse.json({ message: "Logged in successfully" }, { status: 200 });
+			return NextResponse.json({ message: "Logged in successfully", user: userRecord }, { status: 200 });
 		}
 	} catch (error) {
 		console.error("---> route handler error (sign in):", error);
-		return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+		return NextResponse.json({ error: "Something went wrong on our end." }, { status: 500 });
 	}
 }

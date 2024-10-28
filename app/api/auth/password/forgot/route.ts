@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
 
 		// query database for otl
 		const otlRecord = await prisma.otl.findUnique({
-			where: { email_type: { email, type: OtlType.PASSWORD_RESET } }
+			where: { userId_type: { userId: userRecord.id, type: OtlType.PASSWORD_RESET } }
 		});
 
 		const now = new Date();
@@ -36,7 +36,9 @@ export async function POST(request: NextRequest) {
 		// delete expired otl record if exists and is expired
 		otlRecord &&
 			expired &&
-			(await prisma.otl.delete({ where: { email_type: { email, type: OtlType.PASSWORD_RESET } } }));
+			(await prisma.otl.delete({
+				where: { userId_type: { userId: userRecord.id, type: OtlType.PASSWORD_RESET } }
+			}));
 
 		// create token
 		const token = await generateToken(
@@ -62,7 +64,6 @@ export async function POST(request: NextRequest) {
 					create: [
 						{
 							id: generateId(),
-							email: userRecord.email,
 							type: OtlType.PASSWORD_RESET,
 							otl: otlHash!,
 							expiresAt: new Date(Date.now() + 60 * 60 * 1000) // in 1 hour
@@ -82,6 +83,6 @@ export async function POST(request: NextRequest) {
 		);
 	} catch (error) {
 		console.error("---> route handler error (password forgot):", error);
-		return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+		return NextResponse.json({ error: "Something went wrong on our end." }, { status: 500 });
 	}
 }
