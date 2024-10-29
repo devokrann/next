@@ -6,8 +6,12 @@ import { notifications } from "@mantine/notifications";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import IconNotificationError from "@/components/common/icons/notification/error";
+import { useRouter } from "next/navigation";
+import { timeout } from "@/data/constants";
 
 export const useFormAuthSignIn = () => {
+	const router = useRouter();
+
 	const [submitted, setSubmitted] = useState(false);
 
 	const form: UseFormReturnType<FormAuthSignin> = useForm({
@@ -36,6 +40,7 @@ export const useFormAuthSignIn = () => {
 			try {
 				setSubmitted(true);
 
+				// handle user sign in
 				const result = await signIn("credentials", {
 					...parseValues(),
 					redirect: false,
@@ -51,6 +56,15 @@ export const useFormAuthSignIn = () => {
 					result.url && window.location.replace(result.url);
 				} else {
 					form.reset();
+
+					if (result.error.includes("Unverified")) {
+						const userId = result.error.split(":")[1];
+
+						// redirect to verification page
+						setTimeout(() => router.push(`/auth/verify/${userId}`), timeout.redirect);
+
+						throw new Error("User not verified");
+					}
 
 					if (result.error == "AccessDenied") {
 						throw new Error("Invalid username/password");

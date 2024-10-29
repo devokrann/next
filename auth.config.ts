@@ -65,9 +65,13 @@ export default {
 
 				if (!response.ok) {
 					return { error: result.error || response.statusText };
-				} else {
-					return { ...result.user, rememberMe: credentials.rememberMe };
 				}
+
+				return {
+					...result.user,
+					rememberMe: credentials.rememberMe,
+					error: result.user.verified ? null : "Unverified"
+				};
 			}
 		})
 	],
@@ -76,7 +80,11 @@ export default {
 		async signIn({ user, account, profile, email, credentials }) {
 			// Check if the authorize function returned an error
 			if (user.error) {
-				// Throw an error with the custom error message
+				if (user.error == "Unverified") {
+					// Redirect to auth error with custom error message and user ID as query parameters
+					return `/auth/error?error=${encodeURIComponent(user.error)}:${encodeURIComponent(user.id!)}`;
+				}
+
 				throw new Error(user.error);
 			}
 

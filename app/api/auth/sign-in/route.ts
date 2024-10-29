@@ -21,9 +21,9 @@ export async function POST(request: NextRequest) {
 				{ error: "Invalid username/password" },
 				{ status: 401, statusText: "Unauthorized" }
 			);
-		} else {
-			return NextResponse.json({ message: "Logged in successfully", user: userRecord }, { status: 200 });
 		}
+
+		return NextResponse.json({ user: userRecord }, { status: 200 });
 	} catch (error) {
 		console.error("---> route handler error (sign in):", error);
 		return NextResponse.json({ error: "Something went wrong on our end." }, { status: 500 });
