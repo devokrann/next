@@ -53,10 +53,7 @@ export async function POST(request: NextRequest, { params }: { params: { userId:
 			where: { userId_type: { userId: params.userId, type: OtpType.EMAIL_CONFIRMATION } }
 		});
 
-		return NextResponse.json(
-			{ message: "Account verified successfully." },
-			{ status: 200, statusText: "Verified" }
-		);
+		return NextResponse.json({ message: "You can now sign in." }, { status: 200, statusText: "Account Verified" });
 	} catch (error) {
 		console.error("---> route handler error (verify):", error);
 		return NextResponse.json({ error: "Something went wrong on our end." }, { status: 500 });

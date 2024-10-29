@@ -83,14 +83,6 @@ export const useFormAuthSignUp = () => {
 					throw new Error(result.error || response.statusText);
 				}
 
-				notifications.show({
-					id: "sign-up-success",
-					icon: IconNotificationSuccess(),
-					title: response.statusText,
-					message: result.message,
-					variant: "failed"
-				});
-
 				form.reset();
 
 				// redirect to verification page

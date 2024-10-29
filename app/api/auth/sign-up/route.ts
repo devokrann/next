@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
 
 		return NextResponse.json(
 			{
-				user: { id: userId },
+				user: { id: userId, email },
 				message: "Your account has been created",
 				// send otp email and output result in response body
 				resend: {

@@ -69,7 +69,7 @@ export const useFormAuthVerify = (params: { userId: string }) => {
 				form.reset();
 
 				// redirect to sign in page
-				await authSignIn();
+				setTimeout(async () => await authSignIn(), timeout.redirect);
 			}
 		} catch (error) {
 			notifications.show({
