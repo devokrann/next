@@ -12,16 +12,19 @@ export async function GET(request: NextRequest, { params }: { params: { userId: 
 		const userRecord = await prisma.user.findUnique({ where: { id: params.userId } });
 
 		if (!userRecord) {
-			return NextResponse.json({ error: "User not found." }, { status: 404, statusText: "Not Found" });
+			return NextResponse.json({ error: "The link is broken" }, { status: 404, statusText: "Invalid Link" });
 		}
 
 		if (userRecord.verified) {
-			return NextResponse.json({ error: "User already verified." }, { status: 409, statusText: "Verified" });
+			return NextResponse.json(
+				{ error: "Account is already verified" },
+				{ status: 409, statusText: "Already Verified" }
+			);
 		}
 
 		// query database for otp
 		const otpRecord = await prisma.otp.findUnique({
-			where: { userId_type: { userId: params.userId, type: OtpType.EMAIL_CONFIRMATION } }
+			where: { userId_type: { userId: params.userId, type: OtpType.EMAIL_CONFIRMATION } },
 		});
 
 		// create otp
@@ -37,7 +40,7 @@ export async function GET(request: NextRequest, { params }: { params: { userId: 
 			// delete otp record if expired
 			expired &&
 				(await prisma.otp.delete({
-					where: { userId_type: { userId: params.userId, type: OtpType.EMAIL_CONFIRMATION } }
+					where: { userId_type: { userId: params.userId, type: OtpType.EMAIL_CONFIRMATION } },
 				}));
 
 			// create new otp record
@@ -50,27 +53,30 @@ export async function GET(request: NextRequest, { params }: { params: { userId: 
 								id: generateId(),
 								type: OtpType.EMAIL_CONFIRMATION,
 								otp: otpHash!,
-								expiresAt: new Date(Date.now() + 60 * 60 * 1000) // 1 hour
-							}
-						]
-					}
-				}
+								expiresAt: new Date(Date.now() + 60 * 60 * 1000), // 1 hour
+							},
+						],
+					},
+				},
 			});
 
 			return NextResponse.json(
 				{
+					message: "A new OTP has been sent",
 					// send otp email
 					resend: await emailSendSignUp({ otp: otpValue.toString(), email: userRecord.email }),
-					message: "A new OTP has been sent."
 				},
-				{ status: 200, statusText: "Sent" }
+				{ status: 200, statusText: "OTP Sent" }
 			);
 		}
 
 		const expiry = otpRecord && otpRecord.expiresAt.getTime() - now.getTime();
-		return NextResponse.json({ error: "OTP already sent.", otp: { expiry } }, { status: 409, statusText: "Sent" });
+		return NextResponse.json(
+			{ error: "OTP already sent", otp: { expiry } },
+			{ status: 409, statusText: "Already Sent" }
+		);
 	} catch (error) {
 		console.error("---> route handler error (verify resend):", error);
-		return NextResponse.json({ error: "Something went wrong on our end." }, { status: 500 });
+		return NextResponse.json({ error: "Something went wrong on our end" }, { status: 500 });
 	}
 }

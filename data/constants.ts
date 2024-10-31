@@ -28,4 +28,4 @@ export const passwordRequirements = [
 
 export const SALT_ROUNDS = 10;
 
-export const timeout = { redirect: 3000 };
+export const timeout = { redirect: 5000 };

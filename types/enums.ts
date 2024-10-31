@@ -21,3 +21,9 @@ export enum HashingAlgorithm {
 	SHA256 = "sha256",
 	SHA512 = "sha512"
 }
+
+export enum NotificationVariant {
+	SUCCESS = "success",
+	WARNING = "warning",
+	FAILED = "failed"
+}

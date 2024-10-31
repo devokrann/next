@@ -2,12 +2,12 @@ import { SignIn as FormAuthSignin } from "@/types/form";
 import { getCallbackUrlParameter } from "@/utilities/helpers/url";
 import email from "@/utilities/validators/special/email";
 import { useForm, UseFormReturnType } from "@mantine/form";
-import { notifications } from "@mantine/notifications";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
-import IconNotificationError from "@/components/common/icons/notification/error";
 import { useRouter } from "next/navigation";
 import { timeout } from "@/data/constants";
+import { showNotification } from "@/utilities/notifications";
+import { NotificationVariant } from "@/types/enums";
 
 export const useFormAuthSignIn = () => {
 	const router = useRouter();
@@ -18,20 +18,20 @@ export const useFormAuthSignIn = () => {
 		initialValues: {
 			email: "",
 			password: "",
-			remember: false
+			remember: false,
 		},
 
 		validate: {
 			email: (value) => email(value.trim()),
-			password: (value) => (value.trim().length > 0 ? null : "Please fill out this field")
-		}
+			password: (value) => (value.trim().length > 0 ? null : "Please fill out this field"),
+		},
 	});
 
 	const parseValues = () => {
 		return {
 			email: form.values.email.trim().toLowerCase(),
 			password: form.values.password.trim(),
-			rememberMe: form.values.remember
+			rememberMe: form.values.remember,
 		};
 	};
 
@@ -44,42 +44,52 @@ export const useFormAuthSignIn = () => {
 				const result = await signIn("credentials", {
 					...parseValues(),
 					redirect: false,
-					callbackUrl: getCallbackUrlParameter()
+					callbackUrl: getCallbackUrlParameter(),
 				});
 
 				if (!result) {
-					throw new Error("There was a problem with the request");
+					throw new Error("No response from server");
 				}
+
+				form.reset();
 
 				if (!result.error) {
 					// apply callbackurl
 					result.url && window.location.replace(result.url);
-				} else {
-					form.reset();
-
-					if (result.error.includes("Unverified")) {
-						const userId = result.error.split(":")[1];
-
-						// redirect to verification page
-						setTimeout(() => router.push(`/auth/verify/${userId}`), timeout.redirect);
-
-						throw new Error("User not verified");
-					}
-
-					if (result.error == "AccessDenied") {
-						throw new Error("Invalid username/password");
-					}
-
-					throw new Error(result.error);
+					return;
 				}
+
+				if (result.error == "Not Found" || result.error == "Unauthorized") {
+					showNotification({
+						variant: NotificationVariant.FAILED,
+						title: "Authentication Error",
+						desc: "Invalid username/password",
+					});
+					return;
+				}
+
+				if (result.error.includes("Not Verified")) {
+					const userId = result.error.split(": ")[1];
+
+					// redirect to verification page
+					setTimeout(() => router.push(`/auth/verify/${userId}`), timeout.redirect);
+
+					showNotification(
+						{
+							variant: NotificationVariant.WARNING,
+							title: "Not Verified",
+							desc: "User not verified. Redirecting...",
+						},
+						undefined,
+						result
+					);
+					return;
+				}
+
+				throw new Error("An unexpected error occured");
 			} catch (error) {
-				notifications.show({
-					id: "sign-in-failed",
-					icon: IconNotificationError(),
-					title: "Authentication Error",
-					message: (error as Error).message,
-					variant: "failed"
-				});
+				showNotification({ variant: NotificationVariant.FAILED, desc: (error as Error).message });
+				return;
 			} finally {
 				setSubmitted(false);
 			}

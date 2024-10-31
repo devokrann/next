@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
 
 		if (userRecord) {
 			return NextResponse.json(
-				{ error: "User already exists.", user: { id: userRecord.id, verified: userRecord.verified } },
+				{ error: "Already signed up", user: { id: userRecord.id, verified: userRecord.verified } },
 				{ status: 409, statusText: "User Exists" }
 			);
 		}
@@ -49,11 +49,11 @@ export async function POST(request: NextRequest) {
 							id: generateId(),
 							type: OtpType.EMAIL_CONFIRMATION,
 							otp: otpHash!,
-							expiresAt: new Date(Date.now() + 60 * 60 * 1000) // 1 hour
-						}
-					]
-				}
-			}
+							expiresAt: new Date(Date.now() + 60 * 60 * 1000), // 1 hour
+						},
+					],
+				},
+			},
 		});
 
 		return NextResponse.json(
@@ -65,13 +65,13 @@ export async function POST(request: NextRequest) {
 					// send otp email
 					email: await emailSendSignUp({ otp: otpValue.toString(), email }),
 					// add to audience
-					contact: await emailContactCreate({ email })
-				}
+					contact: await emailContactCreate({ email }),
+				},
 			},
 			{ status: 200, statusText: `Welcome, ${name.first}` }
 		);
 	} catch (error) {
 		console.error("---> route handler error (sign up):", error);
-		return NextResponse.json({ error: "Something went wrong on our end." }, { status: 500 });
+		return NextResponse.json({ error: "Something went wrong on our end" }, { status: 500 });
 	}
 }

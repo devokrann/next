@@ -11,6 +11,13 @@
 		}
 	}
 
+	&[data-variant="warning"] {
+		.icon {
+			background-color: var(--mantine-color-yellow-6);
+			color: black;
+		}
+	}
+
 	&[data-variant="failed"] {
 		.icon {
 			background-color: var(--mantine-color-red-6);

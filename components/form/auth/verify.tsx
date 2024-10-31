@@ -7,7 +7,7 @@ import { useFormAuthVerify } from "@/hooks/form/auth/verify";
 
 export default function Verify({ props }: { props: { userId: string } }) {
 	const { form, handleSubmit, handleRequest, submitted, requested, time } = useFormAuthVerify({
-		userId: props.userId
+		userId: props.userId,
 	});
 
 	return (
@@ -41,7 +41,7 @@ export default function Verify({ props }: { props: { userId: string } }) {
 						<Box
 							style={{
 								...styles,
-								transition: "0.25s all ease"
+								transition: "0.25s all ease",
 							}}
 							opacity={requested ? "0" : "1"}
 						>
@@ -49,16 +49,13 @@ export default function Verify({ props }: { props: { userId: string } }) {
 								ta={"center"}
 								fz={{
 									base: "xs",
-									xs: "sm"
+									xs: "sm",
 								}}
 							>
 								<Text c={"dimmed"} inherit>
-									If the email you provided is valid, you should have received it. Remember to check
-									your spam/junk folder(s).
-								</Text>
-								<Text c={"dimmed"} inherit>
-									You can otherwise request another code in{" "}
-									<Text component="span" inherit c={"pri"} fw={500}>
+									If the email you provided is valid, you should have received the code. Remember to
+									check your spam/junk folder(s). You can otherwise request another code in{" "}
+									<Text component="span" inherit fw={"bold"}>
 										{time?.minutes} minutes
 									</Text>
 									.

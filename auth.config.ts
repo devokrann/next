@@ -64,14 +64,10 @@ export default {
 				const result = await response.json();
 
 				if (!response.ok) {
-					return { error: result.error || response.statusText };
+					return { id: result.user ? result.user.id : "no-id", error: response.statusText };
 				}
 
-				return {
-					...result.user,
-					rememberMe: credentials.rememberMe,
-					error: result.user.verified ? null : "Unverified"
-				};
+				return { ...credentials, ...result.user };
 			}
 		})
 	],
@@ -80,12 +76,11 @@ export default {
 		async signIn({ user, account, profile, email, credentials }) {
 			// Check if the authorize function returned an error
 			if (user.error) {
-				if (user.error == "Unverified") {
-					// Redirect to auth error with custom error message and user ID as query parameters
-					return `/auth/error?error=${encodeURIComponent(user.error)}:${encodeURIComponent(user.id!)}`;
-				}
+				const error = encodeURIComponent(user.error);
+				const userId = encodeURIComponent(user.id!);
 
-				throw new Error(user.error);
+				// Redirect to auth error with custom error message and user ID as query parameters
+				return `/auth/error?error=${error}${user.error == "Not Verified" ? `: ${userId}` : ""}`;
 			}
 
 			// create session record if doesn't exist
