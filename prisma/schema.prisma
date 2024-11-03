@@ -42,7 +42,7 @@ model User {
   email         String    @unique
   verified      Boolean   @default(false)
   password      String?
-  name          String?
+  name          String
   image         String?
   emailVerified DateTime? @map(name: "email_verified")
 
