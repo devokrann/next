@@ -10,7 +10,7 @@ import { profileUpdate } from "@/handlers/request/database/profile";
 import { NotificationVariant } from "@/types/enums";
 import { signIn as authSignIn } from "next-auth/react";
 import { showNotification } from "@/utilities/notifications";
-import { signOut as handleSignOut } from "@/handlers/event/sign-out";
+import { signOut as handleSignOut } from "@/handlers/event/auth-client";
 import { timeout } from "@/data/constants";
 
 export const useFormUserProfile = () => {

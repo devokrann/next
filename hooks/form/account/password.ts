@@ -1,6 +1,6 @@
 import { useForm, UseFormReturnType } from "@mantine/form";
 import { useState } from "react";
-import { signOut as handleSignOut } from "@/handlers/event/sign-out";
+import { signOut as handleSignOut } from "@/handlers/event/auth-client";
 import password from "@/utilities/validators/special/password";
 import compare from "@/utilities/validators/special/compare";
 import { AccountPassword, PasswordReset } from "@/types/form";
