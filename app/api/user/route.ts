@@ -17,10 +17,13 @@ export async function POST(request: NextRequest) {
 		const userRecord = await prisma.user.findUnique({ where: { email: user.email } });
 
 		if (userRecord) {
-			return NextResponse.json({ error: "User already exists" }, { status: 409, statusText: "Already Exists" });
+			return NextResponse.json(
+				{ error: "User already exists", user: userRecord },
+				{ status: 409, statusText: "Already Exists" }
+			);
 		}
 
-		await prisma.user.create({
+		const createUser = await prisma.user.create({
 			data: {
 				id: generateId(),
 				name: user.name,
@@ -37,7 +40,10 @@ export async function POST(request: NextRequest) {
 			},
 		});
 
-		return NextResponse.json({ error: "User created successfully" }, { status: 200, statusText: "User Created" });
+		return NextResponse.json(
+			{ error: "User created successfully", user: createUser },
+			{ status: 200, statusText: "User Created" }
+		);
 	} catch (error) {
 		console.error("---> route handler error (create user):", error);
 		return NextResponse.json({ error: "Something went wrong on our end" }, { status: 500 });
@@ -52,10 +58,15 @@ export async function PUT(request: NextRequest) {
 			return NextResponse.json({ error: "You must be signed in" }, { status: 401, statusText: "Unauthorized" });
 		}
 
-		const { user, options }: { user: UserUpdate; options: { name: boolean; password: "forgot" | "update" } } =
-			await request.json();
+		const {
+			user,
+			options,
+		}: {
+			user: UserUpdate;
+			options: { name?: boolean; password?: { update?: { new: string }; forgot?: "update" } };
+		} = await request.json();
 
-		const userRecord = await prisma.user.findUnique({ where: { email: user.email as string } });
+		const userRecord = await prisma.user.findUnique({ where: { id: session.user.id } });
 
 		if (!userRecord) {
 			return NextResponse.json({ error: "User not found" }, { status: 404, statusText: "Not Found" });
@@ -69,7 +80,7 @@ export async function PUT(request: NextRequest) {
 			await prisma.user.update({
 				where: { id: session.user.id },
 				data: {
-					...user,
+					name: user.name,
 					profile: {
 						update: {
 							firstName: segmentFullName(user.name as string).first,
@@ -80,12 +91,12 @@ export async function PUT(request: NextRequest) {
 			});
 
 			return NextResponse.json(
-				{ message: "User record has been updated" },
+				{ message: "User name has been updated" },
 				{ status: 200, statusText: "User Updated" }
 			);
 		}
 
-		if (options.password == "update") {
+		if (options.password?.update) {
 			const passwordMatch =
 				(!user.password && !userRecord.password) ||
 				(await compareHashes(user.password as string, userRecord.password));
@@ -97,7 +108,9 @@ export async function PUT(request: NextRequest) {
 				);
 			}
 
-			const passwordHash = await hashValue(user.password as string);
+			session.withPassword = true;
+
+			const passwordHash = await hashValue(options.password.update.new);
 
 			await prisma.user.update({ where: { id: session.user.id }, data: { password: passwordHash } });
 
@@ -107,7 +120,7 @@ export async function PUT(request: NextRequest) {
 			);
 		}
 
-		if (options.password == "forgot") {
+		if (options.password?.forgot) {
 			const otlRecord = await prisma.otl.findUnique({
 				where: { userId_type: { userId: userRecord.id, type: OtlType.PASSWORD_RESET } },
 			});
@@ -167,6 +180,13 @@ export async function PUT(request: NextRequest) {
 				{ status: 200, statusText: "OTL Sent" }
 			);
 		}
+
+		await prisma.user.update({ where: { id: session.user.id }, data: user });
+
+		return NextResponse.json(
+			{ message: "User record has been updated" },
+			{ status: 200, statusText: "User Updated" }
+		);
 	} catch (error) {
 		console.error("---> route handler error (update user):", error);
 		return NextResponse.json({ error: "Internal server error" }, { status: 500 });

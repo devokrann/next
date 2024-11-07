@@ -4,7 +4,7 @@ import React from "react";
 
 import { Button, ButtonProps } from "@mantine/core";
 
-import { signOut } from "@/handlers/event/auth-client";
+import { signOut } from "@/handlers/event/auth";
 
 export default function SignOut({ children, ...restProps }: { children: React.ReactNode } & ButtonProps) {
 	return (

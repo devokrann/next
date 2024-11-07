@@ -1,4 +1,4 @@
-import { signIn as authSignIn } from "@/handlers/event/auth-client";
+import { signIn as authSignIn } from "@/handlers/event/auth";
 import { Verify as FormAuthVerify } from "@/types/form";
 import { millToMinSec, MinSec } from "@/utilities/formatters/number";
 import { useForm, UseFormReturnType } from "@mantine/form";
