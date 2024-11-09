@@ -1,9 +1,8 @@
-import { signIn as authSignIn } from "@/handlers/event/auth";
 import { Verify as FormAuthVerify } from "@/types/form";
 import { millToMinSec, MinSec } from "@/utilities/formatters/number";
 import { useForm, UseFormReturnType } from "@mantine/form";
 import { useState } from "react";
-import { verify as handleVerify, verifyResend as handleVerifyResend } from "@/handlers/request/auth/verify";
+import { verify as handleVerify, verifyResend as handleVerifyResend } from "@/handlers/requests/auth/verify";
 import { useRouter } from "next/navigation";
 import { timeout } from "@/data/constants";
 import { NotificationVariant } from "@/types/enums";
@@ -43,8 +42,8 @@ export const useFormAuthVerify = (params: { userId: string }) => {
 				form.reset();
 
 				if (response.ok) {
-					// redirect to sign in page
-					setTimeout(async () => await authSignIn(), timeout.redirect);
+					// // redirect to sign in page
+					// setTimeout(async () => await authSignIn(), timeout.redirect);
 
 					showNotification({ variant: NotificationVariant.SUCCESS }, response, result);
 					return;
@@ -59,8 +58,8 @@ export const useFormAuthVerify = (params: { userId: string }) => {
 				}
 
 				if (response.statusText === "Already Verified") {
-					// redirect to sign in page
-					setTimeout(async () => await authSignIn(), timeout.redirect);
+					// // redirect to sign in page
+					// setTimeout(async () => await authSignIn(), timeout.redirect);
 
 					showNotification({ variant: NotificationVariant.WARNING }, response, result);
 					return;
@@ -114,8 +113,8 @@ export const useFormAuthVerify = (params: { userId: string }) => {
 			}
 
 			if (response.statusText === "Already Verified") {
-				// redirect to sign in page
-				setTimeout(async () => await authSignIn(), timeout.redirect);
+				// // redirect to sign in page
+				// setTimeout(async () => await authSignIn(), timeout.redirect);
 
 				showNotification({ variant: NotificationVariant.WARNING }, response, result);
 				return;

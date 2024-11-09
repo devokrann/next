@@ -1,4 +1,4 @@
-import { signUp as handleSignUp } from "@/handlers/request/auth/sign-up";
+import { signUp as handleSignUp } from "@/handlers/requests/auth/sign-up";
 import { signIn as authSignIn } from "next-auth/react";
 import { SignUp as FormAuthSignUp } from "@/types/form";
 import { capitalizeWords } from "@/utilities/formatters/string";

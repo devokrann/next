@@ -14,7 +14,6 @@ import LayoutBrand from "../brand";
 
 import sample from "@/data/sample";
 
-import { signIn } from "@/handlers/event/auth";
 import { useSession } from "next-auth/react";
 import links from "@/data/links";
 import classes from "./main.module.scss";
@@ -70,7 +69,11 @@ export default function Main() {
 
 				<Group visibleFrom="sm" gap={"xs"}>
 					{!session?.user ? (
-						<Button size="xs" variant="light" onClick={signIn}>
+						<Button
+							size="xs"
+							variant="light"
+							// onClick={signIn}
+						>
 							Log In
 						</Button>
 					) : (

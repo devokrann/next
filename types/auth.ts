@@ -1,5 +1,5 @@
 export interface Credentials {
-	email?: unknown;
-	password?: unknown;
-	rememberMe?: unknown;
+	email: string;
+	password: string;
+	rememberMe: boolean;
 }

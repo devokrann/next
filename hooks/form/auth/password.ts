@@ -1,4 +1,4 @@
-import { passwordForgot, passwordReset } from "@/handlers/request/auth/password";
+import { passwordForgot, passwordReset } from "@/handlers/requests/auth/password";
 import { millToMinSec, MinSec } from "@/utilities/formatters/number";
 import email from "@/utilities/validators/special/email";
 import { useForm, UseFormReturnType } from "@mantine/form";
@@ -7,7 +7,6 @@ import { useState } from "react";
 import { authUrls, timeout } from "@/data/constants";
 import password from "@/utilities/validators/special/password";
 import compare from "@/utilities/validators/special/compare";
-import { signOut as handleSignOut } from "@/handlers/event/auth";
 import { PasswordForgot as FormAuthPasswordForgot, PasswordReset as FormAuthPasswordReset } from "@/types/form";
 import { NotificationVariant } from "@/types/enums";
 import { showNotification } from "@/utilities/notifications";
@@ -111,8 +110,8 @@ export const useFormAuthPasswordReset = (params: { userId: string; token: string
 				form.reset();
 
 				if (response.ok) {
-					// sign out and redirect to sign in page
-					setTimeout(async () => await handleSignOut({ redirectUrl: authUrls.signIn }), timeout.redirect);
+					// // sign out and redirect to sign in page
+					// setTimeout(async () => await handleSignOut({ redirectUrl: authUrls.signIn }), timeout.redirect);
 
 					showNotification({ variant: NotificationVariant.SUCCESS }, response, result);
 					return;

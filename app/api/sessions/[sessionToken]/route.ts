@@ -1,6 +1,5 @@
 import prisma from "@/libraries/prisma";
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/auth";
 import { SessionCreate, SessionUpdate } from "@/types/models/session";
 import { cookies } from "next/headers";
 import { cookieName } from "@/data/constants";
@@ -8,12 +7,6 @@ import { StatusSession } from "@prisma/client";
 
 export async function GET(request: NextRequest, { params }: { params: { sessionToken: string } }) {
 	try {
-		const session = await auth();
-
-		if (!session) {
-			return NextResponse.json({ error: "You must be signed in" }, { status: 401, statusText: "Unauthorized" });
-		}
-
 		const sessionRecord = await prisma.session.findUnique({ where: { sessionToken: params.sessionToken } });
 
 		if (!sessionRecord) {
@@ -88,12 +81,6 @@ export async function PUT(request: NextRequest, { params }: { params: { sessionT
 
 export async function DELETE(request: NextRequest, { params }: { params: { sessionToken: string } }) {
 	try {
-		const session = await auth();
-
-		if (!session) {
-			return NextResponse.json({ error: "You must be signed in" }, { status: 401, statusText: "Unauthorized" });
-		}
-
 		const sessionRecord = await prisma.session.findUnique({ where: { sessionToken: params.sessionToken } });
 
 		if (!sessionRecord) {

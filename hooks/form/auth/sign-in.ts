@@ -2,13 +2,12 @@ import { SignIn as FormAuthSignin } from "@/types/form";
 import { getCallbackUrlParameter } from "@/utilities/helpers/url";
 import email from "@/utilities/validators/special/email";
 import { useForm, UseFormReturnType } from "@mantine/form";
-import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { timeout } from "@/data/constants";
 import { showNotification } from "@/utilities/notifications";
 import { NotificationVariant } from "@/types/enums";
-import { setDeviceInfo } from "@/utilities/helpers/cookies";
+import { setDeviceInfo } from "@/utilities/helpers/cookies/client";
 import { getGeoData } from "@/services/api/geo";
 import { useOs } from "@mantine/hooks";
 
@@ -44,55 +43,55 @@ export const useFormAuthSignIn = () => {
 			try {
 				setSubmitted(true);
 
-				// create cookie with device info
-				const geoData = await getGeoData();
-				setDeviceInfo(JSON.stringify({ ...geoData, os }));
+				// // create cookie with device info
+				// const geoData = await getGeoData();
+				// setDeviceInfo(JSON.stringify({ ...geoData, os }));
 
-				// handle user sign in
-				const result = await signIn("credentials", {
-					...parseValues(),
-					redirect: false,
-					callbackUrl: getCallbackUrlParameter(),
-				});
+				// // handle user sign in
+				// const result = await signIn("credentials", {
+				// 	...parseValues(),
+				// 	redirect: false,
+				// 	callbackUrl: getCallbackUrlParameter(),
+				// });
 
-				if (!result) throw new Error("No response from server");
+				// if (!result) throw new Error("No response from server");
 
-				form.reset();
+				// form.reset();
 
-				if (!result.error) {
-					// apply callbackurl
-					result.url && window.location.replace(result.url);
-					return;
-				}
+				// if (!result.error) {
+				// 	// apply callbackurl
+				// 	result.url && window.location.replace(result.url);
+				// 	return;
+				// }
 
-				if (result.error == "User not found" || result.error == "Invalid username/password") {
-					showNotification({
-						variant: NotificationVariant.FAILED,
-						title: "Authentication Error",
-						desc: "Invalid username/password",
-					});
-					return;
-				}
+				// if (result.error == "User not found" || result.error == "Invalid username/password") {
+				// 	showNotification({
+				// 		variant: NotificationVariant.FAILED,
+				// 		title: "Authentication Error",
+				// 		desc: "Invalid username/password",
+				// 	});
+				// 	return;
+				// }
 
-				if (result.error.includes("User not Verified")) {
-					const userId = result.error.split(": ")[1];
+				// if (result.error.includes("User not Verified")) {
+				// 	const userId = result.error.split(": ")[1];
 
-					// redirect to verification page
-					setTimeout(() => router.push(`/auth/verify/${userId}`), timeout.redirect);
+				// 	// redirect to verification page
+				// 	setTimeout(() => router.push(`/auth/verify/${userId}`), timeout.redirect);
 
-					showNotification(
-						{
-							variant: NotificationVariant.WARNING,
-							title: "Not Verified",
-							desc: "User not verified. Redirecting...",
-						},
-						undefined,
-						result
-					);
-					return;
-				}
+				// 	showNotification(
+				// 		{
+				// 			variant: NotificationVariant.WARNING,
+				// 			title: "Not Verified",
+				// 			desc: "User not verified. Redirecting...",
+				// 		},
+				// 		undefined,
+				// 		result
+				// 	);
+				// 	return;
+				// }
 
-				throw new Error("An unexpected error occured");
+				// throw new Error("An unexpected error occured");
 			} catch (error) {
 				showNotification({ variant: NotificationVariant.FAILED, desc: (error as Error).message });
 				return;

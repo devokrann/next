@@ -1,6 +1,5 @@
 import prisma from "@/libraries/prisma";
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/auth";
 import { ProfileCreate, ProfileUpdate } from "@/types/models/profile";
 
 export async function POST(request: NextRequest) {
@@ -30,28 +29,22 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
 	try {
-		const session = await auth();
-
-		if (!session) {
-			return NextResponse.json({ error: "You must be signed in" }, { status: 401, statusText: "Unauthorized" });
-		}
-
 		const profile: ProfileUpdate = await request.json();
 
-		const userRecord = await prisma.user.findUnique({ where: { id: session.user.id }, include: { profile: true } });
+		// const userRecord = await prisma.user.findUnique({ where: { id: session.user.id }, include: { profile: true } });
 
-		if (!userRecord?.profile) {
-			return NextResponse.json({ error: "Profile not found" }, { status: 404, statusText: "Not Found" });
-		}
+		// if (!userRecord?.profile) {
+		// 	return NextResponse.json({ error: "Profile not found" }, { status: 404, statusText: "Not Found" });
+		// }
 
-		const fullName = `${profile.firstName} ${profile.lastName}`;
+		// const fullName = `${profile.firstName} ${profile.lastName}`;
 
-		await prisma.user.update({
-			where: { id: session.user.id },
-			data: { name: fullName, profile: { update: profile } },
-		});
+		// await prisma.user.update({
+		// 	where: { id: session.user.id },
+		// 	data: { name: fullName, profile: { update: profile } },
+		// });
 
-		session.user.name = fullName;
+		// session.user.name = fullName;
 
 		return NextResponse.json(
 			{ message: "Your profile has been updated" },

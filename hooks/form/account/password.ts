@@ -1,14 +1,12 @@
 import { useForm, UseFormReturnType } from "@mantine/form";
 import { useState } from "react";
-import { signOut as handleSignOut } from "@/handlers/event/auth";
 import password from "@/utilities/validators/special/password";
 import compare from "@/utilities/validators/special/compare";
 import { AccountPassword, PasswordReset } from "@/types/form";
-import { userUpdate } from "@/handlers/request/database/user";
+import { userUpdate } from "@/handlers/requests/database/user";
 import { timeout } from "@/data/constants";
 import { NotificationVariant } from "@/types/enums";
 import { showNotification } from "@/utilities/notifications";
-import { signIn as authSignIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 export const useFormUserAccountPassword = (params: { withCredentials: boolean }) => {
@@ -16,7 +14,7 @@ export const useFormUserAccountPassword = (params: { withCredentials: boolean })
 
 	const [sending, setSending] = useState(false);
 
-	const { data: session, update } = useSession();
+	// const { data: session, update } = useSession();
 
 	const form: UseFormReturnType<PasswordReset & { current: string; withPassword: boolean }> = useForm({
 		initialValues: {
@@ -35,9 +33,9 @@ export const useFormUserAccountPassword = (params: { withCredentials: boolean })
 		},
 	});
 
-	if (!session) {
-		router.replace("/");
-	}
+	// if (!session) {
+	// 	router.replace("/");
+	// }
 
 	const parseValues = () => {
 		return {
@@ -64,7 +62,7 @@ export const useFormUserAccountPassword = (params: { withCredentials: boolean })
 
 				if (response.ok) {
 					if (!params.withCredentials) {
-						await update({ ...session, withPassword: true });
+						// await update({ ...session, withPassword: true });
 
 						// refresh the page
 						window.location.reload();
@@ -77,16 +75,16 @@ export const useFormUserAccountPassword = (params: { withCredentials: boolean })
 				}
 
 				if (response.status === 401) {
-					// redirect to sign in
-					setTimeout(async () => await authSignIn(), timeout.redirect);
+					// // redirect to sign in
+					// setTimeout(async () => await authSignIn(), timeout.redirect);
 
 					showNotification({ variant: NotificationVariant.WARNING }, response, result);
 					return;
 				}
 
 				if (response.status === 404) {
-					// sign out and redirect to home page
-					setTimeout(async () => await handleSignOut({ redirectUrl: "/" }), timeout.redirect);
+					// // sign out and redirect to home page
+					// setTimeout(async () => await handleSignOut({ redirectUrl: "/" }), timeout.redirect);
 
 					showNotification({ variant: NotificationVariant.FAILED }, response, result);
 					return;
