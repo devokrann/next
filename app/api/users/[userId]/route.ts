@@ -56,8 +56,8 @@ export async function PUT(request: NextRequest, { params }: { params: { userId: 
 
 		if (options?.password) {
 			const passwordMatch =
-				(!user.password && !userRecord.password) ||
-				(await compareHashes(user.password as string, userRecord.password));
+				(!options.password && !userRecord.password) ||
+				(await compareHashes(options.password, userRecord.password));
 
 			if (!passwordMatch) {
 				return NextResponse.json(
@@ -91,7 +91,7 @@ export async function PUT(request: NextRequest, { params }: { params: { userId: 
 
 			await prisma.user.update({
 				where: { id: params.userId },
-				data: { password: await hashValue(options.password) },
+				data: { password: await hashValue(user.password as string) },
 			});
 
 			// delete used otl record if exists
