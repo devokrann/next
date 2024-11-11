@@ -7,11 +7,12 @@ export const signIn = async (options: { provider?: Provider; credentials?: Crede
 	try {
 		const request = new Request(`${apiUrl}/auth/sign-in`, {
 			method: EnumRequest.POST,
+			credentials: "include",
+			headers: headers.withBody,
 			body: JSON.stringify({
 				provider: options.provider || Provider.CREDENTIALS,
 				credentials: options.credentials,
 			}),
-			headers: headers.withBody,
 		});
 
 		const response = await fetch(request);
