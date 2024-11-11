@@ -1,15 +1,16 @@
-import { SignIn as FormAuthSignin } from "@/types/form";
-import { getCallbackUrlParameter } from "@/utilities/helpers/url";
+import { getRedirectUrl } from "@/utilities/helpers/url";
 import email from "@/utilities/validators/special/email";
 import { useForm, UseFormReturnType } from "@mantine/form";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { timeout } from "@/data/constants";
+import { cookieName, timeout } from "@/data/constants";
 import { showNotification } from "@/utilities/notifications";
 import { NotificationVariant } from "@/types/enums";
-import { setDeviceInfo } from "@/utilities/helpers/cookies/client";
 import { getGeoData } from "@/services/api/geo";
 import { useOs } from "@mantine/hooks";
+import { signIn } from "@/handlers/requests/auth/sign-in";
+import { Credentials } from "@/types/auth";
+import { setCookie } from "@/utilities/helpers/cookie";
 
 export const useFormAuthSignIn = () => {
 	const router = useRouter();
@@ -17,7 +18,7 @@ export const useFormAuthSignIn = () => {
 
 	const [submitted, setSubmitted] = useState(false);
 
-	const form: UseFormReturnType<FormAuthSignin> = useForm({
+	const form: UseFormReturnType<Credentials & { remember: false }> = useForm({
 		initialValues: {
 			email: "",
 			password: "",
@@ -34,7 +35,7 @@ export const useFormAuthSignIn = () => {
 		return {
 			email: form.values.email.trim().toLowerCase(),
 			password: form.values.password.trim(),
-			rememberMe: form.values.remember,
+			remember: form.values.remember,
 		};
 	};
 
@@ -43,55 +44,51 @@ export const useFormAuthSignIn = () => {
 			try {
 				setSubmitted(true);
 
-				// // create cookie with device info
-				// const geoData = await getGeoData();
-				// setDeviceInfo(JSON.stringify({ ...geoData, os }));
+				// create cookie with device info
+				const geoData = await getGeoData();
+				setCookie(cookieName.device.geo, { ...geoData, os }, { expiryInSeconds: 30 });
 
-				// // handle user sign in
-				// const result = await signIn("credentials", {
-				// 	...parseValues(),
-				// 	redirect: false,
-				// 	callbackUrl: getCallbackUrlParameter(),
-				// });
+				const response = await signIn({ credentials: parseValues() });
+				const result = await response.json();
 
-				// if (!result) throw new Error("No response from server");
+				if (!result) throw new Error("No response from server");
 
-				// form.reset();
+				form.reset();
 
-				// if (!result.error) {
-				// 	// apply callbackurl
-				// 	result.url && window.location.replace(result.url);
-				// 	return;
-				// }
+				if (!result.error) {
+					// apply redirect url
+					window.location.replace(getRedirectUrl());
+					return;
+				}
 
-				// if (result.error == "User not found" || result.error == "Invalid username/password") {
-				// 	showNotification({
-				// 		variant: NotificationVariant.FAILED,
-				// 		title: "Authentication Error",
-				// 		desc: "Invalid username/password",
-				// 	});
-				// 	return;
-				// }
+				if (response.status == 404 || response.status == 401) {
+					showNotification({
+						variant: NotificationVariant.FAILED,
+						title: "Authentication Error",
+						desc: "Invalid username/password",
+					});
+					return;
+				}
 
-				// if (result.error.includes("User not Verified")) {
-				// 	const userId = result.error.split(": ")[1];
+				if (result.error.includes("User not Verified")) {
+					const userId = result.error.split(": ")[1];
 
-				// 	// redirect to verification page
-				// 	setTimeout(() => router.push(`/auth/verify/${userId}`), timeout.redirect);
+					// redirect to verification page
+					setTimeout(() => router.push(`/auth/verify/${userId}`), timeout.redirect);
 
-				// 	showNotification(
-				// 		{
-				// 			variant: NotificationVariant.WARNING,
-				// 			title: "Not Verified",
-				// 			desc: "User not verified. Redirecting...",
-				// 		},
-				// 		undefined,
-				// 		result
-				// 	);
-				// 	return;
-				// }
+					showNotification(
+						{
+							variant: NotificationVariant.WARNING,
+							title: "Not Verified",
+							desc: "User not verified. Redirecting...",
+						},
+						undefined,
+						result
+					);
+					return;
+				}
 
-				// throw new Error("An unexpected error occured");
+				throw new Error("An unexpected error occured");
 			} catch (error) {
 				showNotification({ variant: NotificationVariant.FAILED, desc: (error as Error).message });
 				return;

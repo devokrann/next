@@ -45,7 +45,7 @@ export const useFormAuthPasswordForgot = () => {
 					setTime(null);
 
 					// redirect to notification page
-					router.push(authUrls.verify);
+					router.push(authUrls.verifyRequest);
 					return;
 				}
 
@@ -59,7 +59,7 @@ export const useFormAuthPasswordForgot = () => {
 
 				if (response.status === 403 || response.status === 404) {
 					// redirect to notification page
-					router.push(authUrls.verify);
+					router.push(authUrls.verifyRequest);
 					return;
 				}
 

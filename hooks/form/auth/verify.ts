@@ -50,7 +50,7 @@ export const useFormAuthVerify = (params: { userId: string }) => {
 				}
 
 				if (response.status === 404) {
-					// redirect to sign up page
+					// redirect to home page
 					setTimeout(() => router.push("/"), timeout.redirect);
 
 					showNotification({ variant: NotificationVariant.FAILED }, response, result);
@@ -105,7 +105,7 @@ export const useFormAuthVerify = (params: { userId: string }) => {
 			setTime(null);
 
 			if (response.status === 404) {
-				// redirect to sign up page
+				// redirect to home page
 				setTimeout(() => router.replace("/"), timeout.redirect);
 
 				showNotification({ variant: NotificationVariant.FAILED }, response, result);

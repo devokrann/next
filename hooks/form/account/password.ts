@@ -2,19 +2,16 @@ import { useForm, UseFormReturnType } from "@mantine/form";
 import { useState } from "react";
 import password from "@/utilities/validators/special/password";
 import compare from "@/utilities/validators/special/compare";
-import { AccountPassword, PasswordReset } from "@/types/form";
+import { PasswordReset } from "@/types/form";
 import { userUpdate } from "@/handlers/requests/database/user";
 import { timeout } from "@/data/constants";
 import { NotificationVariant } from "@/types/enums";
 import { showNotification } from "@/utilities/notifications";
-import { useRouter } from "next/navigation";
+import { useSession } from "@/hooks/session";
 
 export const useFormUserAccountPassword = (params: { withCredentials: boolean }) => {
-	const router = useRouter();
-
 	const [sending, setSending] = useState(false);
-
-	// const { data: session, update } = useSession();
+	const { session, updateSession } = useSession();
 
 	const form: UseFormReturnType<PasswordReset & { current: string; withPassword: boolean }> = useForm({
 		initialValues: {
@@ -33,9 +30,7 @@ export const useFormUserAccountPassword = (params: { withCredentials: boolean })
 		},
 	});
 
-	// if (!session) {
-	// 	router.replace("/");
-	// }
+	if (!session) return;
 
 	const parseValues = () => {
 		return {
@@ -62,7 +57,8 @@ export const useFormUserAccountPassword = (params: { withCredentials: boolean })
 
 				if (response.ok) {
 					if (!params.withCredentials) {
-						// await update({ ...session, withPassword: true });
+						// // update the session data on the client-side
+						// await updateSession({ ...session, withPassword: true });
 
 						// refresh the page
 						window.location.reload();

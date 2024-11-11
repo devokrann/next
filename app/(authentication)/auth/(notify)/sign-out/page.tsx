@@ -10,7 +10,7 @@ import { IconArrowRight } from "@tabler/icons-react";
 import LayoutPage from "@/components/layout/page";
 import LayoutSection from "@/components/layout/section";
 
-import ButtonSignOut from "@/components/common/buttons/sign-out";
+import { SignOut as FragmentSignOut } from "@/components/common/fragments/auth";
 import { iconStrokeWidth } from "@/data/constants";
 
 export const metadata: Metadata = { title: "Sign Out" };
@@ -31,7 +31,9 @@ export default async function SignOut() {
 					</Stack>
 
 					<Group>
-						<ButtonSignOut>Sign Out</ButtonSignOut>
+						<FragmentSignOut>
+							<Button>Sign Out</Button>
+						</FragmentSignOut>
 
 						<Button
 							component={Link}

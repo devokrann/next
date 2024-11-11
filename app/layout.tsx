@@ -30,6 +30,9 @@ import appResolver from "@/styles/resolver";
 import appData from "@/data/app";
 import { linkify } from "@/utilities/formatters/string";
 
+import SessionProvider from "@/components/providers/session";
+import { getSession } from "@/utilities/helpers/session";
+
 const noto = Noto_Sans_Display({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -43,24 +46,24 @@ export default async function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" data-mantine-color-scheme="light">
+		<html lang="en" data-mantine-color-scheme="dark">
 			<head>
-				<ColorSchemeScript defaultColorScheme="light" />
+				<ColorSchemeScript defaultColorScheme="dark" />
 			</head>
 
 			<body className={noto.className}>
-				{/* <SessionProvider session={session}> */}
-				<MantineProvider
-					theme={appTheme}
-					cssVariablesResolver={appResolver}
-					defaultColorScheme="light"
-					classNamesPrefix={linkify(appData.name.app)}
-				>
-					<ModalsProvider>{children}</ModalsProvider>
+				<SessionProvider sessionData={await getSession()}>
+					<MantineProvider
+						theme={appTheme}
+						cssVariablesResolver={appResolver}
+						defaultColorScheme="dark"
+						classNamesPrefix={linkify(appData.name.app)}
+					>
+						<ModalsProvider>{children}</ModalsProvider>
 
-					<Notifications limit={3} />
-				</MantineProvider>
-				{/* </SessionProvider> */}
+						<Notifications limit={3} />
+					</MantineProvider>
+				</SessionProvider>
 
 				{/* <SpeedInsights /> */}
 			</body>

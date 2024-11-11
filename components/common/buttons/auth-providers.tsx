@@ -20,7 +20,7 @@ export default function Providers() {
 			fullWidth
 			variant="light"
 			onClick={async () => {
-				setLoading(true);
+				// setLoading(true);
 				// await signIn({ provider }, os);
 			}}
 			loading={loading}

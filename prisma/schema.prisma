@@ -111,12 +111,12 @@ model Token {
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @updatedAt @map(name: "updated_at")
 
+  @@unique([type, subType, userId])
   @@map(name: "tokens")
 }
 
 model Session {
   id        String   @id @default(cuid())
-  token     String
   ip        String
   os        String?
   city      String?
@@ -131,7 +131,6 @@ model Session {
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @updatedAt @map(name: "updated_at")
 
-  @@unique([token])
   @@map("sessions")
 }
 

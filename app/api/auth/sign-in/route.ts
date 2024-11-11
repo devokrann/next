@@ -1,12 +1,13 @@
-import { contactCreate } from "@/libraries/wrappers/email/contact";
-import { generateOtpCode } from "@/utilities/generators/otp";
 import prisma from "@/libraries/prisma";
-import { compareHashes, hashValue } from "@/utilities/helpers/hasher";
-import { emailSendSignUp } from "@/libraries/wrappers/email/send/auth/sign-up";
+import { compareHashes } from "@/utilities/helpers/hasher";
 import { generateId } from "@/utilities/generators/id";
-import { Type, Provider } from "@prisma/client";
+import { Provider } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { Credentials } from "@/types/auth";
+import { encrypt } from "@/utilities/helpers/token";
+import { cookies } from "next/headers";
+import { cookieName } from "@/data/constants";
+import { getExpiry } from "@/utilities/helpers/time";
 
 export async function POST(request: NextRequest) {
 	try {
@@ -24,16 +25,16 @@ export async function POST(request: NextRequest) {
 			);
 		}
 
-		const userRecord = await prisma.user.findUnique({ where: { email: credentials.email } });
+		const userRecord = await prisma.user.findUnique({
+			where: { email: credentials.email },
+			include: { profile: true },
+		});
 
 		if (!userRecord) {
 			return NextResponse.json({ error: "User does not exist" }, { status: 404, statusText: "User Not Found" });
 		}
 
 		const passwordMatches = await compareHashes(credentials.password, userRecord.password);
-
-		// create the session
-		const expires = new Date(Date.now() + 10 * 1000);
 
 		if (!passwordMatches) {
 			return NextResponse.json(
@@ -42,11 +43,64 @@ export async function POST(request: NextRequest) {
 			);
 		}
 
-		return NextResponse.json(
-			{
-				message: "User authenticated successfully",
-				user: userRecord,
+		await prisma.session.deleteMany({ where: { userId: userRecord.id, expiresAt: { lt: new Date(Date.now()) } } });
+
+		const deviceGeoCookie = cookies().get(cookieName.device.geo)?.value;
+		const deviceGeo = deviceGeoCookie ? await JSON.parse(decodeURIComponent(deviceGeoCookie)) : null;
+
+		const expires = new Date(Date.now() + getExpiry(credentials.remember).millisec);
+
+		const createSession = await prisma.session.create({
+			data: {
+				id: generateId(),
+				expiresAt: expires,
+				ip: deviceGeo.ip,
+				city: deviceGeo.city,
+				country: deviceGeo.country,
+				loc: deviceGeo.loc,
+				os: deviceGeo.os,
+				userId: userRecord.id,
 			},
+		});
+
+		const {
+			userId: userIdCreateSession,
+			createdAt: createdAtCreateSession,
+			updatedAt: updatedAtCreateSession,
+			expiresAt: expiresAtCreateSession,
+			...restCreateSession
+		} = createSession;
+
+		const {
+			password: passwordUserRecord,
+			createdAt: createdAtUserRecord,
+			updatedAt: updatedAtUserRecord,
+			profile: profileUserRecord,
+			...restUserRecord
+		} = userRecord;
+
+		const session = await encrypt(
+			{
+				...restCreateSession,
+				user: {
+					...restUserRecord,
+					name: userRecord.profile?.name,
+					image: userRecord.profile?.avatar,
+					remember: credentials.remember,
+				},
+				expires,
+			},
+			getExpiry(credentials.remember).sec
+		);
+
+		// save session in cookie
+		cookies().set(cookieName.session, session, {
+			expires,
+			httpOnly: true,
+		});
+
+		return NextResponse.json(
+			{ message: "User authenticated successfully", user: userRecord },
 			{ status: 200, statusText: "User Authenticated" }
 		);
 	} catch (error) {
