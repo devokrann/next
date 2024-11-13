@@ -12,7 +12,7 @@ export const emailSendSignUp = async (otp: string, options: EmailInquiry["to"]) 
 		}>`,
 		to: [isProduction() ? options : process.env.NEXT_EMAIL_NOREPLY!],
 		subject: `Verify Your Email Address`,
-		react: TemplateEmailCodeSignUp(otp),
+		react: TemplateEmailCodeSignUp({ otp }),
 		replyTo: process.env.NEXT_EMAIL_NOREPLY!,
 	});
 	if (!error) {

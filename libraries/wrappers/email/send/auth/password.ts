@@ -13,7 +13,7 @@ export const emailCreatePasswordForgot = async (otl: string, options: EmailInqui
 		}>`,
 		to: [isProduction() ? options : process.env.NEXT_EMAIL_NOREPLY!],
 		subject: "Reset Your Password",
-		react: TemplateEmailCodeForgot(otl),
+		react: TemplateEmailCodeForgot({otl}),
 		replyTo: process.env.NEXT_EMAIL_NOREPLY!,
 	});
 	if (!error) {

@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
 			{
 				message: "An OTL has been sent",
 				token: tokens.createNew,
-				// resend: await emailCreatePasswordForgot(otlValue, userRecord.email),
+				resend: await emailCreatePasswordForgot(otlValue, userRecord.email),
 			},
 			{ status: 200, statusText: "OTL Sent" }
 		);

@@ -93,7 +93,7 @@ export async function POST(request: NextRequest, { params }: { params: { userId:
 					message: "A new OTP has been sent",
 					user: { id: userRecord.id },
 					token,
-					// resend: await emailSendSignUp(otpValue.toString(), userRecord.email),
+					resend: await emailSendSignUp(otpValue.toString(), userRecord.email),
 				},
 				{ status: 200, statusText: "OTP Sent" }
 			);
