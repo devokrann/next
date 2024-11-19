@@ -64,8 +64,6 @@ export async function POST(request: NextRequest) {
 			return { createUser };
 		});
 
-		console.log(otpValue);
-
 		return NextResponse.json(
 			{
 				message: "Your account has been created",

@@ -86,8 +86,6 @@ export async function POST(request: NextRequest, { params }: { params: { userId:
 				});
 			});
 
-			console.log(otpValue);
-
 			return NextResponse.json(
 				{
 					message: "A new OTP has been sent",

@@ -7,7 +7,7 @@ import appData from "@/data/app";
 
 export default function Contact(params: { name: string; message: string }) {
 	return (
-		<LayoutEmail props={{ preview: params.message }}>
+		<LayoutEmail props={{ preview: params.message }} options={{ withHeader: false, withFooter: false }}>
 			<Text style={text}>
 				{appData.name.company}, <br />
 				{params.message} <br />

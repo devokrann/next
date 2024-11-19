@@ -65,8 +65,6 @@ export async function POST(request: NextRequest) {
 
 		const otlValue = `${baseUrl}/auth/password/reset?token=${token}`;
 
-		console.log("otlValue", otlValue);
-
 		return NextResponse.json(
 			{
 				message: "An OTL has been sent",

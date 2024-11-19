@@ -22,6 +22,13 @@ export default function SignUp(params: { otp: string }) {
 				<Text style={{ ...text, textAlign: "center", fontWeight: "bold", fontSize: 24 }}>{params.otp}</Text>
 				<Text style={{ ...text, textAlign: "center", marginTop: "8px" }}>(this code is valid for 1 hour)</Text>
 			</Section>
+
+			<Section style={section}>
+				<Text style={text}>
+					{appData.name.app} will never email you and ask you to disclose or verify your password, credit
+					card, banking account number or any other sensitive personal information.
+				</Text>
+			</Section>
 		</LayoutEmail>
 	);
 }

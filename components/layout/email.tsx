@@ -1,9 +1,19 @@
 import * as React from "react";
 
-import { Body, Container, Head, Heading, Html, Preview, Section, Text } from "@react-email/components";
+import { Body, Container, Head, Heading, Img, Html, Preview, Section, Text } from "@react-email/components";
 import appData from "@/data/app";
+import { baseUrl } from "@/data/constants";
+import { images } from "@/assets/images";
 
-export default function Email({ props, children }: { props: { preview: string }; children: React.ReactNode }) {
+export default function Email({
+	props,
+	options = { withHeader: true, withFooter: true },
+	children,
+}: {
+	props: { preview: string };
+	options?: { withHeader?: boolean; withFooter?: boolean };
+	children: React.ReactNode;
+}) {
 	return (
 		<>
 			<Html lang="en">
@@ -12,45 +22,42 @@ export default function Email({ props, children }: { props: { preview: string };
 
 				<Body>
 					<Container style={content}>
-						<Container style={container}>
-							<Section style={header}>
-								<Heading style={{ ...h1, textAlign: "center" }}>{appData.name.company}</Heading>
+						{options.withHeader && (
+							<Container style={container}>
+								<Section style={header}>
+									{/* <Heading style={{ ...h1, textAlign: "center" }}>{appData.name.company}</Heading> */}
 
-								{/* <Img
-									src={`${baseUrl}${images.logo.dark}`}
-									width={32}
-									height={32}
-									alt={appData.name.company}
-								/> */}
-							</Section>
+									<Img
+										src={`${baseUrl}${images.logo.dark}`}
+										width={128}
+										height={64}
+										alt={appData.name.company}
+									/>
+								</Section>
+							</Container>
+						)}
+
+						<Container style={container}>
+							<Section style={{ ...section, padding: "0px 20px" }}>{children}</Section>
 						</Container>
 
-						<Container style={container}>
-							<Section style={{ ...section, padding: "0px 20px" }}>
-								{children}
-
-								<Section style={section}>
-									<Text style={text}>
-										{appData.name.app} will never email you and ask you to disclose or verify your
-										password, credit card, banking account number or any other sensitive personal
-										information.
+						{options.withFooter && (
+							<Container style={container}>
+								<Section style={footer}>
+									<Text style={{ ...text, textAlign: "center" }}>
+										Copyright © {new Date().getFullYear()}, {appData.name.company}. All rights
+										reserved.
+									</Text>
+									<Text style={{ ...text, textAlign: "center" }}>
+										This message was produced and distributed by {appData.name.company}, or its
+										affiliates.
+									</Text>
+									<Text style={{ ...text, textAlign: "center" }}>
+										{appData.locations.main.location}
 									</Text>
 								</Section>
-							</Section>
-						</Container>
-
-						<Container style={container}>
-							<Section style={footer}>
-								<Text style={{ ...text, textAlign: "center" }}>
-									Copyright © {new Date().getFullYear()}, {appData.name.company}. All rights reserved.
-								</Text>
-								<Text style={{ ...text, textAlign: "center" }}>
-									This message was produced and distributed by {appData.name.company}, or its
-									affiliates.
-								</Text>
-								<Text style={{ ...text, textAlign: "center" }}>{appData.locations.main.location}</Text>
-							</Section>
-						</Container>
+							</Container>
+						)}
 					</Container>
 				</Body>
 			</Html>
@@ -84,6 +91,8 @@ export const content = {
 	maxWidth: "640px",
 	margin: "0 auto",
 	overflow: "hidden",
+	fontFamily:
+		"-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
 };
 
 export const h1 = {
