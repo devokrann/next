@@ -3,11 +3,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import reducerColorScheme from "./slices/color-scheme";
+import reducerSession from "./slices/session";
 
 export const makeStore = () => {
 	return configureStore({
 		reducer: {
 			colorScheme: reducerColorScheme,
+			session: reducerSession,
 		},
 
 		devTools: process.env.NODE_ENV !== "production",

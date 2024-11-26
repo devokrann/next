@@ -1,5 +1,4 @@
 import { useMantineColorScheme } from "@mantine/core";
-import { useSession } from "./auth";
 import { setCookie } from "@/utilities/helpers/cookie-client";
 import { cookieName } from "@/data/constants";
 import { getExpiry } from "@/utilities/helpers/time";
@@ -10,8 +9,7 @@ import { updateColorScheme } from "@/libraries/redux/slices/color-scheme";
 export const useColorSchemeHandler = () => {
 	const { setColorScheme } = useMantineColorScheme({ keepTransitions: true });
 
-	const { session } = useSession();
-
+	const session = useAppSelector((state) => state.session.value);
 	const colorScheme = useAppSelector((state) => state.colorScheme.value);
 	const dispatch = useAppDispatch();
 

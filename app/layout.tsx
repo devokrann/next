@@ -30,7 +30,6 @@ import appResolver from "@/styles/resolver";
 import appData from "@/data/app";
 import { linkify } from "@/utilities/formatters/string";
 
-import ProviderSession from "@/components/providers/session";
 import { getSession } from "@/libraries/auth";
 
 import AffixOffline from "@/components/common/affixi/offline";
@@ -60,21 +59,22 @@ export default async function RootLayout({
 			</head>
 
 			<body className={noto.className}>
-				<ProviderStore colorScheme={(await getCookie(cookieName.colorSchemeState)) || "light"}>
-					<ProviderSession sessionData={await getSession()}>
-						<MantineProvider
-							theme={appTheme}
-							cssVariablesResolver={appResolver}
-							defaultColorScheme={(colorScheme || "light") as MantineColorScheme}
-							classNamesPrefix={linkify(appData.name.app)}
-						>
-							<ModalsProvider>{children}</ModalsProvider>
+				<ProviderStore
+					colorScheme={(await getCookie(cookieName.colorSchemeState)) || "light"}
+					session={await getSession()}
+				>
+					<MantineProvider
+						theme={appTheme}
+						cssVariablesResolver={appResolver}
+						defaultColorScheme={(colorScheme || "light") as MantineColorScheme}
+						classNamesPrefix={linkify(appData.name.app)}
+					>
+						<ModalsProvider>{children}</ModalsProvider>
 
-							<Notifications limit={3} />
+						<Notifications limit={3} />
 
-							<AffixOffline />
-						</MantineProvider>
-					</ProviderSession>
+						<AffixOffline />
+					</MantineProvider>
 				</ProviderStore>
 
 				{/* <SpeedInsights /> */}
