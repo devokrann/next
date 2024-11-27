@@ -21,11 +21,13 @@ export const crumbify = (url: string) => {
     .filter((crumb) => crumb != '')
     .map((item) => {
       currentLink += `/${item}`;
-      item.length < 24 &&
+
+      if (item.length < 24) {
         crumbs.push({
           link: currentLink,
           label: `${capitalizeWords(item.replaceAll('-', ' '))}`,
         });
+      }
     });
 
   return crumbs;

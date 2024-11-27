@@ -16,7 +16,7 @@ export const emailCreate = async (
 
     const response = await fetch(request);
 
-    const addContact = await contactCreate(options.from); // add contact to audience
+    await contactCreate(options.from); // add contact to audience
 
     return response;
   } catch (error) {

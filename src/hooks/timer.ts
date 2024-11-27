@@ -22,7 +22,9 @@ export default function useTimer(
 
   useEffect(() => {
     const interval = setInterval(() => {
-      isActive && setTime(getTime(targetDate));
+      if (isActive) {
+        setTime(getTime(targetDate));
+      }
     }, 1000);
 
     // Cleanup interval when the component unmounts

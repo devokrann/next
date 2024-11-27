@@ -6,7 +6,6 @@ import {
   Container,
   createTheme,
   Notification,
-  rem,
   virtualColor,
 } from '@mantine/core';
 

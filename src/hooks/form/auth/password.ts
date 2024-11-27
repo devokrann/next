@@ -124,7 +124,7 @@ export const useFormAuthPasswordReset = () => {
       if (form.isValid()) {
         setSending(true);
 
-        const parsed = await decrypt(getUrlParam('token')).catch((e) => {
+        const parsed = await decrypt(getUrlParam('token')).catch(() => {
           throw new Error('Link is broken, expired or already used');
         });
 

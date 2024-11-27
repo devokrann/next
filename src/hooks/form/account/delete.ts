@@ -45,7 +45,7 @@ export const useFormUserAccountDelete = () => {
         setSubmitted(true);
 
         const response = await userDelete(
-          session?.user.id!,
+          session?.user.id || '',
           form.values.password.trim()
         );
 

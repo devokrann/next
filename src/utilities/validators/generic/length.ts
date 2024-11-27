@@ -2,7 +2,7 @@ import errors from '../errors';
 import empty from './empty';
 
 const hasLength = {
-  string(val: string, min: number, max: number, action: Function) {
+  string(val: string, min: number, max: number, action: () => any) {
     return empty.string(val, () => {
       if (val.trim().length < min) {
         return errors.isShort(min);
@@ -12,7 +12,7 @@ const hasLength = {
     });
   },
 
-  number(val: number, min: number, max: number, action: Function) {
+  number(val: number, min: number, max: number, action: () => any) {
     return empty.number(val, () => {
       if (val < min) {
         return errors.isShort(min);
