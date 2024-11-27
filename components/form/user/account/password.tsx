@@ -27,7 +27,7 @@ export default function Password() {
   const session = useAppSelector((state) => state.session.value);
 
   const { form, sending, handleSubmit } = useFormUserAccountPassword({
-    credentials: session?.user.withPassword!,
+    credentials: !session ? false : session.user.withPassword,
   });
 
   const getLabel = ({ title, desc }: { title: string; desc?: string }) => (

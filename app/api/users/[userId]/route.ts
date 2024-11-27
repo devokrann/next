@@ -95,7 +95,7 @@ export async function PUT(
           });
 
           if (!tokenExists) throw new Error('Not Found');
-        } catch (error) {
+        } catch {
           return NextResponse.json(
             { error: 'Link is broken, expired or already used' },
             { status: 403, statusText: 'Invalid Link' }
@@ -103,37 +103,39 @@ export async function PUT(
         }
       }
 
-      const passwordMatch =
-        options.password == 'update' ||
-        options.password == 'reset' ||
-        (await compareHashes(options.password, userRecord.password));
-
-      if (!passwordMatch) {
-        return NextResponse.json(
-          { error: "You've entered the wrong password" },
-          { status: 403, statusText: 'Wrong Password' }
+      if (options.password != 'update' && options.password != 'reset') {
+        const passwordMatch = await compareHashes(
+          options.password,
+          userRecord.password
         );
+
+        if (!passwordMatch) {
+          return NextResponse.json(
+            { error: "You've entered the wrong password" },
+            { status: 403, statusText: 'Wrong Password' }
+          );
+        }
+
+        const passwordSame =
+          options.password != 'update' &&
+          (await compareHashes(user.password as string, userRecord.password));
+
+        if (passwordSame) {
+          return NextResponse.json(
+            { error: 'Password already used' },
+            { status: 409, statusText: 'Password Used' }
+          );
+        }
       }
 
-      const passwordSame =
-        options.password != 'update' &&
-        (await compareHashes(user.password as string, userRecord.password));
-
-      if (passwordSame) {
-        return NextResponse.json(
-          { error: 'Password already used' },
-          { status: 409, statusText: 'Password Used' }
-        );
-      }
-
-      if (!session?.user.withPassword && !options.token) {
+      if (session && !session.user.withPassword && !options.token) {
         const sessionToken = await encrypt(
-          { ...session, user: { ...session?.user, withPassword: true } },
-          getExpiry(session?.user.remember).sec
+          { ...session, user: { ...session.user, withPassword: true } },
+          getExpiry(session.user.remember).sec
         );
 
         cookies().set(cookieName.session, sessionToken, {
-          expires: new Date(session?.expires!),
+          expires: new Date(session.expires),
           httpOnly: true,
         });
       }

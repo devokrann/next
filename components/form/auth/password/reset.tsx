@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { Button, Center, Grid, GridCol, PasswordInput } from '@mantine/core';
+import { Button, Grid, GridCol, PasswordInput } from '@mantine/core';
 
 import { useFormAuthPasswordReset } from '@/hooks/form/auth/password';
 import PopoverPasswordStrength from '@/components/wrapper/popovers/password-strength';

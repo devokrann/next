@@ -15,7 +15,7 @@ export default function Navbar({
   AffixBaseProps,
   'position' | 'children'
 >) {
-  const [scroll, scrollTo] = useWindowScroll();
+  const [scroll] = useWindowScroll();
   const pinned = useHeadroom({ fixedAt: 120 });
 
   return (

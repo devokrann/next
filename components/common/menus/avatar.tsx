@@ -21,7 +21,7 @@ import AvatarMain from '../avatars/main';
 
 import classes from './avatar.module.scss';
 import { navLinkItems } from '@/components/layout/asides/account';
-import { getRegionalDate } from '@/utilities/formatters/date';
+// import { getRegionalDate } from '@/utilities/formatters/date';
 import { IconSettings } from '@tabler/icons-react';
 import { iconSize, iconStrokeWidth } from '@/data/constants';
 import { useAppSelector } from '@/hooks/redux';

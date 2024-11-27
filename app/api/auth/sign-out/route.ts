@@ -1,8 +1,8 @@
 import prisma from '@/libraries/prisma';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { getSession, signOut } from '@/libraries/auth';
 
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
     const session = await getSession();
 

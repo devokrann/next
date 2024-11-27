@@ -1,12 +1,12 @@
 import React from 'react';
 
-import EmailMarketingContact from '@/components/email/marketing/contact';
-import { render } from '@react-email/render';
+// import EmailMarketingContact from '@/components/email/marketing/contact';
+// import { render } from '@react-email/render';
 import { Paper } from '@mantine/core';
 
-const emails: Record<string, any> = {
-  contact: EmailMarketingContact({ name: 'Jane Doe', message: 'Sample' }),
-};
+// const emails: Record<string, unknown> = {
+//   contact: EmailMarketingContact({ name: 'Jane Doe', message: 'Sample' }),
+// };
 
 export default async function page({
   params,

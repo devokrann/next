@@ -77,8 +77,9 @@ export default function Comment({
                 <Stack gap={0}>
                   <CardBlogReplyComment props={reply} />
 
-                  {props.replies?.indexOf(reply) !=
-                    props.replies?.length! - 1 && <Divider />}
+                  {props.replies &&
+                    props.replies.indexOf(reply) !=
+                      props.replies.length! - 1 && <Divider />}
                 </Stack>
               </GridCol>
             ))}

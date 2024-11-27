@@ -35,35 +35,35 @@ export default async function Post({ params }: { params: typeParams }) {
     (p) => linkify(p.title) == params.title
   );
 
-  return (
+  return !post ? null : (
     <LayoutPage>
       <LayoutSection id={'page-post'} margined containerized={false}>
         <Stack gap={'xl'}>
           <Stack>
             <Group fz={'sm'} justify="center">
               <Text inherit>
-                {!post?.user ? 'Anonymous' : post.user.profile.name}
+                {!post.user ? 'Anonymous' : post.user.profile.name}
               </Text>
               <IconCircleFilled size={4} />
-              <Text inherit>{getRegionalDate(post?.createdAt!)}</Text>
+              <Text inherit>{getRegionalDate(post.createdAt)}</Text>
               <IconCircleFilled size={4} />
               <Anchor
                 component={Link}
-                href={`/blog/categories/${post?.category?.id}`}
+                href={`/blog/categories/${post.category?.id}`}
                 underline="never"
                 inherit
               >
-                {post?.category?.title}
+                {post.category?.title}
               </Anchor>
             </Group>
 
             <Title order={1} fz={40} ta={'center'}>
-              {post?.title}
+              {post.title}
             </Title>
           </Stack>
 
           <Group justify="center">
-            <PartialShare props={{ postTitle: post?.title! }} size={32} />
+            <PartialShare props={{ postTitle: post.title }} size={32} />
           </Group>
 
           <Stack
@@ -74,8 +74,8 @@ export default async function Post({ params }: { params: typeParams }) {
             justify="center"
           >
             <Image
-              src={post?.image}
-              alt={post?.title!}
+              src={post.image}
+              alt={post.title}
               mah={480}
               component={NextImage}
               width={1920}
@@ -84,13 +84,13 @@ export default async function Post({ params }: { params: typeParams }) {
             />
           </Stack>
 
-          <Text>{post?.content}</Text>
+          <Text>{post.content}</Text>
 
           <Group justify="space-between" mt={'xl'}>
             <Text fw={'bold'}>
               Tags:{' '}
               <Text component="span" inherit fw={'normal'}>
-                {post?.tags.map(
+                {post.tags.map(
                   (t) =>
                     `${t.title}${post.tags.indexOf(t) == post.tags.length - 1 ? '' : ', '}`
                 )}
@@ -99,7 +99,7 @@ export default async function Post({ params }: { params: typeParams }) {
 
             <Group gap={'xs'}>
               <Text>Share: </Text>
-              <PartialShare props={{ postTitle: post?.title! }} />
+              <PartialShare props={{ postTitle: post.title }} />
             </Group>
           </Group>
 
@@ -109,7 +109,7 @@ export default async function Post({ params }: { params: typeParams }) {
 
       <LayoutSection id={'page-post-comment'} margined containerized={false}>
         <Grid gutter={0}>
-          {post?.comments.map((comment) => (
+          {post.comments.map((comment) => (
             <GridCol key={comment.id} span={12}>
               <Stack gap={0}>
                 <CardBlogComment props={comment} />
@@ -133,7 +133,7 @@ export default async function Post({ params }: { params: typeParams }) {
               <Text>Your email address will not be published.</Text>
             </Stack>
 
-            <FormBlogComment postId={post?.id!} />
+            <FormBlogComment postId={post.id} />
           </Stack>
         </Card>
       </LayoutSection>

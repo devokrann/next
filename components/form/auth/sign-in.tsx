@@ -6,9 +6,7 @@ import Link from 'next/link';
 
 import {
   Anchor,
-  Box,
   Button,
-  Center,
   Checkbox,
   Divider,
   Grid,

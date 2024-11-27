@@ -5,13 +5,11 @@ import React from 'react';
 import {
   Box,
   Button,
-  Center,
   Grid,
   GridCol,
   Stack,
   Text,
   TextInput,
-  Transition,
 } from '@mantine/core';
 import { useFormAuthPasswordForgot } from '@/hooks/form/auth/password';
 

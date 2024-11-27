@@ -45,7 +45,7 @@ export async function POST(
         { error: 'OTP already sent', otp: { expiry } },
         { status: 409, statusText: 'Already Sent' }
       );
-    } catch (error) {
+    } catch {
       const tokenRecord = await prisma.token.findUnique({
         where: {
           type_subType_userId: {

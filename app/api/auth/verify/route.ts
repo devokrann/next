@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
           { status: 403, statusText: 'Invalid OTP' }
         );
       }
-    } catch (error) {
+    } catch {
       return NextResponse.json(
         { error: "The OTP is expired or doesn't exist" },
         { status: 409, statusText: 'Invalid OTP' }

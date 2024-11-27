@@ -3,7 +3,6 @@ import prisma from '@/libraries/prisma';
 
 import { emailCreatePasswordForgot } from '@/libraries/wrappers/email/send/auth/password';
 import { generateId } from '@/utilities/generators/id';
-import { compareHashes, hashValue } from '@/utilities/helpers/hasher';
 import { encrypt } from '@/utilities/helpers/token';
 import { SubType, Type } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
@@ -27,15 +26,18 @@ export async function POST(request: NextRequest) {
     }
 
     const now = new Date();
-    const expired = userRecord.tokens[0]?.expiresAt! < now;
 
-    if (userRecord.tokens[0] && !expired) {
-      const expiry = userRecord.tokens[0].expiresAt.getTime() - now.getTime();
+    if (userRecord.tokens[0]) {
+      const expired = userRecord.tokens[0].expiresAt! < now;
 
-      return NextResponse.json(
-        { error: 'OTL already sent', expiry },
-        { status: 409, statusText: 'Already Sent' }
-      );
+      if (!expired) {
+        const expiry = userRecord.tokens[0].expiresAt.getTime() - now.getTime();
+
+        return NextResponse.json(
+          { error: 'OTL already sent', expiry },
+          { status: 409, statusText: 'Already Sent' }
+        );
+      }
     }
 
     const id = generateId();

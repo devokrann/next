@@ -4,9 +4,7 @@ import React from 'react';
 
 import {
   Anchor,
-  Box,
   Button,
-  Center,
   Divider,
   Grid,
   GridCol,

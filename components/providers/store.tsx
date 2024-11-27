@@ -28,6 +28,7 @@ export default function Store({
     storeRef.current.dispatch(updateColorScheme(colorScheme));
 
     if (session) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { iat, exp, ...restSession } = session;
       storeRef.current.dispatch(updateSession(restSession));
     }
