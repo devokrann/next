@@ -1,20 +1,12 @@
 {
   "extends": [
-    // "eslint:recommended",
-    // "plugin:react/recommended",
-    // "plugin:@typescript-eslint/recommended",
-    // "plugin:prettier/recommended",
-    "next/core-web-vitals",
-    "next/typescript",
-    "next"
-    // "prettier"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "next/core-web-vitals"
   ],
-
-  // "plugins": ["prettier"],
-
+  "plugins": ["prettier"],
   "rules": {
-    "react/no-unescaped-entities": "off",
-    "@next/next/no-page-custom-font": "off"
-    // "prettier/prettier": "error"
+    "@typescript-eslint/no-explicit-any": "off",
+    "prettier/prettier": "warn"
   }
 }
