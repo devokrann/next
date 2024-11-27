@@ -5,15 +5,7 @@ import NextImage from 'next/image';
 import LayoutBody from '@/components/layout/body';
 import LayoutSection from '@/components/layout/section';
 
-import {
-  Stack,
-  Image,
-  Group,
-  Anchor,
-  Center,
-  Card,
-  Divider,
-} from '@mantine/core';
+import { Stack, Image, Group, Anchor, Center, Card } from '@mantine/core';
 import { images } from '@/assets/images';
 import appData from '@/data/app';
 import Link from 'next/link';

@@ -17,8 +17,9 @@ export const generateMetadata = async ({
   const { posts }: { posts: PostRelations[] } = await postsGet();
 
   return {
-    title: posts.find((p) => linkify(p.category?.id!) == params.categoryId)
-      ?.category?.title,
+    title:
+      posts.find((p) => linkify(p.category?.id || '') == params.categoryId)
+        ?.category?.title || 'Title',
   };
 };
 

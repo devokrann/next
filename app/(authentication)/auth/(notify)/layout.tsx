@@ -3,15 +3,7 @@ import React from 'react';
 import NextImage from 'next/image';
 import Link from 'next/link';
 
-import {
-  Anchor,
-  Center,
-  Grid,
-  GridCol,
-  Group,
-  Image,
-  Stack,
-} from '@mantine/core';
+import { Anchor, Grid, GridCol, Group, Image, Stack } from '@mantine/core';
 
 import LayoutBody from '@/components/layout/body';
 import LayoutSection from '@/components/layout/section';
