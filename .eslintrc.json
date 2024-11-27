@@ -1,11 +1,20 @@
 {
-	"extends": [
-		"next/core-web-vitals"
-		// "next/typescript"
-	]
+  "extends": [
+    // "eslint:recommended",
+    // "plugin:react/recommended",
+    // "plugin:@typescript-eslint/recommended",
+    // "plugin:prettier/recommended",
+    "next/core-web-vitals",
+    "next/typescript",
+    "next"
+    // "prettier"
+  ],
 
-	// "rules": {
-	// 	"react/no-unescaped-entities": "off",
-	// 	"@next/next/no-page-custom-font": "off"
-	// }
+  // "plugins": ["prettier"],
+
+  "rules": {
+    "react/no-unescaped-entities": "off",
+    "@next/next/no-page-custom-font": "off"
+    // "prettier/prettier": "error"
+  }
 }
