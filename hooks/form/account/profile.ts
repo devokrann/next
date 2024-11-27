@@ -108,7 +108,7 @@ export const useFormUserProfile = () => {
             );
 
             // refresh the page
-            window.location.reload();
+            router.refresh();
           }
 
           return;

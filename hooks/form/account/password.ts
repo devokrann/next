@@ -90,7 +90,7 @@ export const useFormUserAccountPassword = (params: {
             );
 
             // refresh the page
-            setTimeout(() => window.location.reload(), timeout.redirect);
+            setTimeout(() => router.refresh(), timeout.redirect);
 
             showNotification(
               { variant: NotificationVariant.SUCCESS },
