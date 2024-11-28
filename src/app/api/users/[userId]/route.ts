@@ -189,12 +189,15 @@ export async function PUT(
 
     return NextResponse.json(
       {
-        message: 'User record has been updated',
+        message: `Your ${options?.email ? 'email has' : 'details have'} been updated`,
         resend: !options?.email
           ? undefined
           : await emailSendAuthEmailChanged(user.email as string),
       },
-      { status: 200, statusText: 'User Updated' }
+      {
+        status: 200,
+        statusText: `${options?.email ? 'Email' : 'User'} Updated`,
+      }
     );
   } catch (error) {
     console.error('---> route handler error (update user):', error);
