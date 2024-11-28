@@ -1,13 +1,13 @@
 import appData from '@/data/app';
 import resend from '@/libraries/resend';
 
-import TemplateEmailCodeForgot from '@/components/email/auth/password-forgot';
-import TemplateEmailNofificationChanged from '@/components/email/auth/password-changed';
+import EmailAuthPasswordForgot from '@/components/email/auth/password-forgot';
+import EmailAuthPasswordChanged from '@/components/email/auth/password-changed';
 import { isProduction } from '@/utilities/helpers/environment';
 import { EmailInquiry } from '@/types/email';
 import { render } from '@react-email/render';
 
-export const emailCreatePasswordForgot = async (
+export const emailSendAuthPasswordForgot = async (
   otl: string,
   options: EmailInquiry['to']
 ) => {
@@ -19,7 +19,7 @@ export const emailCreatePasswordForgot = async (
     }>`,
     to: [isProduction() ? options : process.env.NEXT_EMAIL_NOREPLY!],
     subject: 'Reset Your Password',
-    html: await render(TemplateEmailCodeForgot({ otl })),
+    html: await render(EmailAuthPasswordForgot({ otl })),
     replyTo: process.env.NEXT_EMAIL_NOREPLY!,
   });
   if (!error) {
@@ -34,7 +34,7 @@ export const emailCreatePasswordForgot = async (
   }
 };
 
-export const emailCreatePasswordChanged = async (
+export const emailSendAuthPasswordChanged = async (
   options: EmailInquiry['to']
 ) => {
   const { data, error } = await resend.general.emails.send({
@@ -45,7 +45,7 @@ export const emailCreatePasswordChanged = async (
     }>`,
     to: [isProduction() ? options : process.env.NEXT_EMAIL_NOREPLY!],
     subject: `Password Changed`,
-    html: await render(TemplateEmailNofificationChanged()),
+    html: await render(EmailAuthPasswordChanged()),
     replyTo: process.env.NEXT_EMAIL_NOREPLY!,
   });
   if (!error) {
