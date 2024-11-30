@@ -10,7 +10,6 @@ import {
   GridCol,
   Select,
   SimpleGrid,
-  Stack,
   Text,
   TextInput,
   Textarea,
@@ -47,6 +46,7 @@ export default function Contact({
                 {...form.getInputProps('from.name')}
               />
             </GridCol>
+
             <GridCol
               span={{ base: 12, xs: 6, md: options?.modal ? 12 : undefined }}
             >
@@ -57,7 +57,8 @@ export default function Contact({
                 {...form.getInputProps('phone')}
               />
             </GridCol>
-            <GridCol span={{ base: 12 }}>
+
+            <GridCol span={12}>
               <TextInput
                 required
                 label={options?.modal ? undefined : 'Email'}
@@ -67,6 +68,11 @@ export default function Contact({
                 rightSection={<TooltipInputInfo />}
               />
             </GridCol>
+          </Grid>
+        </GridCol>
+
+        <GridCol span={{ base: 12, md: options?.modal ? 6 : undefined }}>
+          <Grid>
             <GridCol span={12}>
               <Select
                 required
@@ -86,34 +92,34 @@ export default function Contact({
                 allowDeselect={false}
               />
             </GridCol>
+
+            <GridCol span={12}>
+              <Textarea
+                required
+                label={options?.modal ? undefined : 'Message'}
+                aria-label={options?.modal ? 'Message' : undefined}
+                placeholder={
+                  options?.modal ? 'Message *' : 'Write your message here...'
+                }
+                autosize
+                minRows={options?.modal ? 2 : 7}
+                styles={{ input: { height: '100%' } }}
+                maxRows={15}
+                resize="vertical"
+                {...form.getInputProps('message')}
+              />
+            </GridCol>
+
+            <GridCol span={12}>
+              <Text fz={'sm'} c={'dimmed'}>
+                By submitting this form, I agree to the{' '}
+                <Anchor component={Link} href="#pp" inherit fw={500}>
+                  privacy policy
+                </Anchor>
+                .
+              </Text>
+            </GridCol>
           </Grid>
-        </GridCol>
-
-        <GridCol span={{ base: 12, md: options?.modal ? 6 : undefined }}>
-          <Stack gap={'xs'}>
-            <Textarea
-              required
-              label={options?.modal ? undefined : 'Message'}
-              aria-label={options?.modal ? 'Message' : undefined}
-              placeholder={
-                options?.modal ? 'Message *' : 'Write your message here...'
-              }
-              autosize
-              minRows={7}
-              styles={{ input: { height: '100%' } }}
-              maxRows={15}
-              resize="vertical"
-              {...form.getInputProps('message')}
-            />
-
-            <Text fz={'sm'} c={'dimmed'}>
-              By submitting this form, I agree to the{' '}
-              <Anchor component={Link} href="#pp" inherit fw={500}>
-                privacy policy
-              </Anchor>
-              .
-            </Text>
-          </Stack>
         </GridCol>
 
         <GridCol span={12}>
@@ -124,6 +130,7 @@ export default function Contact({
               type="reset"
               onClick={() => form.reset()}
               disabled={submitted}
+              visibleFrom={options?.modal ? 'xs' : undefined}
             >
               Clear
             </Button>
