@@ -22,12 +22,17 @@ export async function POST(request: NextRequest) {
     let parsed: any;
     let tokenDatabase: any;
 
-    const userRecord = await prisma.user.findUnique({
-      where: { id: options?.userId || parsed.userId },
-      include: { tokens: true, profile: true },
-    });
+    let userRecord = !options?.userId
+      ? null
+      : await prisma.user.findUnique({
+          where: { id: options?.userId },
+          include: { tokens: true, profile: true },
+        });
 
-    if (!userRecord?.tokens.find((t) => t.type == Type.CONFIRM_EMAIL)) {
+    if (
+      options?.userId &&
+      !userRecord?.tokens.find((t) => t.type == Type.CONFIRM_EMAIL)
+    ) {
       return NextResponse.json(
         { error: 'Please request another OTP' },
         { status: 404, statusText: 'OTP Not Found' }
@@ -72,6 +77,13 @@ export async function POST(request: NextRequest) {
         { status: 409, statusText: 'Invalid Link' }
       );
     }
+
+    userRecord =
+      userRecord ||
+      (await prisma.user.findUnique({
+        where: { id: parsed.userId },
+        include: { tokens: true, profile: true },
+      }));
 
     if (!userRecord) {
       return NextResponse.json(
