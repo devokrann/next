@@ -8,6 +8,7 @@ import {
   Button,
   Grid,
   GridCol,
+  Select,
   SimpleGrid,
   Stack,
   Text,
@@ -67,14 +68,22 @@ export default function Contact({
               />
             </GridCol>
             <GridCol span={12}>
-              <TextInput
+              <Select
                 required
-                label={options?.modal ? undefined : 'Subject'}
-                aria-label={options?.modal ? 'Subject' : undefined}
+                label={options?.modal ? undefined : 'Inquiry'}
+                aria-label={options?.modal ? 'Inquiry' : undefined}
                 placeholder={
-                  options?.modal ? 'Subject *' : 'What are you inquiring about?'
+                  options?.modal ? 'Inquiry *' : 'What are you inquiring about?'
                 }
                 {...form.getInputProps('subject')}
+                data={[
+                  { label: 'What are you inquiring about?', value: '' },
+                  { label: 'Technical Support', value: 'Technical Support' },
+                  { label: 'Sales Support', value: 'Sales Support' },
+                  { label: 'Bug Report', value: 'Bug Report' },
+                ]}
+                checkIconPosition={'right'}
+                allowDeselect={false}
               />
             </GridCol>
           </Grid>
