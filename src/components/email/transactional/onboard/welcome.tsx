@@ -7,17 +7,16 @@ import appData from '@/data/app';
 import LayoutEmail, { h2, section, text } from '@/components/layout/email';
 
 export default function Welcome() {
-  const message = `You have successfully subscribed to the ${appData.name.company} newsletter. You will be recieving occational marketing, news emails.`;
+  const message = `Thanks creating an account with ${appData.name.app}.`;
 
   return (
     <LayoutEmail props={{ preview: message }}>
       <Section style={section}>
         <Heading style={{ ...h2, marginBottom: '12px', textAlign: 'center' }}>
-          Welcome To The {appData.name.company} Newsletter
+          Welcome To {appData.name.company}
         </Heading>
         <Text style={text}>
-          You have successfully subscribed to the {appData.name.company}{' '}
-          newsletter. You will be recieving occational marketing, news emails.
+          Thanks creating an account with {appData.name.app}.
         </Text>
       </Section>
 

@@ -84,6 +84,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (!userRecord.verified) {
+      await contactCreate({
+        params: {
+          name:
+            userRecord.profile?.name != null
+              ? userRecord.profile?.name
+              : undefined,
+          email: userRecord.email,
+        },
+      });
+
+      await sendEmailTransactionalOnboard(userRecord.email);
+    }
+
     await prisma.$transaction(async () => {
       await prisma.user.update({
         where: { id: parsed.userId },

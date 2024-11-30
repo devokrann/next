@@ -82,7 +82,7 @@ export const contactCreateWelcome = async (
     return data;
   } else {
     console.error(
-      '---> wrapper error - (send email onboard newsletter):',
+      '---> wrapper error - (send email (onboard (newsletter))):',
       error
     );
     throw error;

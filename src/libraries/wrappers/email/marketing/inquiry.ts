@@ -4,7 +4,7 @@ import { isProduction } from '@/utilities/helpers/environment';
 import { EmailInquiry } from '@/types/email';
 import { render } from '@react-email/render';
 
-export const emailCreateInquiry = async (options: {
+export const sendEmailMarketingInquiry = async (options: {
   from: EmailInquiry['from'];
   to: EmailInquiry['to'];
   subject: EmailInquiry['subject'];
