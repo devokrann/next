@@ -6,7 +6,6 @@ import {
   Box,
   Button,
   Card,
-  Container,
   Divider,
   Grid,
   GridCol,
@@ -127,8 +126,9 @@ export default function Enterprise({
                       c={'green'}
                       lh={1}
                     >
+                      -{' '}
                       <NumberFormatter
-                        prefix="- $"
+                        prefix="$"
                         value={getDiscount({
                           initial: props.price.monthly * 12,
                           current: props.price.annually * 12,

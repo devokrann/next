@@ -18,21 +18,16 @@ import {
 import { IconCheck } from '@tabler/icons-react';
 import React from 'react';
 import TooltipInfo from '../../tooltips/input/info';
-
-interface Pricing {
-  title: string;
-  desc: string;
-  price: { monthly: number; annually: number };
-  specs: string[];
-  meta?: { popular: boolean };
-}
+import { Discount, Pricing } from '@/types/static';
 
 export default function Main({
   props,
   options,
+  functions,
 }: {
   props: Pricing;
   options?: { period: SwitchPricing };
+  functions?: { getDiscount: (prices: Discount) => number };
 }) {
   const annual = options?.period == SwitchPricing.ANNUALLY;
 
@@ -85,9 +80,10 @@ export default function Main({
                 c={'green'}
                 lh={1}
               >
+                -{' '}
                 <NumberFormatter
-                  prefix="- $"
-                  value={getDiscount({
+                  prefix="$"
+                  value={functions?.getDiscount({
                     initial: props.price.monthly * 12,
                     current: props.price.annually * 12,
                   })}
@@ -153,6 +149,3 @@ export default function Main({
     </Card>
   );
 }
-
-const getDiscount = (prices: { initial: number; current: number }) =>
-  ((prices.initial - prices.current) / prices.initial) * 100;
