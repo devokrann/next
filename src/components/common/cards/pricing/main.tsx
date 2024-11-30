@@ -19,6 +19,7 @@ import { IconCheck } from '@tabler/icons-react';
 import React from 'react';
 import TooltipInfo from '../../tooltips/input/info';
 import { Discount, Pricing } from '@/types/static';
+import { roundAndTruncate } from '@/utilities/helpers/number';
 
 export default function Main({
   props,
@@ -88,7 +89,7 @@ export default function Main({
                     current: props.price.annually * 12,
                   })}
                   thousandSeparator
-                  decimalScale={2}
+                  decimalScale={0}
                   style={{ fontWeight: 'bold' }}
                 />{' '}
                 %
@@ -97,12 +98,18 @@ export default function Main({
 
             <TooltipInfo
               props={{
-                label: annual
-                  ? 'Billed annually'
-                  : 'Switch to annual billing for a discount',
+                label: !annual
+                  ? 'Billed monthly'
+                  : `Save ${roundAndTruncate(
+                      functions?.getDiscount({
+                        initial: props.price.monthly * 12,
+                        current: props.price.annually * 12,
+                      }) || 0,
+                      0
+                    )}% on annual plan (billed annually)`,
               }}
-              multiline
-              w={160}
+              multiline={annual}
+              w={annual ? 200 : undefined}
             />
           </Group>
         </Group>

@@ -51,6 +51,7 @@ export default function Pricing() {
           <CardPricingEnterprise
             props={tiers[tiers.length - 1]}
             options={{ period }}
+            functions={{ getDiscount }}
           />
         </GridCol>
       </Grid>
