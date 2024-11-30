@@ -1,8 +1,8 @@
 import appData from '@/data/app';
 import resend from '@/libraries/resend';
 
-import EmailAuthPasswordForgot from '@/components/email/auth/password-forgot';
-import EmailAuthPasswordChanged from '@/components/email/auth/password-changed';
+import EmailTransactionalAuthPasswordForgot from '@/components/email/transactional/auth/password-forgot';
+import EmailTransactionalAuthPasswordChanged from '@/components/email/transactional/auth/password-changed';
 import { isProduction } from '@/utilities/helpers/environment';
 import { EmailInquiry } from '@/types/email';
 import { render } from '@react-email/render';
@@ -19,7 +19,7 @@ export const emailSendAuthPasswordForgot = async (
     }>`,
     to: [isProduction() ? options : process.env.NEXT_EMAIL_NOREPLY!],
     subject: 'Reset Your Password',
-    html: await render(EmailAuthPasswordForgot({ otl })),
+    html: await render(EmailTransactionalAuthPasswordForgot({ otl })),
     replyTo: process.env.NEXT_EMAIL_NOREPLY!,
   });
   if (!error) {
@@ -45,7 +45,7 @@ export const emailSendAuthPasswordChanged = async (
     }>`,
     to: [isProduction() ? options : process.env.NEXT_EMAIL_NOREPLY!],
     subject: `Password Changed`,
-    html: await render(EmailAuthPasswordChanged()),
+    html: await render(EmailTransactionalAuthPasswordChanged()),
     replyTo: process.env.NEXT_EMAIL_NOREPLY!,
   });
   if (!error) {

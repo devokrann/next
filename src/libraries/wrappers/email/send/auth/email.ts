@@ -1,11 +1,11 @@
 import appData from '@/data/app';
 import resend from '@/libraries/resend';
 
-import EmailAuthVerify from '@/components/email/auth/verify';
-import EmailAuthEmailChanged from '@/components/email/auth/email-changed';
+import EmailTransactionalAuthVerify from '@/components/email/transactional/auth/verify';
 import { isProduction } from '@/utilities/helpers/environment';
 import { EmailInquiry } from '@/types/email';
 import { render } from '@react-email/render';
+import EmailTransactionalOnboardNewsletter from '@/components/email/transactional/onboard/newsletter';
 
 export const emailSendAuthEmailVerify = async (
   otp: string,
@@ -20,7 +20,10 @@ export const emailSendAuthEmailVerify = async (
     to: [isProduction() ? options.to : process.env.NEXT_EMAIL_INFO!],
     subject: `Verify Your Email Address`,
     html: await render(
-      EmailAuthVerify({ otp, options: { signUp: options.signUp ?? true } })
+      EmailTransactionalAuthVerify({
+        otp,
+        options: { signUp: options.signUp ?? true },
+      })
     ),
     replyTo: process.env.NEXT_EMAIL_NOREPLY!,
   });
@@ -43,7 +46,7 @@ export const emailSendAuthEmailChanged = async (
     }>`,
     to: [isProduction() ? options : process.env.NEXT_EMAIL_NOREPLY!],
     subject: `Email Changed`,
-    html: await render(EmailAuthEmailChanged()),
+    html: await render(EmailTransactionalOnboardNewsletter()),
     replyTo: process.env.NEXT_EMAIL_NOREPLY!,
   });
   if (!error) {
