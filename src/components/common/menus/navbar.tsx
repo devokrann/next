@@ -66,9 +66,10 @@ export default function Navbar({
     <Menu
       shadow="xs"
       width={'auto'}
-      trigger="hover"
+      trigger="click-hover"
       openDelay={50}
       closeDelay={50}
+      transitionProps={{ transition: 'pop' }}
       classNames={{
         dropdown: classes.dropdown,
         arrow: classes.arrow,

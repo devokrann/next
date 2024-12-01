@@ -45,8 +45,13 @@ export default function Avatar() {
       offset={{ mainAxis: 16, crossAxis: 0 }}
       width={mobile ? 200 : 240}
       trigger="click-hover"
+      openDelay={50}
+      closeDelay={50}
       classNames={classes}
       opened={desktop ? undefined : false}
+      transitionProps={{ transition: 'pop-top-right' }}
+      withArrow
+      arrowOffset={16}
     >
       <MenuTarget>
         <div className={classes.target}>
