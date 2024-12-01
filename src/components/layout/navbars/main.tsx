@@ -184,7 +184,10 @@ const links = {
     {
       link: '/help',
       label: 'Help',
-      subLinks: [{ link: '/help/faq', label: "FAQ's" }],
+      subLinks: [
+        { link: '/help/faq', label: "FAQ's" },
+        { link: '/help/support', label: 'Support' },
+      ],
     },
     {
       link: '/contact',
