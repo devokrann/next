@@ -4,7 +4,7 @@ import React from 'react';
 
 import Link from 'next/link';
 
-import { Divider, NavLink, ScrollArea, Stack, Title } from '@mantine/core';
+import { Divider, NavLink, Stack, Title } from '@mantine/core';
 import {
   IconBellRinging,
   IconChevronRight,
@@ -35,13 +35,12 @@ export default function Account() {
   };
 
   return (
-    <ScrollArea pos={'sticky'} top={0} h={'100vh'} type="never">
-      <LayoutSection containerized={false} id={'partial-aside-user'} padded>
-        <Stack gap={48} align="center">
-          <PartialUser />
+    <LayoutSection containerized={false} id={'partial-aside-user'} padded>
+      <Stack gap={48} align="center">
+        <PartialUser />
 
-          <Stack w={'100%'}>
-            {/* <Stack gap={'xs'}>
+        <Stack w={'100%'}>
+          {/* <Stack gap={'xs'}>
             <Title order={3} fz={'md'} ml={{ md: 'sm' }}>
               Activity
             </Title>
@@ -67,85 +66,18 @@ export default function Account() {
 
           <Divider /> */}
 
-            <Stack gap={'xs'}>
-              <Title order={3} fz={'md'} ml={{ md: 'sm' }}>
-                Settings
-              </Title>
-
-              <Stack gap={4}>
-                {navLinkItems.account.map((item) => (
-                  <NavLink
-                    key={item.label}
-                    component={Link}
-                    href={item.link}
-                    label={item.label}
-                    leftSection={
-                      <item.icon size={iconSize} stroke={iconStrokeWidth} />
-                    }
-                    rightSection={
-                      <IconChevronRight
-                        size={iconSize}
-                        stroke={iconStrokeWidth}
-                      />
-                    }
-                    active={matchesPath(item.link)}
-                    style={{
-                      borderRadius: 'var(--mantine-radius-md)',
-                    }}
-                    className={
-                      matchesPath(item.link) ? classes.linkActive : classes.link
-                    }
-                  />
-                ))}
-              </Stack>
-            </Stack>
-
-            <Divider />
-
-            <Stack gap={'xs'}>
-              <Title order={3} fz={'md'} ml={{ md: 'sm' }}>
-                Support
-              </Title>
-
-              <Stack gap={4}>
-                {navLinkItems.support.map((item) => (
-                  <NavLink
-                    key={item.label}
-                    component={Link}
-                    href={item.link}
-                    label={item.label}
-                    leftSection={
-                      <item.icon size={iconSize} stroke={iconStrokeWidth} />
-                    }
-                    rightSection={
-                      <IconChevronRight
-                        size={iconSize}
-                        stroke={iconStrokeWidth}
-                      />
-                    }
-                    active={matchesPath(item.link)}
-                    style={{
-                      borderRadius: 'var(--mantine-radius-md)',
-                    }}
-                    className={
-                      matchesPath(item.link) ? classes.linkActive : classes.link
-                    }
-                  />
-                ))}
-              </Stack>
-            </Stack>
-
-            <Divider />
+          <Stack gap={'xs'}>
+            <Title order={3} fz={'md'} ml={{ md: 'sm' }}>
+              Settings
+            </Title>
 
             <Stack gap={4}>
-              {navLinkItems.danger.map((item) => (
+              {navLinkItems.account.map((item) => (
                 <NavLink
                   key={item.label}
                   component={Link}
                   href={item.link}
                   label={item.label}
-                  active={matchesPath(item.link)}
-                  className={classes.linkDanger}
                   leftSection={
                     <item.icon size={iconSize} stroke={iconStrokeWidth} />
                   }
@@ -155,16 +87,79 @@ export default function Account() {
                       stroke={iconStrokeWidth}
                     />
                   }
+                  active={matchesPath(item.link)}
                   style={{
                     borderRadius: 'var(--mantine-radius-md)',
                   }}
+                  className={
+                    matchesPath(item.link) ? classes.linkActive : classes.link
+                  }
                 />
               ))}
             </Stack>
           </Stack>
+
+          <Divider />
+
+          <Stack gap={'xs'}>
+            <Title order={3} fz={'md'} ml={{ md: 'sm' }}>
+              Support
+            </Title>
+
+            <Stack gap={4}>
+              {navLinkItems.support.map((item) => (
+                <NavLink
+                  key={item.label}
+                  component={Link}
+                  href={item.link}
+                  label={item.label}
+                  leftSection={
+                    <item.icon size={iconSize} stroke={iconStrokeWidth} />
+                  }
+                  rightSection={
+                    <IconChevronRight
+                      size={iconSize}
+                      stroke={iconStrokeWidth}
+                    />
+                  }
+                  active={matchesPath(item.link)}
+                  style={{
+                    borderRadius: 'var(--mantine-radius-md)',
+                  }}
+                  className={
+                    matchesPath(item.link) ? classes.linkActive : classes.link
+                  }
+                />
+              ))}
+            </Stack>
+          </Stack>
+
+          <Divider />
+
+          <Stack gap={4}>
+            {navLinkItems.danger.map((item) => (
+              <NavLink
+                key={item.label}
+                component={Link}
+                href={item.link}
+                label={item.label}
+                active={matchesPath(item.link)}
+                className={classes.linkDanger}
+                leftSection={
+                  <item.icon size={iconSize} stroke={iconStrokeWidth} />
+                }
+                rightSection={
+                  <IconChevronRight size={iconSize} stroke={iconStrokeWidth} />
+                }
+                style={{
+                  borderRadius: 'var(--mantine-radius-md)',
+                }}
+              />
+            ))}
+          </Stack>
         </Stack>
-      </LayoutSection>
-    </ScrollArea>
+      </Stack>
+    </LayoutSection>
   );
 }
 
