@@ -11,7 +11,6 @@ import DrawerNavbarMain from '@/components/common/drawers/navbar/main';
 import MenuAvatar from '@/components/common/menus/avatar';
 import MenuNavbar from '@/components/common/menus/navbar';
 import DrawerUser from '@/components/common/drawers/user';
-import LayoutBrand from '../brand';
 import { SignIn as FragmentSignIn } from '@/components/common/fragments/auth';
 
 import classes from './main.module.scss';
@@ -28,6 +27,9 @@ import { authUrls, iconSize, iconStrokeWidth } from '@/data/constants';
 import { useMediaQuery } from '@mantine/hooks';
 import { usePathname } from 'next/navigation';
 import { useAppSelector } from '@/hooks/redux';
+import ImageDefault from '@/components/common/images/default';
+import { images } from '@/assets/images';
+import appData from '@/data/app';
 
 export default function Main({
   options,
@@ -76,6 +78,15 @@ export default function Main({
     </MenuNavbar>
   ));
 
+  const imageBrand = (
+    <ImageDefault
+      src={images.logo.light}
+      alt={appData.name.app}
+      height={{ base: 24 }}
+      mode="grid"
+    />
+  );
+
   return (
     <LayoutSection
       id={'partial-navbar-main'}
@@ -90,7 +101,7 @@ export default function Main({
         <GridCol span={{ base: 4, md: 8 }}>
           <Group gap={'lg'} visibleFrom="md">
             <Anchor component={Link} href={'/'}>
-              <LayoutBrand />
+              {imageBrand}
             </Anchor>
 
             <Divider orientation="vertical" h={24} my={'auto'} />
@@ -109,7 +120,7 @@ export default function Main({
         <GridCol span={{ base: 4 }} hiddenFrom="md">
           <Group gap={'xs'} justify="center">
             <Anchor component={Link} href={'/'} py={'md'}>
-              <LayoutBrand />
+              {imageBrand}
             </Anchor>
           </Group>
         </GridCol>

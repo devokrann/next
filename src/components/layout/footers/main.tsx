@@ -1,12 +1,10 @@
 import React from 'react';
 
-import NextImage from 'next/image';
 import Link from 'next/link';
 
 import {
   Flex,
   Grid,
-  Image,
   Text,
   Title,
   List,
@@ -35,6 +33,7 @@ import {
 import SegmentedControlTheme from '@/components/common/segmented-control/theme';
 import { IconCircleFilled } from '@tabler/icons-react';
 import FormNewsletter from '@/components/form/newsletter';
+import ImageDefault from '@/components/common/images/default';
 
 export default function Main() {
   return (
@@ -45,14 +44,11 @@ export default function Main() {
           align={{ base: 'center', md: 'start' }}
           gap={'md'}
         >
-          <Image
+          <ImageDefault
             src={images.brand.logo.light}
-            alt="next logo"
-            w={{ base: 96 }}
-            component={NextImage}
-            width={1920}
-            height={1080}
-            loading="lazy"
+            alt="Logo"
+            height={{ base: 96 }}
+            mode="grid"
           />
         </Flex>
 

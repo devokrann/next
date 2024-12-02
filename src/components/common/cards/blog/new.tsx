@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Link from 'next/link';
-import NextImage from 'next/image';
 
 import {
   Anchor,
@@ -11,7 +10,6 @@ import {
   Grid,
   GridCol,
   Group,
-  Image,
   Stack,
   Text,
   Title,
@@ -23,6 +21,7 @@ import { linkify } from '@/utilities/formatters/string';
 import { PostRelations } from '@/types/models/post';
 import { getRegionalDate } from '@/utilities/formatters/date';
 import { IconCircleFilled } from '@tabler/icons-react';
+import ImageDefault from '@/components/common/images/default';
 
 export default function New({ post }: { post: PostRelations }) {
   const path = `/blog/${linkify(post.title)}`;
@@ -40,14 +39,11 @@ export default function New({ post }: { post: PostRelations }) {
             pos={'relative'}
           >
             <Group h={'100%'}>
-              <Image
+              <ImageDefault
                 src={post.image}
                 alt={post.title}
-                h={'100%'}
-                component={NextImage}
-                width={1920}
-                height={1080}
-                priority
+                height={'100%'}
+                mode="grid"
               />
             </Group>
 
