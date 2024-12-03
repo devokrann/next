@@ -2,7 +2,7 @@ import React from 'react';
 
 import Link from 'next/link';
 
-import { Anchor, Grid, GridCol, Stack } from '@mantine/core';
+import { Anchor, Center, Grid, GridCol, Stack } from '@mantine/core';
 
 import LayoutBody from '@/components/layout/body';
 import LayoutSection from '@/components/layout/section';
@@ -31,23 +31,17 @@ export default function Notify({
             pos={'sticky'}
             top={0}
           >
-            <Stack
-              gap={'xl'}
-              align="center"
-              justify="center"
-              h={'100vh'}
-              px={{ xs: 32 }}
-            >
+            <Center h={'100vh'} px={{ xs: 32 }}>
               <Anchor component={Link} href={'/'}>
                 <ImageDefault
                   src={images.brand.logo.light}
                   alt={appData.name.app}
-                  height={{ base: 48 }}
-                  fit="contain"
+                  height={48}
+                  width={160}
                   mode="grid"
                 />
               </Anchor>
-            </Stack>
+            </Center>
           </LayoutSection>
         </GridCol>
 

@@ -35,7 +35,8 @@ export default function Aside({ post }: { post: PostRelations }) {
           <ImageDefault
             src={post.image}
             alt={post.title}
-            height={'100%'}
+            height={80}
+            radius={'sm'}
             mode="grid"
           />
         </Anchor>

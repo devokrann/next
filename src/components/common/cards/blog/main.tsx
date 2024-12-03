@@ -45,7 +45,7 @@ export default function Main({ post }: { post: PostRelations }) {
             <ImageDefault
               src={post.image}
               alt={post.title}
-              height={'100%'}
+              height={200}
               mode="grid"
             />
 

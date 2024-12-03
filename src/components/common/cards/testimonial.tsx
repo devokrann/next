@@ -17,6 +17,7 @@ export default function Testimonial({ props }: { props: typeTestimonial }) {
             src={props.cite.company.image}
             alt={props.cite.company.name}
             height={32}
+            width={80}
             mode="grid"
           />
 
@@ -29,6 +30,7 @@ export default function Testimonial({ props }: { props: typeTestimonial }) {
               src={props.cite.person.image}
               alt={props.cite.person.name}
               height={48}
+              width={48}
               mode="grid"
             />
           </Group>

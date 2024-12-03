@@ -5,7 +5,7 @@ import Autoplay from 'embla-carousel-autoplay';
 
 import { Carousel, CarouselSlide } from '@mantine/carousel';
 import { images } from '@/assets/images';
-import { Anchor } from '@mantine/core';
+import { Anchor, Center } from '@mantine/core';
 import ImageDefault from '@/components/common/images/default';
 
 export default function Partners() {
@@ -63,14 +63,16 @@ const partners = [
 
 const slides = partners.concat(partners).map((partner, index) => (
   <CarouselSlide key={index}>
-    <Anchor href={partner.link} target="_blank" title={partner.name}>
-      <ImageDefault
-        src={partner.image}
-        alt={partner.name}
-        height={'100%'}
-        width={'50%'}
-        mode="grid"
-      />
-    </Anchor>
+    <Center>
+      <Anchor href={partner.link} target="_blank" title={partner.name}>
+        <ImageDefault
+          src={partner.image}
+          alt={partner.name}
+          height={32}
+          width={96}
+          mode="grid"
+        />
+      </Anchor>
+    </Center>
   </CarouselSlide>
 ));

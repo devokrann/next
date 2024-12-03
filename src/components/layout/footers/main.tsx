@@ -39,18 +39,18 @@ export default function Main() {
   return (
     <LayoutSection id={'partial-footer-main'} padded className={classes.footer}>
       <Stack gap={sectionSpacing}>
-        <Flex
-          direction={'column'}
-          align={{ base: 'center', md: 'start' }}
-          gap={'md'}
-        >
-          <ImageDefault
-            src={images.brand.logo.light}
-            alt="Logo"
-            height={{ base: 96 }}
-            mode="grid"
-          />
-        </Flex>
+        <Group>
+          <Anchor component={Link} href={'/'}>
+            <ImageDefault
+              src={images.brand.logo.light}
+              alt={appData.name.app}
+              height={{ base: 40 }}
+              width={{ base: 96 }}
+              fit="contain"
+              mode="grid"
+            />
+          </Anchor>
+        </Group>
 
         <Grid gutter={{ base: 'xl', md: 'md' }}>
           {linkSets.map((linkSet) => (

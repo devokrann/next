@@ -51,7 +51,7 @@ export default function Default({
         sizes={resolvedSizes}
         fallbackSrc={getFallbackSrc(fallback)}
         component={NextImage}
-        loading="lazy"
+        loading={restProps.priority ? undefined : 'lazy'}
         fill
         quality={restProps.quality || 100}
         {...restProps}

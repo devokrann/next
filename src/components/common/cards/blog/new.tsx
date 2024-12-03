@@ -38,14 +38,12 @@ export default function New({ post }: { post: PostRelations }) {
             title={post.title}
             pos={'relative'}
           >
-            <Group h={'100%'}>
-              <ImageDefault
-                src={post.image}
-                alt={post.title}
-                height={'100%'}
-                mode="grid"
-              />
-            </Group>
+            <ImageDefault
+              src={post.image}
+              alt={post.title}
+              height={400}
+              mode="grid"
+            />
 
             <Group gap={'xs'} align="start" className={classes.overlay}>
               {post.tags.map((t) => (

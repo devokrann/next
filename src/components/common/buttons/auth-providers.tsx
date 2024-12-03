@@ -29,7 +29,8 @@ export default function Providers() {
         <ImageDefault
           src={provider.image}
           alt={provider.provider}
-          height={{ base: 24 }}
+          height={24}
+          width={24}
           mode="grid"
         />
       }

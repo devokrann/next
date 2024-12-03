@@ -4,7 +4,15 @@ import React from 'react';
 
 import Link from 'next/link';
 
-import { Group, Button, Divider, Anchor, Grid, GridCol } from '@mantine/core';
+import {
+  Group,
+  Button,
+  Divider,
+  Anchor,
+  Grid,
+  GridCol,
+  Center,
+} from '@mantine/core';
 
 import LayoutSection from '@/components/layout/section';
 import DrawerNavbarMain from '@/components/common/drawers/navbar/main';
@@ -83,6 +91,8 @@ export default function Main({
       src={images.logo.light}
       alt={appData.name.app}
       height={{ base: 24 }}
+      width={{ base: 72 }}
+      fit="contain"
       mode="grid"
     />
   );
@@ -118,11 +128,11 @@ export default function Main({
         </GridCol>
 
         <GridCol span={{ base: 4 }} hiddenFrom="md">
-          <Group gap={'xs'} justify="center">
+          <Center>
             <Anchor component={Link} href={'/'} py={'md'}>
               {imageBrand}
             </Anchor>
-          </Group>
+          </Center>
         </GridCol>
 
         <GridCol span={{ base: 4 }}>

@@ -165,7 +165,7 @@ export default async function About() {
 
         <Grid gutter={'xl'}>
           {team.map((member) => (
-            <GridCol key={member.name} span={{ base: 12, md: 3 }}>
+            <GridCol key={member.name} span={{ base: 12, xs: 6, md: 3 }}>
               <CardTeam props={member} />
             </GridCol>
           ))}

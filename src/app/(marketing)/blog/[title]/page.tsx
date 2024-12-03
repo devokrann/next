@@ -94,9 +94,9 @@ export default async function Post({ params }: { params: typeParams }) {
           <ImageDefault
             src={post.image}
             alt={post.title}
-            height={480}
-            mode="wide"
+            height={{ base: 240, xs: 320, md: 360, lg: 400 }}
             radius={'sm'}
+            priority
           />
 
           <Text>{post.content}</Text>

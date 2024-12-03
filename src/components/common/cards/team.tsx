@@ -11,7 +11,7 @@ export default function Team({ props }: { props: typeTeam }) {
         <ImageDefault
           src={props.image}
           alt={props.name}
-          height={270}
+          height={{ base: 320, xs: 240, sm: 280, md: 200, lg: 280 }}
           radius={'sm'}
           mode="grid"
         />
