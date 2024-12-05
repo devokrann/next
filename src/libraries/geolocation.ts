@@ -51,7 +51,7 @@ export const setGeoData = async (
       languages: geoData.languages,
     }),
     {
-      expires: getExpiry().millisec,
+      expires: getExpiry(true).millisec,
       sameSite: 'strict',
       secure: isProduction(),
       httpOnly: true,
@@ -72,14 +72,14 @@ export const updateGeoData = async (
 
   const parsed: GeoInfo = await decrypt(geoData);
 
-  const expiry = getExpiry().millisec;
+  const expiry = getExpiry(true).millisec;
   const expires = new Date(Date.now() + expiry);
 
   parsed.expires = expires;
 
   response.cookies.set(cookieName.geo, geoData, {
     name: cookieName.geo,
-    value: await encrypt(parsed, getExpiry().sec),
+    value: await encrypt(parsed, getExpiry(true).sec),
     expires: expires,
     sameSite: 'strict',
     secure: isProduction(),

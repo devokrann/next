@@ -14,4 +14,6 @@ export interface GeoInfo {
   languages: string;
 
   expires: Date;
+  iat: number;
+  exp: Date;
 }

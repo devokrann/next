@@ -41,6 +41,7 @@ import { cookieName } from '@/data/constants';
 
 import ProviderStore from '@/components/providers/store';
 import { cookies } from 'next/headers';
+import { getGeoData } from '@/libraries/geolocation';
 
 const noto = DM_Sans({ subsets: ['latin'] });
 
@@ -75,6 +76,7 @@ export default async function RootLayout({
         <ProviderStore
           colorScheme={colorSchemeState || 'light'}
           session={await getSession()}
+          geoData={await getGeoData()}
         >
           <MantineProvider
             theme={appTheme}
