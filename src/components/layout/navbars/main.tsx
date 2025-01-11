@@ -1,9 +1,7 @@
 'use client';
 
 import React from 'react';
-
 import Link from 'next/link';
-
 import {
   Group,
   Button,
@@ -13,7 +11,6 @@ import {
   GridCol,
   Center,
 } from '@mantine/core';
-
 import LayoutSection from '@/components/layout/section';
 import DrawerNavbarMain from '@/components/common/drawers/navbar/main';
 import MenuUser from '@/components/common/menus/user';
@@ -21,7 +18,6 @@ import MenuNavbar from '@/components/common/menus/navbar';
 import DrawerUser from '@/components/common/drawers/user';
 import { SignIn as WrapperSignIn } from '@/components/wrapper/auth';
 import { SignUp as WrapperSignUp } from '@/components/wrapper/auth';
-
 import classes from './main.module.scss';
 import {
   IconBook,
@@ -36,9 +32,7 @@ import { ICON_SIZE, ICON_STROKE_WIDTH } from '@/data/constants';
 import { useMediaQuery } from '@mantine/hooks';
 import { usePathname } from 'next/navigation';
 import { useAppSelector } from '@/hooks/redux';
-import ImageDefault from '@/components/common/images/default';
-import { images } from '@/assets/images';
-import appData from '@/data/app';
+import ImageBrand from '@/components/common/images/brand';
 
 export default function Main({
   options,
@@ -87,16 +81,7 @@ export default function Main({
     </MenuNavbar>
   ));
 
-  const imageBrand = (
-    <ImageDefault
-      src={images.brand.logo.light}
-      alt={appData.name.app}
-      height={{ base: 24 }}
-      width={{ base: 72 }}
-      fit="contain"
-      mode="grid"
-    />
-  );
+  const imageBrand = <ImageBrand height={{ base: 24 }} width={{ base: 72 }} />;
 
   return (
     <LayoutSection
