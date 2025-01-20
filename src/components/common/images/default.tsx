@@ -1,6 +1,15 @@
+'use client';
+
 import NextImage, { ImageProps as NextImageProps } from 'next/image';
-import { Image, Center, ImageProps, MantineStyleProps } from '@mantine/core';
+import {
+  Image,
+  Center,
+  ImageProps,
+  MantineStyleProps,
+  Skeleton,
+} from '@mantine/core';
 import { getFallbackSrc } from '@/utilities/helpers/image';
+import { useEffect, useState } from 'react';
 
 type DefaultImageProps = {
   src: string;
@@ -12,7 +21,12 @@ type DefaultImageProps = {
   mode?: 'default' | 'grid' | 'wide';
   decorative?: boolean;
   customSizes?: string;
+  dynamic?: boolean;
 };
+
+export type ImagePropsComponent = DefaultImageProps &
+  Omit<ImageProps, keyof DefaultImageProps> &
+  Omit<NextImageProps, keyof DefaultImageProps>;
 
 export default function Default({
   src,
@@ -24,10 +38,9 @@ export default function Default({
   mode = 'default',
   decorative,
   customSizes,
+  dynamic,
   ...restProps
-}: DefaultImageProps &
-  Omit<ImageProps, keyof DefaultImageProps> &
-  Omit<NextImageProps, keyof DefaultImageProps>) {
+}: ImagePropsComponent) {
   // Define default size rules for each mode
   const sizeRules: any = {
     default:
@@ -43,7 +56,15 @@ export default function Default({
     throw new Error('Image must have alt text when not decorative');
   }
 
-  return (
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  return dynamic && !hydrated ? (
+    <Skeleton w={width} h={height} />
+  ) : (
     <Center pos="relative" h={height} w={width}>
       <Image
         src={src}
